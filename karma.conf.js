@@ -9,10 +9,10 @@ module.exports = function (config) {
     files: [
       './node_modules/babel-polyfill/dist/polyfill.js',
       './node_modules/whatwg-fetch/fetch.js',
-      'src/tests.js'
+      './src/tests.js'
     ],
     preprocessors: {
-      'src/tests.js': [ 'sourcemap', 'webpack' ]
+      './src/tests.js': [ 'sourcemap', 'webpack' ]
     },
     reporters: [ 'mocha' ],
     webpack: webpackConfig,
