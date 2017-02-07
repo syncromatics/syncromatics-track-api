@@ -11,12 +11,12 @@ This is the JavaScript client for accessing the [Syncromatics Track API][track-a
 ```javascript
 import Track from '@syncromatics/track-api';
 
-const client = new Track({ apiKey: 'my API key' });
+const api = new Track({ apiKey: 'my API key' });
 
-client.customer('SYNC').routes()
-  .withQuery('Blue line')
-  .list()
-  .then(routes => /* work with routes */);
+api.customer('SYNC').vehicles()
+  .withQuery('01234')
+  .getPage()
+  .then(vehicles => /* work with vehicles */);
 ```
 
 ## Documentation
