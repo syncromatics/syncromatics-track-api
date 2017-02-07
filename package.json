@@ -4,6 +4,8 @@
   "description": "Library to interact with the Syncromatics Track API",
   "main": "dist/index.js",
   "scripts": {
+    "serve:docs": "documentation serve -f html -w src/index.js",
+    "build:docs": "documentation build -f html -o build/docs src/index.js",
     "test": "karma start",
     "test:ci": "karma start --reporters teamcity --single-run --fail-on-empty-test-suite",
     "prepublish": "webpack"
@@ -24,6 +26,7 @@
     "babel-preset-stage-0": "^6.22.0",
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
+    "documentation": "^4.0.0-beta.18",
     "eslint": "^3.9.1",
     "eslint-config-airbnb-base": "^11.0.1",
     "eslint-loader": "^1.6.0",
