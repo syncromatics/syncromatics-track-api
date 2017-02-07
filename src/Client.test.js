@@ -1,7 +1,8 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import fetchMock from 'fetch-mock';
-import Client, { NotFoundResponse, ServerErrorResponse } from './Client';
+import Client from './Client';
+import { NotFoundResponse, ServerErrorResponse } from './responses';
 import { toBlob } from './testutils';
 
 chai.should();

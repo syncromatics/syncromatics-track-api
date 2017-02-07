@@ -2,7 +2,7 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import fetchMock from 'fetch-mock';
 import Track from './index';
-import { ForbiddenResponse } from '../Client';
+import { ForbiddenResponse } from '../responses';
 import { toBlob, resolveAt } from '../testutils';
 import { charlie } from '../mocks';
 
@@ -45,7 +45,7 @@ describe('When successfully authenticating with the Track API client', () => {
       promise.should.become(charlie.payload),
       promise.then(() => fetchMock.lastOptions().headers).should.become({
         Accept: 'application/json',
-        Authorization: 'Basic Y3NpZ25oQGV4YW1wbGUuY29tOndoYXRldmVy',
+        Authorization: 'Basic Y3NpbmdoQGV4YW1wbGUuY29tOndoYXRldmVy',
       }),
     ]).should.be.fulfilled;
   });
@@ -78,6 +78,7 @@ describe('When unsuccessfully authenticating with the Track API client', () => {
   beforeEach(() => {
     fetchMock
       .post(api.client.resolve('/1/login'), () => new Response(toBlob('', s => s, 'plain/text'), { status: 403 }))
+      .post(api.client.resolve('/1/login/renew'), () => new Response(toBlob('', s => s, 'plain/text'), { status: 403 }))
       .catch(503);
 
     api.stopAutoRenew();

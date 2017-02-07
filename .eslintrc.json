@@ -5,6 +5,8 @@
 		"mocha": true
 	},
 	"rules": {
+		"valid-jsdoc": "error",
+		"require-jsdoc": "error",
 		"linebreak-style": "off"
 	}
 }
