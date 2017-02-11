@@ -68,7 +68,8 @@ class Track extends Resource {
             const msBeforeExp = this.options.autoRenewMinutesBeforeExpiration * 60 * 1000;
             const ms = Math.max(payload.claim.exp - msBeforeExp - new Date().getTime(), 0);
             const onAutoRenew = this.options.onAutoRenew || (() => {});
-            this.autoRenewTimeout = setTimeout(() => this.renewAuthentication().then(onAutoRenew), ms);
+            this.autoRenewTimeout = setTimeout(() =>
+              this.renewAuthentication().then(onAutoRenew), ms);
           }
 
           this.client.setAuthenticated(payload.claim);
