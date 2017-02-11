@@ -10,18 +10,25 @@ import { ForbiddenResponse } from '../responses';
  */
 class Track extends Resource {
   /**
+   * @callback onAutoRenew
+   * @param {Object} user the claim of the JWT payload (user object)
+   */
+
+  /**
    * Creates a new Track resource
    * @param {Object} [options] Options for the Track API
    * @param {Boolean} [options.autoRenew=true] Determines whether to automatically renew a token
    *  when it nears its expiration
    * @param {Number} [options.autoRenewMinutesBeforeExpiration=5] Minutes before the expiration of
    *  a token when automatic renewal will take place
+   * @param {onAutoRenew} [options.onAutoRenew] Callback called when auto-renew takes place
    */
   constructor(options) {
     super(new Client(options));
     this.options = {
       autoRenew: true,
       autoRenewMinutesBeforeExpiration: 5,
+      onAutoRenew: () => {},
       ...options,
       ...{
         token: undefined,
@@ -54,14 +61,14 @@ class Track extends Resource {
       .then(JWT.read)
       .then((payload) => {
         if (JWT.validate(payload)) {
-          JWT.keep(payload);
-
+          JWT.keep(token);
           this.stopAutoRenew();
 
           if (this.options.autoRenew) {
             const msBeforeExp = this.options.autoRenewMinutesBeforeExpiration * 60 * 1000;
             const ms = Math.max(payload.claim.exp - msBeforeExp - new Date().getTime(), 0);
-            this.autoRenewTimeout = setTimeout(() => this.renewAuthentication(), ms);
+            const onAutoRenew = this.options.onAutoRenew || (() => {});
+            this.autoRenewTimeout = setTimeout(() => this.renewAuthentication().then(onAutoRenew), ms);
           }
 
           this.client.setAuthenticated(payload.claim);
