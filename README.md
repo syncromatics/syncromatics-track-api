@@ -4,12 +4,12 @@ This is the JavaScript client for accessing the [Syncromatics Track API][track-a
 
 ## Installation
 
-`npm install @syncromatics/track-api`
+`npm install syncromatics-track-api`
 
 ## Quick start guide
 
 ```javascript
-import Track from '@syncromatics/track-api';
+import Track from 'syncromatics-track-api';
 
 const api = new Track({ apiKey: 'my API key' });
 
