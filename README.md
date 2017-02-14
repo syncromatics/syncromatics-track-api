@@ -24,7 +24,7 @@ api.customer('SYNC').vehicles()
 
 ## Documentation
 
-Documentation is available on the [project page][project-page]
+Generated documentation is available on the [project page][project-page]
 
 ## Contributing
 
