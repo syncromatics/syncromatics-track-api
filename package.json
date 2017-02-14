@@ -11,9 +11,6 @@
     "prepublish": "webpack",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
-  "release": {
-    "branch": "feature/testing-semver"
-  },
   "keywords": [
     "syncromatics",
     "track",
