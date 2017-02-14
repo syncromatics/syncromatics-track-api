@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "serve:docs": "documentation serve -f html -w src/index.js",
-    "build:docs": "documentation build -f html -o build/docs src/index.js",
+    "build:docs": "documentation build -f html -o .build/docs src/index.js",
     "test:local": "karma start",
     "test": "karma start --single-run --fail-on-empty-test-suite",
     "prepublish": "webpack",
