@@ -11,6 +11,12 @@
     "prepublish": "webpack",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
+  "release": {
+    "branch": "develop"
+  },
+  "publishConfig": {
+    "tag": "preview"
+  },
   "keywords": [
     "syncromatics",
     "track",
