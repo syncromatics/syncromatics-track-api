@@ -6,8 +6,8 @@
   "scripts": {
     "serve:docs": "documentation serve -f html -w src/index.js",
     "build:docs": "documentation build -f html -o build/docs src/index.js",
-    "test": "karma start",
-    "test:ci": "karma start --reporters teamcity --single-run --fail-on-empty-test-suite",
+    "test:local": "karma start",
+    "test": "karma start --single-run --fail-on-empty-test-suite",
     "prepublish": "webpack",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },

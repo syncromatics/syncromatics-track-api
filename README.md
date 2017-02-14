@@ -1,6 +1,6 @@
 # Syncromatics Track API JavaScript Client
 
-This is the JavaScript client for accessing the [Syncromatics Track API][track-api-docs]. 
+This is the JavaScript client for accessing the [Syncromatics Track API][track-api-docs]. [![Build Status](https://travis-ci.org/syncromatics/syncromatics-track-api.svg?branch=master)](https://travis-ci.org/syncromatics/syncromatics-track-api)
 
 ## Installation
 
