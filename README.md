@@ -28,7 +28,7 @@ Documentation is available on the [project page][project-page]
 Please see [CONTRIBUTING](CONTRIBUTING.md) for our guide to contributing and code of conduct.
 
 
-[project-page]: http://tbd.example.com/docs
+[project-page]: http://syncromatics.github.io/syncromatics-track-api
 [track-api-docs]: http://docs.syncromaticstrackapi.apiary.io
 
 
