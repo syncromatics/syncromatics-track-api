@@ -1,6 +1,8 @@
 import Resource from './Resource';
-import VehiclesContext from './VehiclesContext';
+import Sign from './Sign';
+import SignsContext from './SignsContext';
 import Vehicle from './Vehicle';
+import VehiclesContext from './VehiclesContext';
 
 /**
  * Customer resource
@@ -21,6 +23,23 @@ class Customer extends Resource {
      * @instance
      */
     this.code = customerCode;
+  }
+
+  /**
+   * Gets a context for querying this customer's signs
+   * @returns {SignContext} Context for querying this customer's signs
+   */
+  signs() {
+    return this.resource(SignsContext, this.code);
+  }
+
+  /**
+   * Gets a sign resource by id
+   * @param {Number} id Identity of the sign
+   * @returns {Sign} Sign resource
+   */
+  sign(id) {
+    return this.resource(Sign, Sign.makeHref(this.code, id));
   }
 
   /**

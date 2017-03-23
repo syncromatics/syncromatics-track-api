@@ -72,6 +72,32 @@ export const charlie = {
   },
 };
 
+export const signs = {
+  setUpSuccessfulMock: (client) => {
+    const listResponse = () => new Response(
+      toBlob(signs.list),
+      {
+        headers: {
+          Link: '</1/SYNC/signs?page=1&perPage=10&q=first>; rel="next", </1/SYNC/signs?page=1&perPage=10&q=first>; rel="last"',
+        },
+      });
+    const singleResponse = () => new Response(toBlob(signs.getById(1)));
+
+    fetchMock
+      .get(client.resolve('/1/SYNC/signs?page=1&perPage=10&q=first'), listResponse)
+      .get(client.resolve('/1/SYNC/signs/1'), singleResponse);
+  },
+  getById: id => signs.list.find(v => v.id === id),
+  list: [
+    {
+      href: '/1/SYNC/signs/1',
+      id: 1,
+      name: 'The first sign',
+      enabled: true,
+    },
+  ],
+};
+
 export const vehicles = {
   setUpSuccessfulMock: (client) => {
     const listResponse = () => new Response(
