@@ -22,7 +22,7 @@ class VehiclesContext extends PagedContext {
   /**
    * Sets the query term for the context
    * @example
-   * const vehicles = new VehicleContext(...);
+   * const vehicles = new VehiclesContext(...);
    * vehicles
    *   .withQuery('12')
    *   .getPage()
