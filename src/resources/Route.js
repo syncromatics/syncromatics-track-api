@@ -12,7 +12,7 @@ class Route extends Resource {
    * @example <caption>Assigning partial route data to a new instance</caption>
    * const client = new Client();
    * const partialRouteData = {
-   *   href: '/1/SYNC/route/2',
+   *   href: '/1/SYNC/routes/2',
    *   name: '9876',
    * };
    * const route = new Route(client, partialRouteData);
