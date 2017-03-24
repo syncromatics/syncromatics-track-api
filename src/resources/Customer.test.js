@@ -4,6 +4,8 @@ import Client from '../Client';
 import Customer from './Customer';
 import Sign from './Sign';
 import SignsContext from './SignsContext';
+import Stop from './Stop';
+import StopsContext from './StopsContext';
 import Vehicle from './Vehicle';
 import VehiclesContext from './VehiclesContext';
 
@@ -16,6 +18,8 @@ describe('When getting resources related to a customer', () => {
 
   it('should allow signs to be searched', () => customer.signs().should.be.instanceof(SignsContext));
   it('should allow a sign to be retrieved', () => customer.sign().should.be.instanceof(Sign));
+  it('should allow stops to be searched', () => customer.stops().should.be.instanceof(StopsContext));
+  it('should allow a stop to be retrieved', () => customer.stop().should.be.instanceof(Stop));
   it('should allow vehicles to be searched', () => customer.vehicles().should.be.instanceof(VehiclesContext));
   it('should allow a vehicle to be retrieved', () => customer.vehicle().should.be.instanceof(Vehicle));
 });

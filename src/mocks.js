@@ -110,7 +110,7 @@ export const stops = {
     const singleResponse = () => new Response(toBlob(stops.getById(1)));
 
     fetchMock
-      .get(client.resolve('/1/SYNC/stops?page=1&perPage=10&q=12&sort='), listResponse)
+      .get(client.resolve('/1/SYNC/stops?page=1&perPage=10&q=1st&sort='), listResponse)
       .get(client.resolve('/1/SYNC/stops/1'), singleResponse);
   },
   getById: id => stops.list.find(v => v.id === id),
