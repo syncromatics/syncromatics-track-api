@@ -46,7 +46,7 @@ class Customer extends Resource {
 
   /**
    * Gets a context for querying this customer's stops
-   * @returns {StopContext} Context for querying this customer's stops
+   * @returns {StopsContext} Context for querying this customer's stops
    */
   stops() {
     return this.resource(StopsContext, this.code);

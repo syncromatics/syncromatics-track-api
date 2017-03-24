@@ -22,7 +22,7 @@ class StopsContext extends PagedContext {
   /**
    * Sets the query term for the context
    * @example
-   * const stops = new StopContext(...);
+   * const stops = new StopsContext(...);
    * stops
    *   .withQuery('12')
    *   .getPage()
