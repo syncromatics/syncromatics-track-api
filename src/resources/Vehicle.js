@@ -12,7 +12,7 @@ class Vehicle extends Resource {
    * @example <caption>Assigning partial vehicle data to a new instance</caption>
    * const client = new Client();
    * const partialVehicleData = {
-   *   href: '/1/SYNC/vehicle/2',
+   *   href: '/1/SYNC/vehicles/2',
    *   name: '9876',
    *   assignment: {
    *     sign_in_type: 'Dispatch',

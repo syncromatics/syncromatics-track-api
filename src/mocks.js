@@ -98,6 +98,33 @@ export const signs = {
   ],
 };
 
+export const stops = {
+  setUpSuccessfulMock: (client) => {
+    const listResponse = () => new Response(
+      toBlob(stops.list),
+      {
+        headers: {
+          Link: '</1/SYNC/stops?page=1&perPage=10&q=1st&sort=>; rel="next", </1/SYNC/stops?page=1&perPage=10&q=1st&sort=>; rel="last"',
+        },
+      });
+    const singleResponse = () => new Response(toBlob(stops.getById(1)));
+
+    fetchMock
+      .get(client.resolve('/1/SYNC/stops?page=1&perPage=10&q=12&sort='), listResponse)
+      .get(client.resolve('/1/SYNC/stops/1'), singleResponse);
+  },
+  getById: id => stops.list.find(v => v.id === id),
+  list: [
+    {
+      href: '/1/SYNC/stops/1',
+      id: 1,
+      name: '1st/Main',
+      latitude: 34.081728,
+      longitude: -118.351585,
+    },
+  ],
+};
+
 export const vehicles = {
   setUpSuccessfulMock: (client) => {
     const listResponse = () => new Response(
