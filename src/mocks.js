@@ -104,13 +104,13 @@ export const vehicles = {
       toBlob(vehicles.list),
       {
         headers: {
-          Link: '</1/SYNC/vehicles?page=1&perPage=10&q=12>; rel="next", </1/SYNC/vehicles?page=1&perPage=10&q=12>; rel="last"',
+          Link: '</1/SYNC/vehicles?page=1&perPage=10&q=12&sort=>; rel="next", </1/SYNC/vehicles?page=1&perPage=10&q=12&sort=>; rel="last"',
         },
       });
     const singleResponse = () => new Response(toBlob(vehicles.getById(1)));
 
     fetchMock
-      .get(client.resolve('/1/SYNC/vehicles?page=1&perPage=10&q=12'), listResponse)
+      .get(client.resolve('/1/SYNC/vehicles?page=1&perPage=10&q=12&sort='), listResponse)
       .get(client.resolve('/1/SYNC/vehicles/1'), singleResponse);
   },
   getById: id => vehicles.list.find(v => v.id === id),
