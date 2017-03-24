@@ -1,4 +1,6 @@
 import Resource from './Resource';
+import MessageTemplate from './MessageTemplate';
+import MessageTemplatesContext from './MessageTemplatesContext';
 import Route from './Route';
 import RoutesContext from './RoutesContext';
 import Sign from './Sign';
@@ -27,6 +29,23 @@ class Customer extends Resource {
      * @instance
      */
     this.code = customerCode;
+  }
+
+  /**
+   * Gets a context for querying this customer's message templates
+   * @returns {MessageTemplatesContext} Context for querying this customer's message templates
+   */
+  messageTemplates() {
+    return this.resource(MessageTemplatesContext, this.code);
+  }
+
+  /**
+   * Gets a message template resource by id
+   * @param {Number} id Identity of the message_template
+   * @returns {MessageTemplate} MessageTemplate resource
+   */
+  messageTemplate(id) {
+    return this.resource(MessageTemplate, MessageTemplate.makeHref(this.code, id));
   }
 
   /**
