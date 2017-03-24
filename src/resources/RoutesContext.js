@@ -22,7 +22,7 @@ class RoutesContext extends PagedContext {
   /**
    * Sets the query term for the context
    * @example
-   * const routes = new RouteContext(...);
+   * const routes = new RoutesContext(...);
    * routes
    *   .withQuery('blue')
    *   .getPage()

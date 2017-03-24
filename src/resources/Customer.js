@@ -31,7 +31,7 @@ class Customer extends Resource {
 
   /**
    * Gets a context for querying this customer's routes
-   * @returns {RouteContext} Context for querying this customer's routes
+   * @returns {RoutesContext} Context for querying this customer's routes
    */
   routes() {
     return this.resource(RoutesContext, this.code);
@@ -48,7 +48,7 @@ class Customer extends Resource {
 
   /**
    * Gets a context for querying this customer's signs
-   * @returns {SignContext} Context for querying this customer's signs
+   * @returns {SignsContext} Context for querying this customer's signs
    */
   signs() {
     return this.resource(SignsContext, this.code);
@@ -82,7 +82,7 @@ class Customer extends Resource {
 
   /**
    * Gets a context for querying this customer's vehicles
-   * @returns {VehicleContext} Context for querying this customer's vehicles
+   * @returns {VehiclesContext} Context for querying this customer's vehicles
    */
   vehicles() {
     return this.resource(VehiclesContext, this.code);
