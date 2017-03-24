@@ -1,4 +1,6 @@
 import Resource from './Resource';
+import Route from './Route';
+import RoutesContext from './RoutesContext';
 import Sign from './Sign';
 import SignsContext from './SignsContext';
 import Vehicle from './Vehicle';
@@ -23,6 +25,23 @@ class Customer extends Resource {
      * @instance
      */
     this.code = customerCode;
+  }
+
+  /**
+   * Gets a context for querying this customer's routes
+   * @returns {RouteContext} Context for querying this customer's routes
+   */
+  routes() {
+    return this.resource(RoutesContext, this.code);
+  }
+
+  /**
+   * Gets a route resource by id
+   * @param {Number} id Identity of the route
+   * @returns {Route} Route resource
+   */
+  route(id) {
+    return this.resource(Route, Route.makeHref(this.code, id));
   }
 
   /**
