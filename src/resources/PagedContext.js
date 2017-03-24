@@ -10,12 +10,18 @@ class PagedContext {
    * @param {Object} [params] Object of querystring parameters to append to the URL
    * @param {Number} [params.page=1] Number of the page to request
    * @param {Number} [params.perPage=10] Number of items per page to request
+   * @param {Object[]} [params.sortFields] Array of sort fields to sort the results by
+   * @param {string} params.sortFields[].field String representing the field to sort by.
+   *  Fields are specified in dotted property notation.
+   * @param {string} params.sortFields[].direction Direction by which to sort results.
+   *  Valid values are 'asc' and 'desc'.
    */
   constructor(client, params = {}) {
     this.client = client;
     this.params = {
       page: 1,
       perPage: 10,
+      sortFields: [],
       ...params,
     };
   }
@@ -53,6 +59,57 @@ class PagedContext {
   }
 
   /**
+   * Sets the requested sort order of the response, clearing any prior sort order
+   * @example
+   * const context = new PagedContext(...);
+   * context
+   *   .sortBy('assignment.start', 'desc')
+   *   .thenBy('name')
+   *   .getPage()
+   *   .then(page => ...);
+   * @param {string} field String representing the field to sort by.
+   *  Fields are specified in dotted property notation.
+   * @param {string} [direction=asc] Direction by which to sort results.
+   *  Valid values are 'asc' and 'desc'.
+   * @returns {PagedContext} Returns itself
+   */
+  sortedBy(field, direction = 'asc') {
+    this.params.sortFields = [
+      {
+        field,
+        direction,
+      },
+    ];
+    return this;
+  }
+
+  /**
+   * Adds to the requested sort order
+   * @example
+   * const context = new PagedContext(...);
+   * context
+   *   .sortBy('assignment.start', 'desc')
+   *   .thenBy('name')
+   *   .getPage()
+   *   .then(page => ...);
+   * @param {string} field String representing the field to sort by.
+   *  Fields are specified in dotted property notation.
+   * @param {string} [direction=asc] Direction by which to sort results.
+   *  Valid values are 'asc' and 'desc'.
+   * @returns {PagedContext} Returns itself
+   */
+  thenBy(field, direction = 'asc') {
+    this.params.sortFields = [
+      ...this.params.sortFields,
+      {
+        field,
+        direction,
+      },
+    ];
+    return this;
+  }
+
+  /**
    * Gets the first page of results for this context
    * @param {Object} Type Type of resource to request a page of
    * @param {string} uri URI of the page of results to request
@@ -61,7 +118,11 @@ class PagedContext {
    */
   page(Type, uri, params = {}) {
     const fromObject = o => new Type(this.client, o);
-    return new Page(this.client, fromObject, uri, { ...this.params, ...params }).fetch();
+    const { sortFields, ...otherParams } = this.params;
+    const sort = sortFields
+      .map(x => `${x.field} ${x.direction}`)
+      .join(',');
+    return new Page(this.client, fromObject, uri, { ...otherParams, sort, ...params }).fetch();
   }
 }
 
