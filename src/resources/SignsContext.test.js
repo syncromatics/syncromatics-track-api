@@ -13,7 +13,7 @@ describe('When building a query for signs', () => {
   client.setAuthenticated();
 
   beforeEach(() => fetchMock
-    .get(client.resolve('/1/SYNC/signs?page=9&perPage=27&q=valid'), mockSigns.list)
+    .get(client.resolve('/1/SYNC/signs?page=9&perPage=27&q=valid&sort='), mockSigns.list)
     .catch(503));
   afterEach(fetchMock.restore);
 
