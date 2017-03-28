@@ -1,15 +1,15 @@
 import 'isomorphic-fetch';
 import PagedContext from './PagedContext';
-import Vehicle from './Vehicle';
+import Route from './Route';
 
 /**
- * Vehicle querying context
+ * Route querying context
  *
- * This is used to query the list of vehicles for a customer
+ * This is used to query the list of routes for a customer
  */
-class VehiclesContext extends PagedContext {
+class RoutesContext extends PagedContext {
   /**
-   * Creates a new vehicle context
+   * Creates a new route context
    * @param {Client} client Instance of pre-configured client
    * @param {string} customerCode Customer code
    * @param {Object} params Object of querystring parameters to append to the URL
@@ -22,13 +22,13 @@ class VehiclesContext extends PagedContext {
   /**
    * Sets the query term for the context
    * @example
-   * const vehicles = new VehiclesContext(...);
-   * vehicles
-   *   .withQuery('12')
+   * const routes = new RoutesContext(...);
+   * routes
+   *   .withQuery('blue')
    *   .getPage()
    *   .then(page => ...);
    * @param {string} term Query term to search for
-   * @returns {VehiclesContext} Returns itself
+   * @returns {RoutesContext} Returns itself
    */
   withQuery(term) {
     this.params.q = term;
@@ -37,12 +37,12 @@ class VehiclesContext extends PagedContext {
 
   /**
    * Gets the first page of results for this context
-   * @returns {Promise} If successful, a page of Vehicle objects
-   * @see Vehicle
+   * @returns {Promise} If successful, a page of Route objects
+   * @see Route
    */
   getPage() {
-    return this.page(Vehicle, `/1/${this.code}/vehicles`);
+    return this.page(Route, `/1/${this.code}/routes`);
   }
 }
 
-export default VehiclesContext;
+export default RoutesContext;
