@@ -1,22 +1,22 @@
 import Resource from './Resource';
 
 /**
- * Sign resource
+ * Stop resource
  */
-class Sign extends Resource {
+class Stop extends Resource {
   /**
-   * Creates a new sign
+   * Creates a new stop
    *
    * Will populate itself with the values given to it after the client parameter
-   * @example <caption>Assigning partial sign data to a new instance</caption>
+   * @example <caption>Assigning partial stop data to a new instance</caption>
    * const client = new Client();
-   * const partialSignData = {
-   *   href: '/1/SYNC/signs/2',
-   *   name: 'The second sign',
+   * const partialStopData = {
+   *   href: '/1/SYNC/stops/2',
+   *   name: '9876',
    * };
-   * const sign = new Sign(client, partialSignData);
+   * const stop = new Stop(client, partialStopData);
    *
-   * sign.hydrated == true;
+   * stop.hydrated == true;
    * @param {Client} client Instance of pre-configured client
    * @param {Array} rest Remaining arguments to use in assigning values to this instance
    */
@@ -34,24 +34,24 @@ class Sign extends Resource {
   /**
    * Makes a href for a given customer code and ID
    * @param {string} customerCode Customer code
-   * @param {Number} id Sign ID
-   * @returns {string} URI to instance of sign
+   * @param {Number} id Stop ID
+   * @returns {string} URI to instance of stop
    */
   static makeHref(customerCode, id) {
     return {
-      href: `/1/${customerCode}/signs/${id}`,
+      href: `/1/${customerCode}/stops/${id}`,
     };
   }
 
   /**
-   * Fetches the data for this sign via the client
-   * @returns {Promise} If successful, a hydrated instance of this sign
+   * Fetches the data for this stop via the client
+   * @returns {Promise} If successful, a hydrated instance of this stop
    */
   fetch() {
     return this.client.get(this.href)
       .then(response => response.json())
-      .then(sign => new Sign(this.client, this, sign));
+      .then(stop => new Stop(this.client, this, stop));
   }
 }
 
-export default Sign;
+export default Stop;
