@@ -7,6 +7,8 @@ import Sign from './Sign';
 import SignsContext from './SignsContext';
 import Stop from './Stop';
 import StopsContext from './StopsContext';
+import Tag from './Tag';
+import TagsContext from './TagsContext';
 import Vehicle from './Vehicle';
 import VehiclesContext from './VehiclesContext';
 
@@ -97,6 +99,23 @@ class Customer extends Resource {
    */
   stop(id) {
     return this.resource(Stop, Stop.makeHref(this.code, id));
+  }
+
+  /**
+   * Gets a context for querying this customer's tags
+   * @returns {TagContext} Context for querying this customer's tags
+   */
+  tags() {
+    return this.resource(TagsContext, this.code);
+  }
+
+  /**
+   * Gets a tag resource by id
+   * @param {Number} id Identity of the tag
+   * @returns {Tag} Tag resource
+   */
+  tag(id) {
+    return this.resource(Tag, Tag.makeHref(this.code, id));
   }
 
   /**

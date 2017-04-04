@@ -221,6 +221,32 @@ export const stops = {
   ],
 };
 
+export const tags = {
+  setUpSuccessfulMock: (client) => {
+    const listResponse = () => new Response(
+      toBlob(tags.list),
+      {
+        headers: {
+          Link: '</1/SYNC/tags?page=1&perPage=10&q=LA&sort=>; rel="next", </1/SYNC/tags?page=1&perPage=10&q=LA&sort=>; rel="last"',
+        },
+      });
+    const singleResponse = () => new Response(toBlob(tags.getById(3)));
+
+    fetchMock
+      .get(client.resolve('/1/SYNC/tags?page=1&perPage=10&q=LA&sort='), listResponse)
+      .get(client.resolve('/1/SYNC/tags/3'), singleResponse);
+  },
+  getById: id => tags.list.find(v => v.id === id),
+  list: [
+    {
+      href: '/1/SYNC/tags/3',
+      id: 3,
+      name: 'DTLA',
+      customerId: 1,
+    },
+  ],
+};
+
 export const vehicles = {
   setUpSuccessfulMock: (client) => {
     const listResponse = () => new Response(
