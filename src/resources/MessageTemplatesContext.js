@@ -1,15 +1,15 @@
 import 'isomorphic-fetch';
 import PagedContext from './PagedContext';
-import Stop from './Stop';
+import MessageTemplate from './MessageTemplate';
 
 /**
- * Stop querying context
+ * Message template querying context
  *
- * This is used to query the list of stops for a customer
+ * This is used to query the list of message templates for a customer
  */
-class StopsContext extends PagedContext {
+class MessageTemplatesContext extends PagedContext {
   /**
-   * Creates a new stop context
+   * Creates a new message template context
    * @param {Client} client Instance of pre-configured client
    * @param {string} customerCode Customer code
    * @param {Object} params Object of querystring parameters to append to the URL
@@ -22,13 +22,13 @@ class StopsContext extends PagedContext {
   /**
    * Sets the query term for the context
    * @example
-   * const stops = new StopsContext(...);
-   * stops
+   * const messageTemplates = new MessageTemplatesContext(...);
+   * messageTemplates
    *   .withQuery('12')
    *   .getPage()
    *   .then(page => ...);
    * @param {string} term Query term to search for
-   * @returns {StopsContext} Returns itself
+   * @returns {MessageTemplatesContext} Returns itself
    */
   withQuery(term) {
     this.params.q = term;
@@ -37,12 +37,12 @@ class StopsContext extends PagedContext {
 
   /**
    * Gets the first page of results for this context
-   * @returns {Promise} If successful, a page of Stop objects
-   * @see Stop
+   * @returns {Promise} If successful, a page of MessageTemplate objects
+   * @see MessageTemplate
    */
   getPage() {
-    return this.page(Stop, `/1/${this.code}/stops`);
+    return this.page(MessageTemplate, `/1/${this.code}/message_templates`);
   }
 }
 
-export default StopsContext;
+export default MessageTemplatesContext;
