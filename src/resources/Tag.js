@@ -20,6 +20,28 @@ class Tag extends Resource {
       hydrated,
     });
   }
+
+  /**
+   * Makes a href for a given customer code and ID
+   * @param {string} customerCode Customer code
+   * @param {Number} id Tag ID
+   * @returns {string} URI to instance of tag
+   */
+  static makeHref(customerCode, id) {
+    return {
+      href: `/1/${customerCode}/tags/${id}`,
+    };
+  }
+
+  /**
+   * Fetches the data for this tag via the client
+   * @returns {Promise} If successful, a hydrated instance of this tag
+   */
+  fetch() {
+    return this.client.get(this.href)
+      .then(response => response.json())
+      .then(tag => new Tag(this.client, this, tag));
+  }
 }
 
 export default Tag;
