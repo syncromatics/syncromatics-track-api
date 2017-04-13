@@ -27,7 +27,8 @@ class MessageTemplate extends Resource {
     const newProperties = Object.assign({}, ...rest);
     const hydrated = !Object.keys(newProperties).every(k => k === 'href');
     const references = {
-      sign_messages: newProperties.sign_messages && new SignMessage(this.client, newProperties.sign_messages),
+      sign_messages: newProperties.sign_messages
+        && new SignMessage(this.client, newProperties.sign_messages),
     };
 
     Object.assign(this, newProperties, {
