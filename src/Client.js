@@ -78,13 +78,22 @@ class Client {
 
   /**
    * Convenience method of request() to make an HTTP POST request
-   * @param {string} uri URI to make request to after resolving.
    * @param {Array} args Any other arguments for request()
    * @returns {Promise} Promise from request()
    * @see request
    */
   post(...args) {
     return this.request('POST', ...args);
+  }
+
+  /**
+   * Convenience method of request() to make an HTTP PUT request
+   * @param {Array} args Any other arguments for request()
+   * @returns {Promise} Promise from request()
+   * @see request
+   */
+  put(...args) {
+    return this.request('PUT', ...args);
   }
 
   /**

@@ -46,3 +46,45 @@ describe('When retrieving a tag by ID', () => {
     return tagPromise;
   });
 });
+
+describe('When creating a tag', () => {
+  const api = new Track({ autoRenew: false });
+
+  beforeEach(() => charlie.setUpSuccessfulMock(api.client));
+  beforeEach(() => mockTags.setUpSuccessfulMock(api.client));
+  beforeEach(() => fetchMock.catch(503));
+  afterEach(fetchMock.restore);
+
+  it('should create a tag', () => {
+    api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
+
+    const tagPromise = api.customer('SYNC').tag({ name: 'tagName' })
+      .create()
+      .then(tag => tag); // Do things with tag
+
+    return tagPromise;
+  });
+});
+
+describe('When updating a tag', () => {
+  const api = new Track({ autoRenew: false });
+
+  beforeEach(() => charlie.setUpSuccessfulMock(api.client));
+  beforeEach(() => mockTags.setUpSuccessfulMock(api.client));
+  beforeEach(() => fetchMock.catch(503));
+  afterEach(fetchMock.restore);
+
+  it('should update a tag', () => {
+    api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
+
+    const tagPromise = api.customer('SYNC').tag(3)
+      .fetch()
+      .then((tag) => {
+        // eslint-disable-next-line no-param-reassign
+        tag.name = 'updatedTagName';
+        return tag.update();
+      });
+
+    return tagPromise;
+  });
+});
