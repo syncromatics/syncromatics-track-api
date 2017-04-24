@@ -245,7 +245,7 @@ export const tags = {
     fetchMock
       .get(client.resolve('/1/SYNC/tags?page=1&perPage=10&q=LA&sort='), listResponse)
       .get(client.resolve('/1/SYNC/tags/3'), singleResponse)
-      .post(client.resolve('/1/SYNC/tags/'), postResponse)
+      .post(client.resolve('/1/SYNC/tags'), postResponse)
       .put(client.resolve('/1/SYNC/tags/3'), putResponse);
   },
   getById: id => tags.list.find(v => v.id === id),

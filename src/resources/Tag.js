@@ -52,7 +52,7 @@ class Tag extends Resource {
    */
   create() {
     const { client, hydrated, customerCode, ...body } = this;
-    return this.client.post(`/1/${this.customerCode}/tags/`, { body })
+    return this.client.post(`/1/${this.customerCode}/tags`, { body })
       .then(response => response.headers.get('location'))
       .then((href) => {
         const match = /\/\d+\/\S+\/tags\/(\d+)/.exec(href);
