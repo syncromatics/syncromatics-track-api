@@ -9,12 +9,14 @@ class Tag extends Resource {
    *
    * Will populate itself with the values given to it after the client parameter
    * @param {Client} client Instance of pre-configured client
-   * @param {Array} rest Remaining arguments to use in assigning values to this instance
+   * @param {Object} rest The object to use in assigning values to this instance
    */
-  constructor(client, ...rest) {
+  constructor(client, rest) {
     super(client);
-    const newProperties = Object.assign({}, ...rest);
-    const hydrated = !Object.keys(newProperties).every(k => k === 'href');
+    const { code, ...newProperties } = rest;
+    this.customerCode = code;
+
+    const hydrated = !Object.keys(newProperties).every(k => k === 'href' || k === 'customerCode');
 
     Object.assign(this, newProperties, {
       hydrated,
@@ -30,6 +32,7 @@ class Tag extends Resource {
   static makeHref(customerCode, id) {
     return {
       href: `/1/${customerCode}/tags/${id}`,
+      code: customerCode,
     };
   }
 
@@ -40,8 +43,33 @@ class Tag extends Resource {
   fetch() {
     return this.client.get(this.href)
       .then(response => response.json())
-      .then(tag => new Tag(this.client, this, tag));
+      .then(tag => new Tag(this.client, { ...this, ...tag }));
   }
+
+  /**
+   * Saves data for a tag via the client
+   * @returns {Promise} if successful returns a tag with the id included
+   */
+  create() {
+    const { client, hydrated, customerCode, ...body } = this;
+    return this.client.post(`/1/${this.customerCode}/tags`, { body })
+      .then(response => response.headers.get('location'))
+      .then((href) => {
+        const match = /\/\d+\/\S+\/tags\/(\d+)/.exec(href);
+        return new Tag(this.client, { ...this, href, id: match[1] });
+      });
+  }
+
+  /**
+   * Updates data for a tag via the client
+   * @returns {Promise} if successful returns instance of this tag
+   */
+  update() {
+    const { client, hydrated, customerCode, ...body } = this;
+    return this.client.put(`/1/${this.customerCode}/tags/${this.id}`, { body })
+      .then(() => new Tag(this.client, { ...this }));
+  }
+
 }
 
 export default Tag;

@@ -231,10 +231,22 @@ export const tags = {
         },
       });
     const singleResponse = () => new Response(toBlob(tags.getById(3)));
+    const postResponse = () => new Response(undefined, {
+      headers: {
+        Location: '/1/SYNC/tags/3',
+      },
+    });
+    const putResponse = () => new Response(undefined, {
+      headers: {
+        Location: '/1/SYNC/tags/3',
+      },
+    });
 
     fetchMock
       .get(client.resolve('/1/SYNC/tags?page=1&perPage=10&q=LA&sort='), listResponse)
-      .get(client.resolve('/1/SYNC/tags/3'), singleResponse);
+      .get(client.resolve('/1/SYNC/tags/3'), singleResponse)
+      .post(client.resolve('/1/SYNC/tags'), postResponse)
+      .put(client.resolve('/1/SYNC/tags/3'), putResponse);
   },
   getById: id => tags.list.find(v => v.id === id),
   list: [

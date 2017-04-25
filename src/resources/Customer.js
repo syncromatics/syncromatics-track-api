@@ -111,11 +111,14 @@ class Customer extends Resource {
 
   /**
    * Gets a tag resource by id
-   * @param {Number} id Identity of the tag
+   * @param {Object} id Identity of the tag or the new object
    * @returns {Tag} Tag resource
    */
   tag(id) {
-    return this.resource(Tag, Tag.makeHref(this.code, id));
+    if (!isNaN(parseFloat(id)) && isFinite(id)) {
+      return this.resource(Tag, Tag.makeHref(this.code, id));
+    }
+    return this.resource(Tag, { code: this.code, ...id });
   }
 
   /**
