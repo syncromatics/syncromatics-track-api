@@ -43,11 +43,14 @@ class Customer extends Resource {
 
   /**
    * Gets a message template resource by id
-   * @param {Number} id Identity of the message_template
+   * @param {Object} payload Identity of the message_template or object representing a new template
    * @returns {MessageTemplate} MessageTemplate resource
    */
-  messageTemplate(id) {
-    return this.resource(MessageTemplate, MessageTemplate.makeHref(this.code, id));
+  messageTemplate(payload) {
+    if (!isNaN(parseFloat(payload)) && isFinite(payload)) {
+      return this.resource(MessageTemplate, MessageTemplate.makeHref(this.code, payload));
+    }
+    return this.resource(MessageTemplate, { code: this.code, ...payload });
   }
 
   /**

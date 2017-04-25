@@ -57,6 +57,7 @@ describe('When creating a tag', () => {
 
   it('should resolve the promise', () => promise.should.be.fulfilled);
   it('should set the href', () => promise.then(v => v.href).should.eventually.equal('/1/SYNC/tags/3'));
+  it('should set the ID', () => promise.then(v => v.id).should.eventually.equal(3));
 });
 
 describe('When updating a tag', () => {

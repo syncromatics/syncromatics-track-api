@@ -21,11 +21,11 @@ class MessageTemplate extends Resource {
    * @param {Client} client Instance of pre-configured client
    * @param {Array} rest Remaining arguments to use in assigning values to this instance
    */
-  constructor(client, ...rest) {
+  constructor(client, rest) {
     super(client);
-
-    const newProperties = Object.assign({}, ...rest);
-    const hydrated = !Object.keys(newProperties).every(k => k === 'href');
+    const { code, ...newProperties } = rest;
+    this.customerCode = code;
+    const hydrated = !Object.keys(newProperties).every(k => k === 'href' || k === 'customerCode');
     const references = {
       sign_messages: newProperties.sign_messages
         && new SignMessage(this.client, newProperties.sign_messages),
@@ -46,6 +46,7 @@ class MessageTemplate extends Resource {
   static makeHref(customerCode, id) {
     return {
       href: `/1/${customerCode}/message_templates/${id}`,
+      code: customerCode,
     };
   }
 
@@ -56,8 +57,33 @@ class MessageTemplate extends Resource {
   fetch() {
     return this.client.get(this.href)
       .then(response => response.json())
-      .then(messageTemplate => new MessageTemplate(this.client, this, messageTemplate));
+      .then(messageTemplate => new MessageTemplate(this.client, { ...this, ...messageTemplate }));
+  }
+
+/**
+ * Creates a new messageTemplate via the client
+ * @returns {Promise} If successful, the a hydrated instance of messageTemplate with id
+ */
+  create() {
+    const { client, hydrated, customerCode, ...body } = this;
+    return this.client.post(`/1/${customerCode}/message_templates`, { ...body })
+      .then(response => response.headers.get('location'))
+      .then((href) => {
+        const match = /\/\d+\/\S+\/message_templates\/(\d+)/.exec(href);
+        // console.warn(match);
+        return new MessageTemplate(this.client, { ...this, href, id: parseFloat(match[1]) });
+      });
+  }
+
+
+  /**
+   * Updates data for a message templte via the client
+   * @returns {Promise} if successful returns instance of this tag
+   */
+  update() {
+    const { client, hydrated, customerCode, ...body } = this;
+    return this.client.put(`/1/${this.customerCode}/message_templates/${this.id}`, { body })
+      .then(() => new MessageTemplate(this.client, { ...this }));
   }
 }
-
 export default MessageTemplate;

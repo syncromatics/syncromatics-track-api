@@ -82,10 +82,17 @@ export const messageTemplates = {
         },
       });
     const singleResponse = () => new Response(toBlob(messageTemplates.getById(1)));
+    const createResponse = () => new Response(undefined, {
+      headers: {
+        Location: '/1/SYNC/message_templates/1',
+      },
+    });
 
     fetchMock
       .get(client.resolve('/1/SYNC/message_templates?page=1&perPage=10&q=5k&sort='), listResponse)
-      .get(client.resolve('/1/SYNC/message_templates/1'), singleResponse);
+      .get(client.resolve('/1/SYNC/message_templates/1'), singleResponse)
+      .post(client.resolve('/1/SYNC/message_templates'), createResponse)
+      .put(client.resolve('/1/SYNC/message_templates/1'), createResponse);
   },
   getById: id => messageTemplates.list.find(v => v.id === id),
   list: [

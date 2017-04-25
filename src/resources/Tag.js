@@ -15,9 +15,7 @@ class Tag extends Resource {
     super(client);
     const { code, ...newProperties } = rest;
     this.customerCode = code;
-
     const hydrated = !Object.keys(newProperties).every(k => k === 'href' || k === 'customerCode');
-
     Object.assign(this, newProperties, {
       hydrated,
     });
@@ -56,7 +54,7 @@ class Tag extends Resource {
       .then(response => response.headers.get('location'))
       .then((href) => {
         const match = /\/\d+\/\S+\/tags\/(\d+)/.exec(href);
-        return new Tag(this.client, { ...this, href, id: match[1] });
+        return new Tag(this.client, { ...this, href, id: parseFloat(match[1]) });
       });
   }
 
