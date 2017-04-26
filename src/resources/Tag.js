@@ -49,6 +49,7 @@ class Tag extends Resource {
    * @returns {Promise} if successful returns a tag with the id included
    */
   create() {
+    // eslint-disable-next-line no-unused-vars
     const { client, hydrated, customerCode, ...body } = this;
     return this.client.post(`/1/${this.customerCode}/tags`, { body })
       .then(response => response.headers.get('location'))
@@ -63,6 +64,7 @@ class Tag extends Resource {
    * @returns {Promise} if successful returns instance of this tag
    */
   update() {
+    // eslint-disable-next-line no-unused-vars
     const { client, hydrated, customerCode, ...body } = this;
     return this.client.put(`/1/${this.customerCode}/tags/${this.id}`, { body })
       .then(() => new Tag(this.client, { ...this }));

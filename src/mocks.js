@@ -1,12 +1,12 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import fetchMock from 'fetch-mock';
-import { toBlob } from './testutils';
+import Client from './Client';
 
 export const charlie = {
   setUpSuccessfulMock: (client) => {
     fetchMock
-      .post(client.resolve('/1/login'), () => new Response(toBlob(charlie.token, s => s, 'plain/text')))
-      .post(client.resolve('/1/login/renew'), () => new Response(toBlob(charlie.token, s => s, 'plain/text')));
+      .post(client.resolve('/1/login'), () => new Response(Client.toBlob(charlie.token, s => s, 'plain/text')))
+      .post(client.resolve('/1/login/renew'), () => new Response(Client.toBlob(charlie.token, s => s, 'plain/text')));
   },
   token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjMsImZuYW1lIjoiQ2hhcmxpZSIsImxuYW1lIjoiU2luZ2giLCJjdXN0Ijp7IlNZTkMiOiJTeW5jcm9tYXRpY3MifSwicHJpdiI6WyJtYW5hZ2UgdXNlcnMiLCJtYW5hZ2Ugc2ltIGNhcmRzIiwibWFuYWdlIGNlbGx1bGFyIHBsYW5zIiwibWFuYWdlIG1vZGVtcyIsIm1hbmFnZSB2ZWhpY2xlcyIsInRyYWNrIHZlaGljbGVzIiwidmVoaWNsZSBoaXN0b3J5IiwidmVoaWNsZSBzdGF0dXMiLCJtYW5hZ2Ugcm91dGVzIiwibWFuYWdlIHBlcmltZXRlcnMiLCJtb3ZlbWVudCBzaW11bGF0b3IiLCJtYW5hZ2UgYWxlcnRzIiwibWFuYWdlIHBvcnRhbCIsImFsZXJ0IGxvZyIsImNvbnRyb2wgbW9kZW1zIiwiYWNrIGhpc3RvcnkiLCJ3ZWIgbG9nIiwibW9kZW0gc2NyaXB0cyIsImdsb2JhbCBzdGF0dXMiLCJzZXJ2ZXIgbG9nIiwibWFuYWdlIHJvdXRlIHN0b3BzIiwiYXNzaWduIHZlaGljbGVzIiwic3RvcCB0aW1lcyIsInJlcG9ydHMiLCJhY2NvdW50aW5nIiwibWFuYWdlIGFjY291bnRzIiwibWFuYWdlIG1kdHMiLCJtYW5hZ2UgYXBjcyIsImVuZ2luZSBkaWFnbm9zdGljcyIsIm1hbmFnZSBkcml2ZXJzIiwiZmlsZSBkb3dubG9hZHMiLCJidW5jaGluZyIsIkRpc3BhdGNoIiwiTWFuYWdlIFZEIENvbnRyb2xsZXJzIiwiTWFuYWdlIFNpZ25zIiwiVmlzaXRvciBUcmFmZmljIiwiUG9ydGFsIFNlY3VyaXR5IiwiUHJpdmlsZWdlIFRlbXBsYXRlcyIsIkludmVudG9yeSBNYW5hZ2VtZW50IiwiTWFuYWdlIEludm9pY2VzIiwiTWFuYWdlIFF1b3RlcyIsIk1hbmFnZSBSZWNvbmNpbGlhdGlvbiIsIk1hbmFnZSBFbXBsb3llZXMiLCJNRFQgRW1lcmdlbmN5IENvbnRhY3RzIiwiYXZhcyIsIm1hbmFnZSBkZXN0aW5hdGlvbiBzaWduIiwiTWFuYWdlIFNjaGVkdWxlcyJdLCJzdWIiOiJjc2luZ2hAZXhhbXBsZS5jb20iLCJqdGkiOiJjZWJlZDEwNS0yYTVmLTRmOTgtYTVhMi1kZjg1MzJlNzk2NDEiLCJpYXQiOjE0ODU0NTIzODg5MTYsImV4cCI6MTQ4NTQ1MjQ0ODkxNn0.0PNzuAc-QuzcBEYA0mmBMTqADwoH8Dd6mxXlv0FjQhk',
   payload: {
@@ -75,13 +75,13 @@ export const charlie = {
 export const messageTemplates = {
   setUpSuccessfulMock: (client) => {
     const listResponse = () => new Response(
-      toBlob(messageTemplates.list),
+      Client.toBlob(messageTemplates.list),
       {
         headers: {
           Link: '</1/SYNC/message_templates?page=1&perPage=10&q=5k&sort=>; rel="next", </1/SYNC/message_templates?page=1&perPage=10&q=5k&sort=>; rel="last"',
         },
       });
-    const singleResponse = () => new Response(toBlob(messageTemplates.getById(1)));
+    const singleResponse = () => new Response(Client.toBlob(messageTemplates.getById(1)));
     const createResponse = () => new Response(undefined, {
       headers: {
         Location: '/1/SYNC/message_templates/1',
@@ -143,13 +143,13 @@ export const messageTemplates = {
 export const routes = {
   setUpSuccessfulMock: (client) => {
     const listResponse = () => new Response(
-      toBlob(routes.list),
+      Client.toBlob(routes.list),
       {
         headers: {
           Link: '</1/SYNC/routes?page=1&perPage=10&q=blue&sort=>; rel="next", </1/SYNC/routes?page=1&perPage=10&q=blue&sort=>; rel="last"',
         },
       });
-    const singleResponse = () => new Response(toBlob(routes.getById(1)));
+    const singleResponse = () => new Response(Client.toBlob(routes.getById(1)));
 
     fetchMock
       .get(client.resolve('/1/SYNC/routes?page=1&perPage=10&q=blue&sort='), listResponse)
@@ -178,13 +178,13 @@ export const routes = {
 export const signs = {
   setUpSuccessfulMock: (client) => {
     const listResponse = () => new Response(
-      toBlob(signs.list),
+      Client.toBlob(signs.list),
       {
         headers: {
           Link: '</1/SYNC/signs?page=1&perPage=10&q=first&sort=>; rel="next", </1/SYNC/signs?page=1&perPage=10&q=first&sort=>; rel="last"',
         },
       });
-    const singleResponse = () => new Response(toBlob(signs.getById(1)));
+    const singleResponse = () => new Response(Client.toBlob(signs.getById(1)));
 
     fetchMock
       .get(client.resolve('/1/SYNC/signs?page=1&perPage=10&q=first&sort='), listResponse)
@@ -204,13 +204,13 @@ export const signs = {
 export const stops = {
   setUpSuccessfulMock: (client) => {
     const listResponse = () => new Response(
-      toBlob(stops.list),
+      Client.toBlob(stops.list),
       {
         headers: {
           Link: '</1/SYNC/stops?page=1&perPage=10&q=1st&sort=>; rel="next", </1/SYNC/stops?page=1&perPage=10&q=1st&sort=>; rel="last"',
         },
       });
-    const singleResponse = () => new Response(toBlob(stops.getById(1)));
+    const singleResponse = () => new Response(Client.toBlob(stops.getById(1)));
 
     fetchMock
       .get(client.resolve('/1/SYNC/stops?page=1&perPage=10&q=1st&sort='), listResponse)
@@ -231,13 +231,13 @@ export const stops = {
 export const tags = {
   setUpSuccessfulMock: (client) => {
     const listResponse = () => new Response(
-      toBlob(tags.list),
+      Client.toBlob(tags.list),
       {
         headers: {
           Link: '</1/SYNC/tags?page=1&perPage=10&q=LA&sort=>; rel="next", </1/SYNC/tags?page=1&perPage=10&q=LA&sort=>; rel="last"',
         },
       });
-    const singleResponse = () => new Response(toBlob(tags.getById(3)));
+    const singleResponse = () => new Response(Client.toBlob(tags.getById(3)));
     const postResponse = () => new Response(undefined, {
       headers: {
         Location: '/1/SYNC/tags/3',
@@ -269,13 +269,13 @@ export const tags = {
 export const vehicles = {
   setUpSuccessfulMock: (client) => {
     const listResponse = () => new Response(
-      toBlob(vehicles.list),
+      Client.toBlob(vehicles.list),
       {
         headers: {
           Link: '</1/SYNC/vehicles?page=1&perPage=10&q=12&sort=>; rel="next", </1/SYNC/vehicles?page=1&perPage=10&q=12&sort=>; rel="last"',
         },
       });
-    const singleResponse = () => new Response(toBlob(vehicles.getById(1)));
+    const singleResponse = () => new Response(Client.toBlob(vehicles.getById(1)));
 
     fetchMock
       .get(client.resolve('/1/SYNC/vehicles?page=1&perPage=10&q=12&sort='), listResponse)

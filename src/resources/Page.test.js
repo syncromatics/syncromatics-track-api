@@ -3,7 +3,6 @@ import chaiAsPromised from 'chai-as-promised';
 import fetchMock from 'fetch-mock';
 import Client from '../Client';
 import Page from './Page';
-import { toBlob } from '../testutils';
 
 chai.should();
 chai.use(chaiAsPromised);
@@ -13,7 +12,7 @@ describe('When getting a page of results', () => {
   client.setAuthenticated();
 
   const successfulListResponse = page => () => new Response(
-    toBlob(Array.from(new Array(10))
+    Client.toBlob(Array.from(new Array(10))
       .map((_, i) => ({
         href: `/example/${(i + (10 * (page - 1)))}`,
       }))),

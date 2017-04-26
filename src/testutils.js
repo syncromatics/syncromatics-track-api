@@ -1,20 +1,4 @@
 /**
- * @callback toBlobSelector
- * @param {Object} object Object to map to a string
- * @returns {string} String representation of object
- */
-
-/**
- * Makes a Blob object
- * @param {Object} value Value to encode in Blob
- * @param {toBlobSelector} [selector] Function to map the value to a string
- * @param {string} [type=application/json] MIME type of Blob
- * @returns {Blob} Instance of Blob
- */
-export const toBlob = (value, selector = x => JSON.stringify(x, null, 2), type = 'application/json') =>
-  new Blob([selector(value)], { type });
-
-/**
  * Logs the result with a curried prefix
  * @callback curriedLog
  * @param {Object} result Result of Promise to log

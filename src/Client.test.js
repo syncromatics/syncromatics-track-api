@@ -3,7 +3,6 @@ import chaiAsPromised from 'chai-as-promised';
 import fetchMock from 'fetch-mock';
 import Client from './Client';
 import { NotFoundResponse, ServerErrorResponse } from './responses';
-import { toBlob } from './testutils';
 
 chai.should();
 chai.use(chaiAsPromised);
@@ -68,9 +67,10 @@ describe('When using the client to make POST requests', () => {
   });
 
   it('should make a successful POST request', () => {
-    const body = new FormData();
-    body.append('username', 'pat@example.com');
-    body.append('password', 'securepassword');
+    const body = Client.toBlob({
+      username: 'pat@example.com',
+      password: 'securepassword',
+    });
 
     return client.post('/success', { body })
       .then(response => response.json())
@@ -89,7 +89,7 @@ describe('When handling errors in requests through the client', () => {
   beforeEach(() => {
     fetchMock
       .get('http://example.com/failure/404', new Response(new Blob(), { status: 404 }))
-      .get('http://example.com/failure/500', new Response(toBlob(serverErrorResponse), { status: 500 }))
+      .get('http://example.com/failure/500', new Response(Client.toBlob(serverErrorResponse), { status: 500 }))
       .catch(503);
   });
   afterEach(fetchMock.restore);
