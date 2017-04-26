@@ -50,10 +50,20 @@ class Client {
    * @returns {Promise} Promise of a {@link https://developer.mozilla.org/en-US/docs/Web/API/Response Response} if successful, or of {@link ErrorResponse} if unsuccessful
    */
   request(method, uri, options = {}) {
+    let {
+      body,
+      ...rest
+    } = options;
+
+    if (body && !(body instanceof Blob)) {
+      body = Client.toBlob(body);
+    }
+
     const opts = {
       headers: {},
       method,
-      ...options,
+      body,
+      ...rest,
     };
 
     if (JWT.get() && !opts.headers.Authorization && !opts.headers['Api-Key']) {
@@ -117,6 +127,23 @@ class Client {
     this.authenticated = new Promise((resolve) => {
       this.authenticatedResolve = resolve;
     });
+  }
+
+  /**
+   * @callback toBlobSelector
+   * @param {Object} object Object to map to a string
+   * @returns {string} String representation of object
+   */
+
+  /**
+   * Makes a Blob object
+   * @param {Object} value Value to encode in Blob
+   * @param {toBlobSelector} [selector] Function to map the value to a string
+   * @param {string} [type=application/json] MIME type of Blob
+   * @returns {Blob} Instance of Blob
+   */
+  static toBlob(value, selector = x => JSON.stringify(x, null, 2), type = 'application/json') {
+    return new Blob([selector(value)], { type });
   }
 }
 

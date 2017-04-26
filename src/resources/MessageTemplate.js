@@ -65,12 +65,12 @@ class MessageTemplate extends Resource {
  * @returns {Promise} If successful, the a hydrated instance of messageTemplate with id
  */
   create() {
+    // eslint-disable-next-line no-unused-vars
     const { client, hydrated, customerCode, ...body } = this;
-    return this.client.post(`/1/${customerCode}/message_templates`, { ...body })
+    return this.client.post(`/1/${customerCode}/message_templates`, { body })
       .then(response => response.headers.get('location'))
       .then((href) => {
         const match = /\/\d+\/\S+\/message_templates\/(\d+)/.exec(href);
-        // console.warn(match);
         return new MessageTemplate(this.client, { ...this, href, id: parseFloat(match[1]) });
       });
   }
@@ -81,6 +81,7 @@ class MessageTemplate extends Resource {
    * @returns {Promise} if successful returns instance of this tag
    */
   update() {
+    // eslint-disable-next-line no-unused-vars
     const { client, hydrated, customerCode, ...body } = this;
     return this.client.put(`/1/${this.customerCode}/message_templates/${this.id}`, { body })
       .then(() => new MessageTemplate(this.client, { ...this }));

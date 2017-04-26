@@ -3,7 +3,8 @@ import chaiAsPromised from 'chai-as-promised';
 import fetchMock from 'fetch-mock';
 import Track from './index';
 import { ForbiddenResponse } from '../responses';
-import { toBlob, resolveAt } from '../testutils';
+import { resolveAt } from '../testutils';
+import Client from '../Client';
 import { charlie } from '../mocks';
 
 chai.should();
@@ -77,8 +78,8 @@ describe('When unsuccessfully authenticating with the Track API client', () => {
 
   beforeEach(() => {
     fetchMock
-      .post(api.client.resolve('/1/login'), () => new Response(toBlob('', s => s, 'plain/text'), { status: 403 }))
-      .post(api.client.resolve('/1/login/renew'), () => new Response(toBlob('', s => s, 'plain/text'), { status: 403 }))
+      .post(api.client.resolve('/1/login'), () => new Response(Client.toBlob('', s => s, 'plain/text'), { status: 403 }))
+      .post(api.client.resolve('/1/login/renew'), () => new Response(Client.toBlob('', s => s, 'plain/text'), { status: 403 }))
       .catch(503);
 
     api.stopAutoRenew();
