@@ -4,6 +4,8 @@ import Client from '../Client';
 import Customer from './Customer';
 import MessageTemplate from './MessageTemplate';
 import MessageTemplatesContext from './MessageTemplatesContext';
+import Pattern from './Pattern';
+import PatternsContext from './PatternsContext';
 import Route from './Route';
 import RoutesContext from './RoutesContext';
 import Sign from './Sign';
@@ -24,6 +26,8 @@ describe('When getting resources related to a customer', () => {
 
   it('should allow message templates to be searched', () => customer.messageTemplates().should.be.instanceof(MessageTemplatesContext));
   it('should allow a message template to be retrieved', () => customer.messageTemplate().should.be.instanceof(MessageTemplate));
+  it('should allow patterns to be searched', () => customer.patterns().should.be.instanceof(PatternsContext));
+  it('should allow a pattern to be retrieved', () => customer.pattern().should.be.instanceof(Pattern));
   it('should allow routes to be searched', () => customer.routes().should.be.instanceof(RoutesContext));
   it('should allow a route to be retrieved', () => customer.route().should.be.instanceof(Route));
   it('should allow signs to be searched', () => customer.signs().should.be.instanceof(SignsContext));

@@ -1,6 +1,8 @@
 import Resource from './Resource';
 import MessageTemplate from './MessageTemplate';
 import MessageTemplatesContext from './MessageTemplatesContext';
+import Pattern from './Pattern';
+import PatternsContext from './PatternsContext';
 import Route from './Route';
 import RoutesContext from './RoutesContext';
 import Sign from './Sign';
@@ -68,6 +70,22 @@ class Customer extends Resource {
    */
   route(id) {
     return this.resource(Route, Route.makeHref(this.code, id));
+  }
+
+/**
+ * Gets a context for querying this customer's patterns
+ * @returns {PatternsContext} Context for querying this customer's patterns
+ */
+  patterns() {
+    return this.resource(PatternsContext, this.code);
+  }
+
+/**
+ * Gets a pattern resource by id
+ * @param {Number} id Identity of the pattern
+ * @returns {Pattern} Pattern resource */
+  pattern(id) {
+    return this.resource(Pattern, Pattern.makeHref(this.code, id));
   }
 
   /**
