@@ -52,6 +52,7 @@ class Client {
   request(method, uri, options = {}) {
     let {
       body,
+    // eslint-disable-next-line prefer-const
       ...rest
     } = options;
 
