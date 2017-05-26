@@ -2,6 +2,7 @@ import 'isomorphic-fetch';
 import JWT from 'jwt-client';
 import Resource from './Resource';
 import Customer from './Customer';
+import User from './User';
 import Client from '../Client';
 import { ForbiddenResponse } from '../responses';
 
@@ -190,6 +191,15 @@ class Track extends Resource {
    */
   customer(code) {
     return this.resource(Customer, code);
+  }
+
+  /**
+   * Gets a user resource. Defaults to user for current authenticated session.
+   * @param {number|string} [id=me] User ID
+   * @returns {User} User resource
+   */
+  user(id = 'me') {
+    return this.resource(User, User.makeHref(id));
   }
 }
 
