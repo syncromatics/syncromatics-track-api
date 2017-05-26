@@ -5,7 +5,7 @@ import Track from './index';
 import { ForbiddenResponse } from '../responses';
 import { resolveAt } from '../testutils';
 import Client from '../Client';
-import { charlie } from '../mocks';
+import { charlie, users as mockUsers } from '../mocks';
 
 chai.should();
 chai.use(chaiAsPromised);
@@ -196,6 +196,44 @@ describe('When getting a customer within the authenticated session', () => {
       .then(() => api.customer('SYNC'));
     return Promise.all([
       customer.should.be.fulfilled,
+    ]).should.be.fulfilled;
+  });
+});
+
+describe('When getting the user associated with the authenticated session', () => {
+  const api = new Track();
+
+  beforeEach(() => charlie.setUpSuccessfulMock(api.client));
+  beforeEach(() => mockUsers.setUpSuccessfulMock(api.client));
+  beforeEach(() => fetchMock.catch(503));
+  afterEach(fetchMock.restore);
+  afterEach(() => api.stopAutoRenew());
+
+  it('should successfully get the user', () => {
+    const user = api.logIn({ username: charlie.payload.sub, password: 'whatever' })
+      .then(() => api.user().fetch());
+
+    return Promise.all([
+      user.should.be.fulfilled,
+    ]).should.be.fulfilled;
+  });
+});
+
+describe('When getting a user', () => {
+  const api = new Track();
+
+  beforeEach(() => charlie.setUpSuccessfulMock(api.client));
+  beforeEach(() => mockUsers.setUpSuccessfulMock(api.client));
+  beforeEach(() => fetchMock.catch(503));
+  afterEach(fetchMock.restore);
+  afterEach(() => api.stopAutoRenew());
+
+  it('should successfully get the user', () => {
+    const user = api.logIn({ username: charlie.payload.sub, password: 'whatever' })
+      .then(() => api.user(1).fetch());
+
+    return Promise.all([
+      user.should.be.fulfilled,
     ]).should.be.fulfilled;
   });
 });
