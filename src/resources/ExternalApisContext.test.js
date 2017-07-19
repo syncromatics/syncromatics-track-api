@@ -13,13 +13,13 @@ describe('When building a query for external APIs', () => {
   client.setAuthenticated();
 
   beforeEach(() => fetchMock
-    .get(client.resolve('/1/SYNC/external_apis?page=9&perPage=27&q=valid&sort=first_valid asc,second_valid desc'), mockExternalApis.list)
+    .get(client.resolve('/1/external_apis?page=9&perPage=27&q=valid&sort=first_valid asc,second_valid desc'), mockExternalApis.list)
     .catch(503));
   afterEach(fetchMock.restore);
 
   let promise;
   beforeEach(() => {
-    const externalApis = new ExternalApisContext(client, 'SYNC');
+    const externalApis = new ExternalApisContext(client);
     promise = externalApis
       .withPage(9)
       .withPerPage(27)

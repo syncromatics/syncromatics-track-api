@@ -78,14 +78,14 @@ export const externalApis = {
     Client.toBlob(externalApis.list),
       {
         headers: {
-          Link: '</1/SYNC/external_apis?page=1&perPage=10&q=arr&sort=>; rel="next", </1/SYNC/external_apis?page=1&perPage=10&q=arr&sort=>; rel="last"',
+          Link: '</1/external_apis?page=1&perPage=10&q=arr&sort=>; rel="next", </1/external_apis?page=1&perPage=10&q=arr&sort=>; rel="last"',
         },
       });
     const singleResponse = () => new Response(Client.toBlob(externalApis.getById(1)));
 
     fetchMock
-      .get(client.resolve('/1/SYNC/external_apis?page=1&perPage=10&q=arr&sort='), listResponse)
-      .get(client.resolve('/1/SYNC/external_apis/1'), singleResponse);
+      .get(client.resolve('/1/external_apis?page=1&perPage=10&q=arr&sort='), listResponse)
+      .get(client.resolve('/1/external_apis/1'), singleResponse);
   },
   getById: id => externalApis.list.find(e => e.id === id),
   list: [
@@ -93,7 +93,7 @@ export const externalApis = {
       id: 1,
       name: 'arrivals',
       description: 'upcoming arrivals',
-      href: '/1/SYNC/external_apis/1',
+      href: '/1/external_apis/1',
     },
   ],
 };

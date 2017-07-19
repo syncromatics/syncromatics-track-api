@@ -18,7 +18,7 @@ describe('When searching for external APIs by name', () => {
   it('should get a list of external APIs', () => {
     api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
 
-    const externalApisPromise = api.customer('SYNC').externalApis()
+    const externalApisPromise = api.externalApis()
       .withQuery('arr') // External APIs containing "arr" in their name
       .getPage()
       .then(page => page.list)
@@ -39,7 +39,7 @@ describe('When retrieving an external API by ID', () => {
   it('should get an external API', () => {
     api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
 
-    const externalApiPromise = api.customer('SYNC').externalApi(1)
+    const externalApiPromise = api.externalApi(1)
       .fetch()
       .then(externalApi => externalApi); // Do things with external API
 

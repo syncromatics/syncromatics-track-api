@@ -23,13 +23,12 @@ class ExternalApi extends Resource {
 
   /**
    * Makes a href for a given customer code and ID
-   * @param {string} customerCode Customer code
    * @param {Number} id External API ID
    * @returns {string} URI to instance of external API
    */
-  static makeHref(customerCode, id) {
+  static makeHref(id) {
     return {
-      href: `/1/${customerCode}/external_apis/${id}`,
+      href: `/1/external_apis/${id}`,
     };
   }
 
