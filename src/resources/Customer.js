@@ -1,6 +1,4 @@
 import Resource from './Resource';
-import ExternalApi from './ExternalApi';
-import ExternalApisContext from './ExternalApisContext';
 import MessageTemplate from './MessageTemplate';
 import MessageTemplatesContext from './MessageTemplatesContext';
 import Pattern from './Pattern';
@@ -35,23 +33,6 @@ class Customer extends Resource {
      * @instance
      */
     this.code = customerCode;
-  }
-
-  /**
-   * Gets a context for querying this customer's external APIs
-   * @returns {ExternalApisContext} Context for querying this customer's external APIs
-   */
-  externalApis() {
-    return this.resource(ExternalApisContext, this.code);
-  }
-
-  /**
-   * Gets an external API resource by id
-   * @param {Number} id Identity of the external API
-   * @returns {ExternalApi} ExternalApi resource
-   */
-  externalApi(id) {
-    return this.resource(ExternalApi, ExternalApi.makeHref(this.code, id));
   }
 
   /**

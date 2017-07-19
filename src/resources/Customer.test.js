@@ -2,8 +2,6 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import Client from '../Client';
 import Customer from './Customer';
-import ExternalApi from './ExternalApi';
-import ExternalApisContext from './ExternalApisContext';
 import MessageTemplate from './MessageTemplate';
 import MessageTemplatesContext from './MessageTemplatesContext';
 import Pattern from './Pattern';
@@ -26,8 +24,6 @@ describe('When getting resources related to a customer', () => {
   const client = new Client();
   const customer = new Customer(client, 'SYNC');
 
-  it('should allow external apis to be searched', () => customer.externalApis().should.be.instanceOf(ExternalApisContext));
-  it('should allo an external api to be retrieved', () => customer.externalApi().should.be.instanceOf(ExternalApi));
   it('should allow message templates to be searched', () => customer.messageTemplates().should.be.instanceof(MessageTemplatesContext));
   it('should allow a message template to be retrieved', () => customer.messageTemplate().should.be.instanceof(MessageTemplate));
   it('should allow patterns to be searched', () => customer.patterns().should.be.instanceof(PatternsContext));

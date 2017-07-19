@@ -11,12 +11,10 @@ class ExternalApisContext extends PagedContext {
   /**
    * Creates a new route context
    * @param {Client} client Instance of pre-configured client
-   * @param {string} customerCode Customer code
    * @param {Object} params Object of querystring parameters to append to the URL
    */
-  constructor(client, customerCode, params) {
+  constructor(client, params) {
     super(client, { ...params });
-    this.code = customerCode;
   }
 
   /**
@@ -41,7 +39,7 @@ class ExternalApisContext extends PagedContext {
    * @see ExternalApi
    */
   getPage() {
-    return this.page(ExternalApi, `/1/${this.code}/external_apis`);
+    return this.page(ExternalApi, '/1/external_apis');
   }
 }
 

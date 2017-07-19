@@ -2,6 +2,8 @@ import 'isomorphic-fetch';
 import JWT from 'jwt-client';
 import Resource from './Resource';
 import Customer from './Customer';
+import ExternalApi from './ExternalApi';
+import ExternalApisContext from './ExternalApisContext';
 import User from './User';
 import Client from '../Client';
 import { ForbiddenResponse } from '../responses';
@@ -191,6 +193,23 @@ class Track extends Resource {
    */
   customer(code) {
     return this.resource(Customer, code);
+  }
+
+  /**
+   * Gets a context for querying this customer's external APIs
+   * @returns {ExternalApisContext} Context for querying this customer's external APIs
+   */
+  externalApis() {
+    return this.resource(ExternalApisContext);
+  }
+
+  /**
+   * Gets an external API resource by id
+   * @param {Number} id Identity of the external API
+   * @returns {ExternalApi} ExternalApi resource
+   */
+  externalApi(id) {
+    return this.resource(ExternalApi, ExternalApi.makeHref(id));
   }
 
   /**
