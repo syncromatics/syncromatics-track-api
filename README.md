@@ -33,5 +33,3 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for our guide to contributing and cod
 
 [project-page]: http://syncromatics.github.io/syncromatics-track-api
 [track-api-docs]: http://docs.syncromaticstrackapi.apiary.io
-
-
