@@ -77,13 +77,14 @@ class MessageTemplate extends Resource {
 
 
   /**
-   * Updates data for a message templte via the client
-   * @returns {Promise} if successful returns instance of this tag
+   * Updates data for a messageTemplate via the client
+   * @returns {Promise} if successful returns instance of this messageTemplate
    */
   update() {
     // eslint-disable-next-line no-unused-vars
     const { client, hydrated, customerCode, ...body } = this;
-    return this.client.put(`/1/${this.customerCode}/message_templates/${this.id}`, { body })
+    const { href } = MessageTemplate.makeHref(this.customerCode, this.id);
+    return this.client.put(href, { body })
       .then(() => new MessageTemplate(this.client, { ...this }));
   }
 }

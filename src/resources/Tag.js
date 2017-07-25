@@ -66,7 +66,8 @@ class Tag extends Resource {
   update() {
     // eslint-disable-next-line no-unused-vars
     const { client, hydrated, customerCode, ...body } = this;
-    return this.client.put(`/1/${this.customerCode}/tags/${this.id}`, { body })
+    const { href } = Tag.makeHref(this.customerCode, this.id);
+    return this.client.put(href, { body })
       .then(() => new Tag(this.client, { ...this }));
   }
 
