@@ -77,8 +77,8 @@ class MessageTemplate extends Resource {
 
 
   /**
-   * Updates data for a messageTemplate via the client
-   * @returns {Promise} if successful returns instance of this messageTemplate
+   * Updates data for a  message template via the client
+   * @returns {Promise} if successful returns instance of this  message template
    */
   update() {
     // eslint-disable-next-line no-unused-vars
