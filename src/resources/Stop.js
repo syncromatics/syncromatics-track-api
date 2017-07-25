@@ -24,7 +24,7 @@ class Stop extends Resource {
     super(client);
 
     const newProperties = Object.assign({}, ...rest);
-    const hydrated = !Object.keys(newProperties).every(k => k === 'href');
+    const hydrated = !Object.keys(newProperties).every(k => k === 'href' || k === 'code');
 
     Object.assign(this, newProperties, {
       hydrated,
@@ -40,6 +40,7 @@ class Stop extends Resource {
   static makeHref(customerCode, id) {
     return {
       href: `/1/${customerCode}/stops/${id}`,
+      code: customerCode,
     };
   }
 
@@ -52,6 +53,34 @@ class Stop extends Resource {
       .then(response => response.json())
       .then(stop => new Stop(this.client, this, stop));
   }
+
+  /**
+   * Saves data for a stop via the client
+   * @returns {Promise} If successful, returns a stop with the id included
+   */
+  create() {
+    // eslint-disable-next-line no-unused-vars
+    const { client, hydrated, code, ...body } = this;
+    return this.client.post(`/1/${code}/stops`, { body })
+      .then(response => response.headers.get('location'))
+      .then((href) => {
+        const match = /\/\d+\/\S+\/stops\/(\d+)/.exec(href);
+        return new Stop(this.client, { ...this, href, id: parseFloat(match[1]) });
+      });
+  }
+
+  /**
+   * Updates data for a stop via the client
+   * @returns {Promise} If successful, returns instance of this stop
+   */
+  update() {
+    // eslint-disable-next-line no-unused-vars
+    const { client, hydrated, code, ...body } = this;
+    const { href } = Stop.makeHref(code, this.id);
+    return this.client.put(href, { body })
+      .then(() => new Stop(this.client, { ...this }));
+  }
+
 }
 
 export default Stop;

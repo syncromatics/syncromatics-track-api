@@ -46,3 +46,45 @@ describe('When retrieving a stop by ID', () => {
     return stopsPromise;
   });
 });
+
+describe('When creating a stop', () => {
+  const api = new Track({ autoRenew: false });
+
+  beforeEach(() => charlie.setUpSuccessfulMock(api.client));
+  beforeEach(() => mockStops.setUpSuccessfulMock(api.client));
+  beforeEach(() => fetchMock.catch(503));
+  afterEach(fetchMock.restore);
+
+  it('should create a stop', () => {
+    api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
+
+    const stopPromise = api.customer('SYNC').stop({ name: '1st and Main' })
+      .create()
+      .then(stop => stop); // Do things with stop
+
+    return stopPromise;
+  });
+});
+
+describe('When updating a stop', () => {
+  const api = new Track({ autoRenew: false });
+
+  beforeEach(() => charlie.setUpSuccessfulMock(api.client));
+  beforeEach(() => mockStops.setUpSuccessfulMock(api.client));
+  beforeEach(() => fetchMock.catch(503));
+  afterEach(fetchMock.restore);
+
+  it('should update a stop', () => {
+    api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
+
+    const stopPromise = api.customer('SYNC').stop(1)
+      .fetch()
+      .then((stop) => {
+        // eslint-disable-next-line no-param-reassign
+        stop.name = 'First and Main';
+        return stop.update();
+      });
+
+    return stopPromise;
+  });
+});

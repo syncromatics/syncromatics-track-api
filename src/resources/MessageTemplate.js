@@ -61,8 +61,8 @@ class MessageTemplate extends Resource {
   }
 
 /**
- * Creates a new messageTemplate via the client
- * @returns {Promise} If successful, the a hydrated instance of messageTemplate with id
+ * Creates a new message template via the client
+ * @returns {Promise} If successful, the a hydrated instance of message template with id
  */
   create() {
     // eslint-disable-next-line no-unused-vars
@@ -77,13 +77,14 @@ class MessageTemplate extends Resource {
 
 
   /**
-   * Updates data for a message templte via the client
-   * @returns {Promise} if successful returns instance of this tag
+   * Updates data for a  message template via the client
+   * @returns {Promise} if successful returns instance of this  message template
    */
   update() {
     // eslint-disable-next-line no-unused-vars
     const { client, hydrated, customerCode, ...body } = this;
-    return this.client.put(`/1/${this.customerCode}/message_templates/${this.id}`, { body })
+    const { href } = MessageTemplate.makeHref(this.customerCode, this.id);
+    return this.client.put(href, { body })
       .then(() => new MessageTemplate(this.client, { ...this }));
   }
 }
