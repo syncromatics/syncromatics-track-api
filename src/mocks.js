@@ -129,6 +129,7 @@ export const messageTemplates = {
       text: 'Due to the 5k Race, buses will detour off Figueroa from 6pm to 11am on 2/15/17. Find northbound buses on Hope, southbound buses on Flower.',
       start: '2017-02-12T08:00:00-08:00',
       end: '2017-02-15T11:00:00-08:00',
+      manual_archive_date: null,
       sign_messages: [
         {
           id: 1,
