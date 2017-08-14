@@ -13,7 +13,7 @@ describe('When building a query for patterns', () => {
   client.setAuthenticated();
 
   beforeEach(() => fetchMock
-    .get(client.resolve('/1/SYNC/patterns?page=9&perPage=27&q=valid&sort=first_valid asc,second_valid desc'), mockPatterns.list)
+    .get(client.resolve('/1/SYNC/patterns?page=9&perPage=27&q=valid&expand=stops&sort=first_valid asc,second_valid desc'), mockPatterns.list)
     .catch(503));
   afterEach(fetchMock.restore);
 
@@ -24,6 +24,7 @@ describe('When building a query for patterns', () => {
       .withPage(9)
       .withPerPage(27)
       .withQuery('valid')
+      .withExpandedProperty('stops')
       .sortedBy('ignored', 'desc')
       .sortedBy('first_valid')
       .thenBy('second_valid', 'desc')
