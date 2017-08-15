@@ -13,7 +13,7 @@ describe('When building a query for stops', () => {
   client.setAuthenticated();
 
   beforeEach(() => fetchMock
-    .get(client.resolve('/1/SYNC/stops?page=9&perPage=27&q=valid&sort='), mockStops.list)
+    .get(client.resolve('/1/SYNC/stops?page=9&per_page=27&q=valid&sort='), mockStops.list)
     .catch(503));
   afterEach(fetchMock.restore);
 

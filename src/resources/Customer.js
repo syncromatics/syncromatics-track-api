@@ -102,7 +102,8 @@ class Customer extends Resource {
 /**
  * Gets a pattern resource by id
  * @param {Number} id Identity of the pattern
- * @returns {Pattern} Pattern resource */
+ * @returns {Pattern} Pattern resource
+ */
   pattern(id) {
     return this.resource(Pattern, Pattern.makeHref(this.code, id));
   }

@@ -18,16 +18,16 @@ describe('When getting a page of results', () => {
       }))),
     {
       headers: {
-        Link: (page >= 2 ? [] : [`</list?page=${page + 1}&perPage=10>; rel="next"`])
-          .concat(['</list?page=2&perPage=10>; rel="last"']),
+        Link: (page >= 2 ? [] : [`</list?page=${page + 1}&per_page=10>; rel="next"`])
+          .concat(['</list?page=2&per_page=10>; rel="last"']),
       },
     },
   );
 
   beforeEach(() => {
     fetchMock
-      .get(client.resolve('/list?page=1&perPage=10'), successfulListResponse(1))
-      .get(client.resolve('/list?page=2&perPage=10'), successfulListResponse(2))
+      .get(client.resolve('/list?page=1&per_page=10'), successfulListResponse(1))
+      .get(client.resolve('/list?page=2&per_page=10'), successfulListResponse(2))
       .catch(503);
   });
   afterEach(fetchMock.restore);

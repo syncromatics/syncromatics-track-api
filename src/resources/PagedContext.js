@@ -20,7 +20,7 @@ class PagedContext {
     this.client = client;
     this.params = {
       page: 1,
-      perPage: 10,
+      per_page: 10,
       sortFields: [],
       ...params,
     };
@@ -54,7 +54,7 @@ class PagedContext {
    * @returns {PagedContext} Returns itself
    */
   withPerPage(perPage) {
-    this.params.perPage = perPage;
+    this.params.per_page = perPage;
     return this;
   }
 

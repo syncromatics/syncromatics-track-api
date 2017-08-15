@@ -13,7 +13,7 @@ describe('When building a query for vehicles', () => {
   client.setAuthenticated();
 
   beforeEach(() => fetchMock
-    .get(client.resolve('/1/SYNC/vehicles?page=9&perPage=27&q=valid&sort='), mockVehicles.list)
+    .get(client.resolve('/1/SYNC/vehicles?page=9&per_page=27&q=valid&sort='), mockVehicles.list)
     .catch(503));
   afterEach(fetchMock.restore);
 

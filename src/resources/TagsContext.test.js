@@ -13,7 +13,7 @@ describe('When building a query for tags', () => {
   client.setAuthenticated();
 
   beforeEach(() => fetchMock
-    .get(client.resolve('/1/SYNC/tags?page=9&perPage=27&q=valid&sort='), mockTags.list)
+    .get(client.resolve('/1/SYNC/tags?page=9&per_page=27&q=valid&sort='), mockTags.list)
     .catch(503));
   afterEach(fetchMock.restore);
 

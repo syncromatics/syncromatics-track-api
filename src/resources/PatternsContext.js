@@ -22,7 +22,7 @@ class PatternsContext extends PagedContext {
   /**
    * Sets the query term for the context
    * @example
-   * const routes = new PatternsContext(...);
+   * const patterns = new PatternsContext(...);
    * patterns
    *   .withQuery('blue')
    *   .getPage()
@@ -32,6 +32,27 @@ class PatternsContext extends PagedContext {
    */
   withQuery(term) {
     this.params.q = term;
+    return this;
+  }
+
+  /**
+   * Appends an expanded property for the context
+   * @example
+   * const patterns = new PatternsContext(...);
+   * patterns
+   *   .withExpandedProperty('stops')
+   *   .getPage()
+   *   .then(page => ...);
+   * @param {string} propertyName Property to expand the model for
+   * @returns {PatternsContext} Returns itself
+   */
+  withExpandedProperty(propertyName) {
+    this.params.expand = [
+      ...(this.params.expand || '').split(','),
+      propertyName,
+    ]
+      .filter(x => x)
+      .join(',');
     return this;
   }
 
