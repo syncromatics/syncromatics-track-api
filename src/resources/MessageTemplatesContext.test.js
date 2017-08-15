@@ -13,7 +13,7 @@ describe('When building a query for message templates', () => {
   client.setAuthenticated();
 
   beforeEach(() => fetchMock
-    .get(client.resolve('/1/SYNC/message_templates?page=9&perPage=27&q=valid&sort='), mockMessageTemplates.list)
+    .get(client.resolve('/1/SYNC/message_templates?page=9&per_page=27&q=valid&sort='), mockMessageTemplates.list)
     .catch(503));
   afterEach(fetchMock.restore);
 

@@ -13,7 +13,7 @@ describe('When building a query for routes', () => {
   client.setAuthenticated();
 
   beforeEach(() => fetchMock
-    .get(client.resolve('/1/SYNC/routes?page=9&perPage=27&q=valid&sort=first_valid asc,second_valid desc'), mockRoutes.list)
+    .get(client.resolve('/1/SYNC/routes?page=9&per_page=27&q=valid&sort=first_valid asc,second_valid desc'), mockRoutes.list)
     .catch(503));
   afterEach(fetchMock.restore);
 

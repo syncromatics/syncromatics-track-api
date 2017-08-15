@@ -56,7 +56,7 @@ class Page {
      */
     this.params = {
       page: 1,
-      perPage: 10,
+      per_page: 10,
       ...params,
     };
   }

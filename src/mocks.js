@@ -78,13 +78,13 @@ export const externalApis = {
     Client.toBlob(externalApis.list),
       {
         headers: {
-          Link: '</1/external_apis?page=1&perPage=10&q=arr&sort=>; rel="next", </1/external_apis?page=1&perPage=10&q=arr&sort=>; rel="last"',
+          Link: '</1/external_apis?page=1&per_page=10&q=arr&sort=>; rel="next", </1/external_apis?page=1&per_page=10&q=arr&sort=>; rel="last"',
         },
       });
     const singleResponse = () => new Response(Client.toBlob(externalApis.getById(1)));
 
     fetchMock
-      .get(client.resolve('/1/external_apis?page=1&perPage=10&q=arr&sort='), listResponse)
+      .get(client.resolve('/1/external_apis?page=1&per_page=10&q=arr&sort='), listResponse)
       .get(client.resolve('/1/external_apis/1'), singleResponse);
   },
   getById: id => externalApis.list.find(e => e.id === id),
@@ -104,7 +104,7 @@ export const messageTemplates = {
       Client.toBlob(messageTemplates.list),
       {
         headers: {
-          Link: '</1/SYNC/message_templates?page=1&perPage=10&q=5k&sort=>; rel="next", </1/SYNC/message_templates?page=1&perPage=10&q=5k&sort=>; rel="last"',
+          Link: '</1/SYNC/message_templates?page=1&per_page=10&q=5k&sort=>; rel="next", </1/SYNC/message_templates?page=1&per_page=10&q=5k&sort=>; rel="last"',
         },
       });
     const singleResponse = () => new Response(Client.toBlob(messageTemplates.getById(1)));
@@ -115,7 +115,7 @@ export const messageTemplates = {
     });
 
     fetchMock
-      .get(client.resolve('/1/SYNC/message_templates?page=1&perPage=10&q=5k&sort='), listResponse)
+      .get(client.resolve('/1/SYNC/message_templates?page=1&per_page=10&q=5k&sort='), listResponse)
       .get(client.resolve('/1/SYNC/message_templates/1'), singleResponse)
       .post(client.resolve('/1/SYNC/message_templates'), createResponse)
       .put(client.resolve('/1/SYNC/message_templates/1'), createResponse);
@@ -173,13 +173,13 @@ export const routes = {
       Client.toBlob(routes.list),
       {
         headers: {
-          Link: '</1/SYNC/routes?page=1&perPage=10&q=blue&sort=>; rel="next", </1/SYNC/routes?page=1&perPage=10&q=blue&sort=>; rel="last"',
+          Link: '</1/SYNC/routes?page=1&per_page=10&q=blue&sort=>; rel="next", </1/SYNC/routes?page=1&per_page=10&q=blue&sort=>; rel="last"',
         },
       });
     const singleResponse = () => new Response(Client.toBlob(routes.getById(1)));
 
     fetchMock
-      .get(client.resolve('/1/SYNC/routes?page=1&perPage=10&q=blue&sort='), listResponse)
+      .get(client.resolve('/1/SYNC/routes?page=1&per_page=10&q=blue&sort='), listResponse)
       .get(client.resolve('/1/SYNC/routes/1'), singleResponse);
   },
   getById: id => routes.list.find(v => v.id === id),
@@ -211,7 +211,7 @@ export const patterns = {
       }))),
       {
         headers: {
-          Link: '</1/SYNC/patterns?page=1&perPage=10&q=blue&sort=>; rel="next", </1/SYNC/patterns?page=1&perPage=10&q=blue&sort=>; rel="last"',
+          Link: '</1/SYNC/patterns?page=1&per_page=10&q=blue&sort=>; rel="next", </1/SYNC/patterns?page=1&per_page=10&q=blue&sort=>; rel="last"',
         },
       });
     const listResponseWithStops = () => new Response(
@@ -221,14 +221,14 @@ export const patterns = {
       }))),
       {
         headers: {
-          Link: '</1/SYNC/patterns?page=1&perPage=10&q=blue&sort=>; rel="next", </1/SYNC/patterns?page=1&perPage=10&q=blue&sort=>; rel="last"',
+          Link: '</1/SYNC/patterns?page=1&per_page=10&q=blue&sort=>; rel="next", </1/SYNC/patterns?page=1&per_page=10&q=blue&sort=>; rel="last"',
         },
       });
     const singleResponse = () => new Response(Client.toBlob(patterns.getById(1)));
 
     fetchMock
-      .get(client.resolve('/1/SYNC/patterns?page=1&perPage=10&q=blue&sort='), listResponse)
-      .get(client.resolve('/1/SYNC/patterns?page=1&perPage=10&expand=stops&sort='), listResponseWithStops)
+      .get(client.resolve('/1/SYNC/patterns?page=1&per_page=10&q=blue&sort='), listResponse)
+      .get(client.resolve('/1/SYNC/patterns?page=1&per_page=10&expand=stops&sort='), listResponseWithStops)
       .get(client.resolve('/1/SYNC/patterns/1'), singleResponse);
   },
   getById: id => patterns.list
@@ -353,13 +353,13 @@ export const signs = {
       Client.toBlob(signs.list),
       {
         headers: {
-          Link: '</1/SYNC/signs?page=1&perPage=10&q=first&sort=>; rel="next", </1/SYNC/signs?page=1&perPage=10&q=first&sort=>; rel="last"',
+          Link: '</1/SYNC/signs?page=1&per_page=10&q=first&sort=>; rel="next", </1/SYNC/signs?page=1&per_page=10&q=first&sort=>; rel="last"',
         },
       });
     const singleResponse = () => new Response(Client.toBlob(signs.getById(1)));
 
     fetchMock
-      .get(client.resolve('/1/SYNC/signs?page=1&perPage=10&q=first&sort='), listResponse)
+      .get(client.resolve('/1/SYNC/signs?page=1&per_page=10&q=first&sort='), listResponse)
       .get(client.resolve('/1/SYNC/signs/1'), singleResponse);
   },
   getById: id => signs.list.find(v => v.id === id),
@@ -379,7 +379,7 @@ export const stops = {
       Client.toBlob(stops.list),
       {
         headers: {
-          Link: '</1/SYNC/stops?page=1&perPage=10&q=1st&sort=>; rel="next", </1/SYNC/stops?page=1&perPage=10&q=1st&sort=>; rel="last"',
+          Link: '</1/SYNC/stops?page=1&per_page=10&q=1st&sort=>; rel="next", </1/SYNC/stops?page=1&per_page=10&q=1st&sort=>; rel="last"',
         },
       });
     const singleResponse = () => new Response(Client.toBlob(stops.getById(1)));
@@ -395,7 +395,7 @@ export const stops = {
     });
 
     fetchMock
-      .get(client.resolve('/1/SYNC/stops?page=1&perPage=10&q=1st&sort='), listResponse)
+      .get(client.resolve('/1/SYNC/stops?page=1&per_page=10&q=1st&sort='), listResponse)
       .get(client.resolve('/1/SYNC/stops/1'), singleResponse)
       .post(client.resolve('/1/SYNC/stops'), postResponse)
       .put(client.resolve('/1/SYNC/stops/1'), putResponse);
@@ -418,7 +418,7 @@ export const tags = {
       Client.toBlob(tags.list),
       {
         headers: {
-          Link: '</1/SYNC/tags?page=1&perPage=10&q=LA&sort=>; rel="next", </1/SYNC/tags?page=1&perPage=10&q=LA&sort=>; rel="last"',
+          Link: '</1/SYNC/tags?page=1&per_page=10&q=LA&sort=>; rel="next", </1/SYNC/tags?page=1&per_page=10&q=LA&sort=>; rel="last"',
         },
       });
     const singleResponse = () => new Response(Client.toBlob(tags.getById(3)));
@@ -434,7 +434,7 @@ export const tags = {
     });
 
     fetchMock
-      .get(client.resolve('/1/SYNC/tags?page=1&perPage=10&q=LA&sort='), listResponse)
+      .get(client.resolve('/1/SYNC/tags?page=1&per_page=10&q=LA&sort='), listResponse)
       .get(client.resolve('/1/SYNC/tags/3'), singleResponse)
       .post(client.resolve('/1/SYNC/tags'), postResponse)
       .put(client.resolve('/1/SYNC/tags/3'), putResponse);
@@ -456,13 +456,13 @@ export const users = {
       Client.toBlob(users.list),
       {
         headers: {
-          Link: '</1/users?page=1&perPage=10&q=1st&sort=>; rel="next", </1/users?page=1&perPage=10&q=1st&sort=>; rel="last"',
+          Link: '</1/users?page=1&per_page=10&q=1st&sort=>; rel="next", </1/users?page=1&per_page=10&q=1st&sort=>; rel="last"',
         },
       });
     const singleResponse = () => new Response(Client.toBlob(users.getById(1)));
 
     fetchMock
-      .get(client.resolve('/1/users?page=1&perPage=10&q=1st&sort='), listResponse)
+      .get(client.resolve('/1/users?page=1&per_page=10&q=1st&sort='), listResponse)
       .get(client.resolve('/1/users/1'), singleResponse)
       .get(client.resolve('/1/users/me'), singleResponse);
   },
@@ -486,13 +486,13 @@ export const vehicles = {
       Client.toBlob(vehicles.list),
       {
         headers: {
-          Link: '</1/SYNC/vehicles?page=1&perPage=10&q=12&sort=>; rel="next", </1/SYNC/vehicles?page=1&perPage=10&q=12&sort=>; rel="last"',
+          Link: '</1/SYNC/vehicles?page=1&per_page=10&q=12&sort=>; rel="next", </1/SYNC/vehicles?page=1&per_page=10&q=12&sort=>; rel="last"',
         },
       });
     const singleResponse = () => new Response(Client.toBlob(vehicles.getById(1)));
 
     fetchMock
-      .get(client.resolve('/1/SYNC/vehicles?page=1&perPage=10&q=12&sort='), listResponse)
+      .get(client.resolve('/1/SYNC/vehicles?page=1&per_page=10&q=12&sort='), listResponse)
       .get(client.resolve('/1/SYNC/vehicles/1'), singleResponse);
   },
   getById: id => vehicles.list.find(v => v.id === id),
