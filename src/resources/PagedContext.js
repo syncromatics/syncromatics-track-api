@@ -9,7 +9,7 @@ class PagedContext {
    * @param {Client} client Instance of pre-configured client
    * @param {Object} [params] Object of querystring parameters to append to the URL
    * @param {Number} [params.page=1] Number of the page to request
-   * @param {Number} [params.perPage=10] Number of items per page to request
+   * @param {Number} [params.per_page=10] Number of items per page to request
    * @param {Object[]} [params.sortFields] Array of sort fields to sort the results by
    * @param {string} params.sortFields[].field String representing the field to sort by.
    *  Fields are specified in dotted property notation.
