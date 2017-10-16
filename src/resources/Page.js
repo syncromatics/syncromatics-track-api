@@ -17,7 +17,7 @@ class Page {
    * @param {string} uri URI of the page of results to request
    * @param {Object} params Object of querystring parameters to append to the URL
    * @param {Number} [params.page=1] Number of the page to request
-   * @param {Number} [params.perPage=10] Number of items per page to request
+   * @param {Number} [params.per_page=10] Number of items per page to request
    */
   constructor(client, selector, uri, params) {
     /**
