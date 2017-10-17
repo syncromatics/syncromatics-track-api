@@ -6,6 +6,7 @@ import ExternalApi from './ExternalApi';
 import ExternalApisContext from './ExternalApisContext';
 import User from './User';
 import Client from '../Client';
+import RealTimeClient from '../RealTimeClient';
 import { ForbiddenResponse } from '../responses';
 
 /**
@@ -27,7 +28,10 @@ class Track extends Resource {
    * @param {onAutoRenew} [options.onAutoRenew] Callback called when auto-renew takes place
    */
   constructor(options) {
-    super(new Client(options));
+    const client = new Client(options);
+    super(client);
+
+    this.realTimeClient = new RealTimeClient(client, options);
     this.options = {
       autoRenew: true,
       autoRenewMinutesBeforeExpiration: 5,
@@ -192,7 +196,7 @@ class Track extends Resource {
    * @returns {Customer} Customer resource
    */
   customer(code) {
-    return this.resource(Customer, code);
+    return this.resource(Customer, this.realTimeClient, code);
   }
 
   /**
