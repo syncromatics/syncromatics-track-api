@@ -21,6 +21,7 @@ export const SUBSCRIPTION_END = {
 /**
  * Creates a Track Real Time API control message for authenticating a connection.
  * @param {string} jwt A pre-authenticated JSON Web Token for authorizing this connection.
+ * @returns {Object} The created authentication request message.
  */
 const createAuthRequest = jwt => ({
   type: AUTHENTICATION.REQUEST,
@@ -33,7 +34,7 @@ const createAuthRequest = jwt => ({
  * @param {string} entity The entity for which the subscription should be created.
  * @param {*} customerCode Customer Code for which the subscription should be created.
  * @param {Object.<string, Href>} filters A map that maps filter attribute names to arrays of hrefs.
- * @returns {Object} The created message.
+ * @returns {Object} The created subscription request message.
  */
 const createSubscriptionRequest = (entity, customerCode, filters = {}) => {
   requestId += 1;
