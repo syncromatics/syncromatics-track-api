@@ -9,6 +9,7 @@ chai.use(chaiAsPromised);
 
 describe('When creating a subscription for Stop Times', () => {
   const entity = 'STOPTIMES';
+  const customerCode = 'SYNC';
   const emptyFilters = {
     stops: [],
     trips: [],
@@ -18,7 +19,7 @@ describe('When creating a subscription for Stop Times', () => {
   it('can add filters for a single vehicle', () => {
     const server = mock.getServer();
     const realTimeClient = new RealTimeClient(mock.authenticatedClient, mock.options);
-    const subject = new StopTimesRealTimeContext(realTimeClient);
+    const subject = new StopTimesRealTimeContext(realTimeClient, customerCode);
 
     const vehicleHref = '123';
     const expectedFilters = {
@@ -35,7 +36,7 @@ describe('When creating a subscription for Stop Times', () => {
   it('can add filters for an array of vehicles', () => {
     const server = mock.getServer();
     const realTimeClient = new RealTimeClient(mock.authenticatedClient, mock.options);
-    const subject = new StopTimesRealTimeContext(realTimeClient);
+    const subject = new StopTimesRealTimeContext(realTimeClient, customerCode);
 
     const vehicleHrefs = ['123', '456', '489'];
     const expectedFilters = {
@@ -53,7 +54,7 @@ describe('When creating a subscription for Stop Times', () => {
   it('can add filters for a single trip', () => {
     const server = mock.getServer();
     const realTimeClient = new RealTimeClient(mock.authenticatedClient, mock.options);
-    const subject = new StopTimesRealTimeContext(realTimeClient);
+    const subject = new StopTimesRealTimeContext(realTimeClient, customerCode);
 
     const trip = '123';
     const expectedFilters = {
@@ -70,7 +71,7 @@ describe('When creating a subscription for Stop Times', () => {
   it('can add filters for an array of trips', () => {
     const server = mock.getServer();
     const realTimeClient = new RealTimeClient(mock.authenticatedClient, mock.options);
-    const subject = new StopTimesRealTimeContext(realTimeClient);
+    const subject = new StopTimesRealTimeContext(realTimeClient, customerCode);
 
     const trips = ['123', '456', '489'];
     const expectedFilters = {
@@ -88,7 +89,7 @@ describe('When creating a subscription for Stop Times', () => {
   it('can add filters for a single stop', () => {
     const server = mock.getServer();
     const realTimeClient = new RealTimeClient(mock.authenticatedClient, mock.options);
-    const subject = new StopTimesRealTimeContext(realTimeClient);
+    const subject = new StopTimesRealTimeContext(realTimeClient, customerCode);
 
     const stop = '123';
     const expectedFilters = {
@@ -105,7 +106,7 @@ describe('When creating a subscription for Stop Times', () => {
   it('can add filters for an array of stops', () => {
     const server = mock.getServer();
     const realTimeClient = new RealTimeClient(mock.authenticatedClient, mock.options);
-    const subject = new StopTimesRealTimeContext(realTimeClient);
+    const subject = new StopTimesRealTimeContext(realTimeClient, customerCode);
 
     const stops = ['123', '456', '489'];
     const expectedFilters = {
@@ -123,7 +124,7 @@ describe('When creating a subscription for Stop Times', () => {
   it('can add filters for a single stop and multiple vehicles', () => {
     const server = mock.getServer();
     const realTimeClient = new RealTimeClient(mock.authenticatedClient, mock.options);
-    const subject = new StopTimesRealTimeContext(realTimeClient);
+    const subject = new StopTimesRealTimeContext(realTimeClient, customerCode);
 
     const stop = 'abc';
     const vehicles = ['123', '456', '489'];

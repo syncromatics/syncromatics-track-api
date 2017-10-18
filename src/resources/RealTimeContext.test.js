@@ -6,6 +6,7 @@ chai.should();
 chai.use(chaiAsPromised);
 
 const mockClient = { startSubscription: () => {} };
+const customerCode = 'SYNC';
 const someEntity = 'entity';
 
 describe('When resolving hrefs', () => {
@@ -31,7 +32,7 @@ describe('When resolving hrefs', () => {
 
 describe('When asserting a subscription has not started', () => {
   it('should throw an error if a subscription has been started', () => {
-    const subject = new RealTimeContext(mockClient, someEntity);
+    const subject = new RealTimeContext(mockClient, someEntity, customerCode);
     subject.on('update', () => {});
 
     const attempt = () => subject.assertSubscriptionNotStarted();
@@ -39,7 +40,7 @@ describe('When asserting a subscription has not started', () => {
   });
 
   it('should not throw an error if no subscription has been started', () => {
-    const subject = new RealTimeContext(mockClient, someEntity);
+    const subject = new RealTimeContext(mockClient, someEntity, customerCode);
 
     const attempt = () => subject.assertSubscriptionNotStarted();
     attempt.should.not.throw(Error);
@@ -48,19 +49,19 @@ describe('When asserting a subscription has not started', () => {
 
 describe('When adding a subscription', () => {
   it('should accept subscriptions to update events', () => {
-    const subject = new RealTimeContext(mockClient, someEntity);
+    const subject = new RealTimeContext(mockClient, someEntity, customerCode);
     const attempt = () => subject.on('update', () => {});
     attempt.should.not.throw(Error);
   });
 
   it('should accept subscriptions to delete events', () => {
-    const subject = new RealTimeContext(mockClient, someEntity);
+    const subject = new RealTimeContext(mockClient, someEntity, customerCode);
     const attempt = () => subject.on('delete', () => {});
     attempt.should.not.throw(Error);
   });
 
   it('should not accept subscriptions to other events', () => {
-    const subject = new RealTimeContext(mockClient, someEntity);
+    const subject = new RealTimeContext(mockClient, someEntity, customerCode);
     const attempt = () => subject.on('other', () => {});
     attempt.should.throw(Error);
   });

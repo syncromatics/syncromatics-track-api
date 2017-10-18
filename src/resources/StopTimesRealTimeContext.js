@@ -7,10 +7,11 @@ class StopTimesRealTimeContext extends RealTimeContext {
   /**
    * Creates a context that can subscribe to Stop Time updates.
    * @param {RealTimeClient} realTimeClient Pre-configured instance of RealTimeClient.
+   * @param {string} customerCode The customer code to query for updates.
    */
-  constructor(realTimeClient) {
+  constructor(realTimeClient, customerCode) {
     const entityName = 'STOPTIMES';
-    super(realTimeClient, entityName);
+    super(realTimeClient, entityName, customerCode);
     this.filters = {
       stops: [],
       trips: [],

@@ -7,10 +7,11 @@ class AssignmentsRealTimeContext extends RealTimeContext {
   /**
    * Creates a context that can subscribe to Assignment updates.
    * @param {RealTimeClient} realTimeClient Pre-configured instance of RealTimeClient.
+   * @param {string} customerCode The customer code to query for updates.
    */
-  constructor(realTimeClient) {
+  constructor(realTimeClient, customerCode) {
     const entityName = 'ASSIGNMENTS';
-    super(realTimeClient, entityName);
+    super(realTimeClient, entityName, customerCode);
     this.filters = {
       vehicles: [],
     };

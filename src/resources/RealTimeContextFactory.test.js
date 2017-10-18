@@ -8,9 +8,10 @@ chai.should();
 chai.use(chaiAsPromised);
 
 describe('When creating a RealTimeContext', () => {
+  const customerCode = 'SYNC';
   const client = new Client();
   const realTimeClient = new RealTimeClient(client);
-  const factory = new RealTimeContextFactory(realTimeClient);
+  const factory = new RealTimeContextFactory(realTimeClient, customerCode);
 
   it('should reuse its RealTimeClient when creating an AssignmentsRealTimeContext', () => {
     const result = factory.assignments();

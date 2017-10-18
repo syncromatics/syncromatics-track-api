@@ -45,7 +45,7 @@ class Customer extends Resource {
    * @returns {RealTimeContext} Context for receiving realtime updates for this customer's data.
    */
   realTime() {
-    return new RealTimeContextFactory(this.realTimeClient);
+    return new RealTimeContextFactory(this.realTimeClient, this.code);
   }
 
   /**

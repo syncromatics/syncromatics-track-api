@@ -9,11 +9,12 @@ chai.use(chaiAsPromised);
 
 describe('When creating a subscription for Assignments', () => {
   const entity = 'ASSIGNMENTS';
+  const customerCode = 'SYNC';
 
   it('can add filters for a single vehicle', () => {
     const server = mock.getServer();
     const realTimeClient = new RealTimeClient(mock.authenticatedClient, mock.options);
-    const subject = new AssignmentsRealTimeContext(realTimeClient);
+    const subject = new AssignmentsRealTimeContext(realTimeClient, customerCode);
 
     const vehicleHref = '123';
     const expectedFilters = { vehicles: [vehicleHref] };
@@ -27,7 +28,7 @@ describe('When creating a subscription for Assignments', () => {
   it('can add filters for multiple vehicles', () => {
     const server = mock.getServer();
     const realTimeClient = new RealTimeClient(mock.authenticatedClient, mock.options);
-    const subject = new AssignmentsRealTimeContext(realTimeClient);
+    const subject = new AssignmentsRealTimeContext(realTimeClient, customerCode);
 
     const vehicleHrefs = ['123', '456', '489'];
     const expectedFilters = { vehicles: vehicleHrefs };

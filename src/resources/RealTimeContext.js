@@ -6,17 +6,22 @@ class RealTimeContext {
    * Creates a real time context that can be used to generate subscriptions.
    * @param {RealTimeClient} realTimeClient Pre-configured instance of RealTimeClient.
    * @param {string} entityName The entity name that Track Real Time API expects for subscriptions
+   * @param {string} customerCode The customer code to query for updates.
    * to the resource
    */
-  constructor(realTimeClient, entityName) {
+  constructor(realTimeClient, entityName, customerCode) {
     if (!realTimeClient) {
       throw new Error('Argument realTimeClient is missing.');
     }
     if (!entityName) {
       throw new Error('Argument entityName is missing.');
     }
+    if (!customerCode) {
+      throw new Error('Argument customerCode is missing.');
+    }
     this.realTimeClient = realTimeClient;
     this.entityName = entityName;
+    this.customerCode = customerCode;
     this.hasStartedSubscription = false;
     this.filters = {};
 
@@ -60,7 +65,7 @@ class RealTimeContext {
     this.hasStartedSubscription = true;
     return this.realTimeClient.startSubscription(
       this.entityName,
-      'CODE',
+      this.customerCode,
       this.filters,
       this.handleEvent);
   }

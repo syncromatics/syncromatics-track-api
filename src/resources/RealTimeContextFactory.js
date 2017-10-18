@@ -11,12 +11,17 @@ class RealTimeContextFactory {
    * Creates a new RealTimeContextFactory that can be used to create entity-specific
    * RealTimeContexts.
    * @param {RealTimeClient} realTimeClient A pre-configured instance of RealTimeClient.
+   * @param {string} customerCode The customer code for this real-time context.
    */
-  constructor(realTimeClient) {
+  constructor(realTimeClient, customerCode) {
     if (!realTimeClient) {
       throw new Error('Argument realTimeClient is missing');
     }
+    if (!customerCode) {
+      throw new Error('Argument customerCode is missing');
+    }
     this.realTimeClient = realTimeClient;
+    this.customerCode = customerCode;
   }
 
   /**
@@ -24,7 +29,7 @@ class RealTimeContextFactory {
    * @returns {AssignmentsRealTimeContext} The newly created context.
    */
   assignments() {
-    return new AssignmentsRealTimeContext(this.realTimeClient);
+    return new AssignmentsRealTimeContext(this.realTimeClient, this.customerCode);
   }
 
   /**
@@ -32,7 +37,7 @@ class RealTimeContextFactory {
    * @returns {StopTimesRealTimeContext} The newly created context.
    */
   stopTimes() {
-    return new StopTimesRealTimeContext(this.realTimeClient);
+    return new StopTimesRealTimeContext(this.realTimeClient, this.customerCode);
   }
 }
 
