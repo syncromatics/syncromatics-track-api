@@ -2,6 +2,7 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import Client from '../Client';
 import Customer from './Customer';
+import RealTimeClient from '../RealTimeClient';
 import ExternalApi from './ExternalApi';
 import ExternalApisContext from './ExternalApisContext';
 import MessageTemplate from './MessageTemplate';
@@ -24,10 +25,11 @@ chai.use(chaiAsPromised);
 
 describe('When getting resources related to a customer', () => {
   const client = new Client();
-  const customer = new Customer(client, 'SYNC');
+  const realTimeClient = new RealTimeClient(client);
+  const customer = new Customer(client, realTimeClient, 'SYNC');
 
   it('should allow external apis to be searched', () => customer.externalApis().should.be.instanceOf(ExternalApisContext));
-  it('should allo an external api to be retrieved', () => customer.externalApi().should.be.instanceOf(ExternalApi));
+  it('should allow an external api to be retrieved', () => customer.externalApi().should.be.instanceOf(ExternalApi));
   it('should allow message templates to be searched', () => customer.messageTemplates().should.be.instanceof(MessageTemplatesContext));
   it('should allow a message template to be retrieved', () => customer.messageTemplate().should.be.instanceof(MessageTemplate));
   it('should allow patterns to be searched', () => customer.patterns().should.be.instanceof(PatternsContext));
@@ -42,4 +44,18 @@ describe('When getting resources related to a customer', () => {
   it('should allow a tag to be retrieved', () => customer.tag().should.be.instanceof(Tag));
   it('should allow vehicles to be searched', () => customer.vehicles().should.be.instanceof(VehiclesContext));
   it('should allow a vehicle to be retrieved', () => customer.vehicle().should.be.instanceof(Vehicle));
+});
+
+describe('When accessing a realTimeContext', () => {
+  const client = new Client();
+  const realTimeClient = new RealTimeClient(client);
+  const customer = new Customer(client, realTimeClient, 'SYNC');
+
+  it('should reuse its RealTimeClient', () => {
+    const realTimeClient1 = customer.realTime().realTimeClient;
+    const realTimeClient2 = customer.realTime().realTimeClient;
+    const realTimeClient3 = customer.realTime().realTimeClient;
+    realTimeClient1.should.equal(realTimeClient2);
+    realTimeClient1.should.equal(realTimeClient3);
+  });
 });

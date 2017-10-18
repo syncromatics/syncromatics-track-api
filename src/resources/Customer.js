@@ -1,3 +1,4 @@
+import RealTimeContextFactory from './RealTimeContextFactory';
 import Resource from './Resource';
 import ExternalApi from './ExternalApi';
 import ExternalApisContext from './ExternalApisContext';
@@ -25,16 +26,26 @@ class Customer extends Resource {
   /**
    * Creates a new resource
    * @param {Client} client Instance of pre-configured client
+   * @param {RealTimeClient} realTimeClient Instance of pre-configured realtime client
    * @param {string} customerCode Customer code
    */
-  constructor(client, customerCode) {
+  constructor(client, realTimeClient, customerCode) {
     super(client);
+    this.realTimeClient = realTimeClient;
 
     /**
      * Customer code
      * @instance
      */
     this.code = customerCode;
+  }
+
+  /**
+   * Gets a context for receiving realtime updates for this customer's data.
+   * @returns {RealTimeContext} Context for receiving realtime updates for this customer's data.
+   */
+  realTime() {
+    return new RealTimeContextFactory(this.realTimeClient, this.code);
   }
 
   /**

@@ -12,6 +12,8 @@ class Client {
    * Creates a new client
    * @param {Object} options Options for using the client to connect to the Track API
    * @param {string} [options.baseUri] The base URI for the Track API. Defaults to production.
+   * @param {string} [options.realTimeUri] The URI for the WebSocket connection to the RealTime API.
+   * Defaults to production.
    */
   constructor(options = {}) {
     this.options = {
