@@ -25,7 +25,7 @@ export const SUBSCRIPTION_END = {
  */
 const createAuthRequest = jwt => ({
   type: AUTHENTICATION.REQUEST,
-  request_id: 'authRequest',
+  request_id: requestId++, // eslint-disable-line no-plusplus
   token: jwt,
 });
 
@@ -36,16 +36,13 @@ const createAuthRequest = jwt => ({
  * @param {Object.<string, Href>} filters A map that maps filter attribute names to arrays of hrefs.
  * @returns {Object} The created subscription request message.
  */
-const createSubscriptionRequest = (entity, customerCode, filters = {}) => {
-  requestId += 1;
-  return {
-    type: SUBSCRIPTION_START.REQUEST,
-    request_id: requestId,
-    customer: customerCode,
-    entity,
-    ...filters,
-  };
-};
+const createSubscriptionRequest = (entity, customerCode, filters = {}) => ({
+  type: SUBSCRIPTION_START.REQUEST,
+  request_id: requestId++, // eslint-disable-line no-plusplus
+  customer: customerCode,
+  entity,
+  ...filters,
+});
 
 export const creators = {
   createAuthRequest,

@@ -58,7 +58,7 @@ class RealTimeContext {
     }
 
     this.hasStartedSubscription = true;
-    this.realTimeClient.startSubscription(
+    return this.realTimeClient.startSubscription(
       this.entityName,
       'CODE',
       this.filters,
@@ -66,7 +66,8 @@ class RealTimeContext {
   }
 
   /**
-   * Intended to be used for handlign subscription events.
+   * Intended to be used for handling subscription events.
+   * Will be implemented in an upcoming user story.
    * @returns {void}
    */
   handleEvent() { // eslint-disable-line class-methods-use-this
@@ -80,7 +81,13 @@ class RealTimeContext {
    * passed in.
    */
   static resolveHref(resource) {
-    return (typeof resource.href === 'string') ? resource.href : resource;
+    if (typeof resource.href === 'string') {
+      return resource.href;
+    }
+    if (typeof resource === 'string') {
+      return resource;
+    }
+    throw new Error('resolveHref requires you to pass either a string or Resource object.');
   }
 }
 

@@ -38,6 +38,7 @@ class RealTimeClient {
     this.queuedMessages = [];
 
     // TODO: these will (probably) be used when implementing subscriptions
+    // in an upcoming story.
     this.subscriptions = [];
     this.openRequests = {};
 
@@ -49,6 +50,18 @@ class RealTimeClient {
     this.sendMessage = this.sendMessage.bind(this);
   }
 
+  /**
+   * Closes the open realtime connection (if applicable) while temporarily disabling the reconnect.
+   * @returns {void}
+   */
+  closeConnection() {
+    const { reconnectOnClose } = this.options;
+    this.options.reconnectOnClose = false;
+    if (this.connection && typeof this.connection.close === 'function') {
+      this.connection.close();
+    }
+    this.options.reconnectOnClose = reconnectOnClose;
+  }
 
   /**
    * Creates a new WebSocket connection to the Track Real Time API and sends authentication
@@ -86,7 +99,8 @@ class RealTimeClient {
     this.sendAuthentication()
       .then(() => {
         this.queuedMessages.forEach((queuedMessage) => {
-          this.connection.send(queuedMessage);
+          this.connection.send(queuedMessage.serialized);
+          queuedMessage.resolver();
         });
         this.queuedMessages.length = 0;
       });
@@ -138,19 +152,25 @@ class RealTimeClient {
    * Serializes a JSON message and queues it to send to the Track Real Time API when the connection
    * is opened.  Opens a connection if one is not opened already.
    * @param {Object} message The message to send.
-   * @returns {void}
+   * @returns {Promise} A promise that is resolved when the message has been sent.
    */
   sendMessage(message) {
     const serialized = JSON.stringify(message);
     if (this.connection.readyState === WEBSOCKET_READY_STATES.OPEN) {
       this.connection.send(serialized);
-      return;
+      return Promise.resolve();
     }
 
-    this.queuedMessages.push(serialized);
+    let resolver;
+    const messagePromise = new Promise((resolve) => { resolver = resolve; });
+    this.queuedMessages.push({
+      resolver,
+      serialized,
+    });
     if (this.connection.readyState !== WEBSOCKET_READY_STATES.CONNECTING) {
       this.createConnection();
     }
+    return messagePromise;
   }
 
   /**
@@ -160,14 +180,15 @@ class RealTimeClient {
    * @param {Object} filters Filters to be passed for the created subscription.
    * @param {function} handlerFunc The function to fire when updates are received for this
    * subscription.
-   * @returns {void}
+   * @returns {Promise} A promise that resolves when the subscription request has been sent.
    */
   startSubscription(entity, customerCode, filters, handlerFunc) {
     // TODO: these subscriptions don't actually work yet.  Still need to correlate subscription
     // success messages received from the server with our request IDs and handle appropriately.
+    // subscriptions will be implemented in an upcoming story.
     const message = messages.creators.createSubscriptionRequest(entity, customerCode, filters);
     this.openRequests[message.request_id] = handlerFunc;
-    this.sendMessage(message);
+    return this.sendMessage(message);
   }
 }
 
