@@ -148,10 +148,15 @@ describe('When unauthenticating with the Track API client', () => {
   });
 
   it('should stop auto renewal', () => {
+    let callsAsOfAfterLoggingOutResolver;
+    const callsAsOfAfterLoggingOut =
+      new Promise((resolve) => { callsAsOfAfterLoggingOutResolver = resolve; });
     const callsAsOfBeforeLoggingOut = api.logIn({ username: charlie.payload.sub, password: 'whatever' })
-      .then(() => resolveAt(() => api.logOut(), 500))
+      .then(() => resolveAt(() => {
+        api.logOut();
+        setTimeout(() => callsAsOfAfterLoggingOutResolver(fetchMock.calls().matched.length), 1000);
+      }, 500))
       .then(() => fetchMock.calls().matched.length);
-    const callsAsOfAfterLoggingOut = resolveAt(() => fetchMock.calls().matched.length, 1000);
     return Promise.all([
       callsAsOfBeforeLoggingOut.should.eventually.be.above(1),
       Promise.all([callsAsOfBeforeLoggingOut, callsAsOfAfterLoggingOut])
