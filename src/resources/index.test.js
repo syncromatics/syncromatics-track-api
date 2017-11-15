@@ -148,21 +148,19 @@ describe('When unauthenticating with the Track API client', () => {
   });
 
   it('should stop auto renewal', () => {
-    let callsAsOfAfterLoggingOutResolver;
-    const callsAsOfAfterLoggingOut =
-      new Promise((resolve) => { callsAsOfAfterLoggingOutResolver = resolve; });
-    const callsAsOfBeforeLoggingOut = api.logIn({ username: charlie.payload.sub, password: 'whatever' })
+    let callsRightAfterLoggingOut;
+    let callsSomeTimeAfterLoggingOut;
+    const comparePromise = api.logIn({ username: charlie.payload.sub, password: 'whatever' })
       .then(() => resolveAt(() => {
         api.logOut();
-        setTimeout(() => callsAsOfAfterLoggingOutResolver(fetchMock.calls().matched.length), 1000);
+        callsRightAfterLoggingOut = fetchMock.calls().matched.length;
       }, 500))
-      .then(() => fetchMock.calls().matched.length);
-    return Promise.all([
-      callsAsOfBeforeLoggingOut.should.eventually.be.above(1),
-      Promise.all([callsAsOfBeforeLoggingOut, callsAsOfAfterLoggingOut])
-        .then(([callsAsOfBefore, callsAsOfAfter]) => callsAsOfAfter - callsAsOfBefore)
-        .should.eventually.equal(0),
-    ]);
+      .then(() => resolveAt(() => {
+        callsSomeTimeAfterLoggingOut = fetchMock.calls().matched.length;
+      }, 1000))
+      .then(() => (callsRightAfterLoggingOut - callsSomeTimeAfterLoggingOut));
+    comparePromise.should.eventually.equal(0);
+    return comparePromise.should.be.fulfilled;
   });
 });
 
