@@ -1,5 +1,6 @@
 import RealTimeContextFactory from './RealTimeContextFactory';
 import Resource from './Resource';
+import Agency from './Agency';
 import ExternalApi from './ExternalApi';
 import ExternalApisContext from './ExternalApisContext';
 import MessageTemplate from './MessageTemplate';
@@ -46,6 +47,15 @@ class Customer extends Resource {
    */
   realTime() {
     return new RealTimeContextFactory(this.realTimeClient, this.code);
+  }
+
+  /**
+   * Gets the single agency record associated with this customer
+   * @param {Object} [payload={}] Optional values with which to initialize this agency.
+   * @returns {Agency} Agency resource
+   */
+  agency(payload = {}) {
+    return this.resource(Agency, Agency.makeHref(this.code), payload);
   }
 
   /**

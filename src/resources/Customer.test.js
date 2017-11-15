@@ -3,6 +3,7 @@ import chaiAsPromised from 'chai-as-promised';
 import Client from '../Client';
 import Customer from './Customer';
 import RealTimeClient from '../RealTimeClient';
+import Agency from './Agency';
 import ExternalApi from './ExternalApi';
 import ExternalApisContext from './ExternalApisContext';
 import MessageTemplate from './MessageTemplate';
@@ -28,6 +29,7 @@ describe('When getting resources related to a customer', () => {
   const realTimeClient = new RealTimeClient(client);
   const customer = new Customer(client, realTimeClient, 'SYNC');
 
+  it('should allow the agency record to be retrieved', () => customer.agency().should.be.instanceOf(Agency));
   it('should allow external apis to be searched', () => customer.externalApis().should.be.instanceOf(ExternalApisContext));
   it('should allow an external api to be retrieved', () => customer.externalApi().should.be.instanceOf(ExternalApi));
   it('should allow message templates to be searched', () => customer.messageTemplates().should.be.instanceof(MessageTemplatesContext));
