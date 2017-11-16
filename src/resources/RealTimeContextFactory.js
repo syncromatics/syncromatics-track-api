@@ -1,5 +1,6 @@
 import AssignmentsRealTimeContext from './AssignmentsRealTimeContext';
 import StopTimesRealTimeContext from './StopTimesRealTimeContext';
+import VehiclesRealTimeContext from './VehiclesRealTimeContext';
 
 /**
  * A factory for creating entity-specific Real Time Contexts for a given Real Time Client.
@@ -38,6 +39,14 @@ class RealTimeContextFactory {
    */
   stopTimes() {
     return new StopTimesRealTimeContext(this.realTimeClient, this.customerCode);
+  }
+
+  /**
+   * Creates a RealTimeContext for querying Vehicle updates.
+   * @returns {VehiclesRealTimeContext} The newly created context.
+   */
+  vehicles() {
+    return new VehiclesRealTimeContext(this.realTimeClient, this.customerCode);
   }
 }
 
