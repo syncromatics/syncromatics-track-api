@@ -22,4 +22,9 @@ describe('When creating a RealTimeContext', () => {
     const result = factory.stopTimes();
     result.realTimeClient.should.equal(realTimeClient);
   });
+
+  it('should reuse its RealTimeClient when creating a VehiclesRealTimeContext', () => {
+    const result = factory.vehicles();
+    result.realTimeClient.should.equal(realTimeClient);
+  });
 });

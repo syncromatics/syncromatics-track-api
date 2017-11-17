@@ -606,7 +606,9 @@ export const realTime = {
       const promise = new Promise((resolve) => { resolver = resolve; });
       server.onTrackMessage(messages.SUBSCRIPTION_START.REQUEST, (data) => {
         if (data.entity === entityName) {
+          // eslint-disable-next-line no-unused-vars
           const { type, customer, entity, request_id, ...rest } = data;
+
           if (options.closeConnection) {
             // it's important to close the realtime client before the server,
             // otherwise the client will attempt to reconnect.
