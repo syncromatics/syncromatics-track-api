@@ -1,5 +1,6 @@
 import JWT from 'jwt-client';
 import * as messages from './subscriptions/messages';
+import { DEFAULT_TRACK_API_HOST } from './Client';
 
 const WEBSOCKET_READY_STATES = {
   CONNECTING: 0,
@@ -26,8 +27,16 @@ class RealTimeClient {
       throw new Error('Argument "client" is not specified');
     }
     this.client = client;
+    const { baseUri } = options;
+    const baseRealTimeUri = baseUri ?
+      baseUri
+      .replace(/^http(s?):\/\//, 'ws$1://') // Change https? to wss?
+      .replace(/$\/+/, '') // Trim trailing slashes
+      :
+      `wss://${DEFAULT_TRACK_API_HOST}`;
+    const realTimeUri = `${baseRealTimeUri}/1/realtime`;
     this.options = {
-      realTimeUri: 'wss://track-api.syncromatics.com/1/realtime',
+      realTimeUri,
       reconnectOnClose: true,
       ...options,
     };
@@ -37,9 +46,7 @@ class RealTimeClient {
 
     this.queuedMessages = [];
 
-    // TODO: these will (probably) be used when implementing subscriptions
-    // in an upcoming story.
-    this.subscriptions = [];
+    this.subscriptions = {};
     this.openRequests = {};
 
     // since these handlers are often called from elsewhere they must be
@@ -125,6 +132,43 @@ class RealTimeClient {
           delete this.authenticatedResolve;
         }
         return;
+      case messages.SUBSCRIPTION_START.SUCCESS:
+        {
+          const openRequest = this.openRequests[message.request_id];
+          openRequest.subscriptionStartResolver(message);
+          const handler = openRequest.handler;
+          const subscription = this.subscriptions[messages.subscription_id];
+          if (subscription && subscription.queuedMessages) {
+            subscription.queuedMessages.forEach(qm => handler(qm));
+          }
+
+          this.subscriptions[messages.subscription_id] = {
+            handler,
+          };
+        }
+        break;
+      case messages.SUBSCRIPTION_START.FAILURE:
+        {
+          const openRequest = this.openRequests[message.request_id];
+          openRequest.subscriptionStartRejecter(message);
+          delete this.openRequests[message.request_id];
+        }
+        break;
+      case messages.ENTITY.UPDATE:
+      case messages.ENTITY.DELETE:
+        {
+          const subscription = this.subscriptions[messages.subscription_id] || {
+            queuedMessages: [],
+          };
+          if (subscription.handler) {
+            subscription.handler(message);
+            return;
+          }
+
+          subscription.queuedMessages.push(message);
+          this.subscriptions[messages.subscription_id] = subscription;
+        }
+        break;
       default:
         throw new Error(`Unsupported message received from Track Realtime API:\n${event.data}`);
     }
@@ -180,15 +224,37 @@ class RealTimeClient {
    * @param {Object} filters Filters to be passed for the created subscription.
    * @param {function} handlerFunc The function to fire when updates are received for this
    * subscription.
-   * @returns {Promise} A promise that resolves when the subscription request has been sent.
+   * @returns {Promise} A promise that resolves when the subscription request has been sent. The
+   * value of the resolved promise is a function that will end the subscription.
    */
   startSubscription(entity, customerCode, filters, handlerFunc) {
-    // TODO: these subscriptions don't actually work yet.  Still need to correlate subscription
-    // success messages received from the server with our request IDs and handle appropriately.
-    // subscriptions will be implemented in an upcoming story.
     const message = messages.creators.createSubscriptionRequest(entity, customerCode, filters);
-    this.openRequests[message.request_id] = handlerFunc;
-    return this.sendMessage(message);
+    let subscriptionStartResolver;
+    let subscriptionStartRejecter;
+    const subscriptionStart = new Promise((resolve, reject) => {
+      subscriptionStartResolver = resolve;
+      subscriptionStartRejecter = reject;
+    });
+    this.openRequests[message.request_id] = {
+      handler: handlerFunc,
+      subscriptionStartResolver,
+      subscriptionStartRejecter,
+    };
+    return this.sendMessage(message)
+      .then(() => subscriptionStart)
+      .then(success => this.stopSubscription.bind(this, success.subscription_id));
+  }
+
+  /**
+   * Ends a subscription to the Track Real Time API.
+   * @param {string} subscriptionId Identity of the subscription
+   * @returns {void}
+   */
+  stopSubscription(subscriptionId) {
+    this.sendMessage({
+      type: messages.SUBSCRIPTION_END.REQUEST,
+      subscription_id: subscriptionId,
+    });
   }
 }
 

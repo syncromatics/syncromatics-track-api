@@ -4,6 +4,8 @@ import qs from 'qs';
 import JWT from 'jwt-client';
 import { mapResponse } from './responses';
 
+export const DEFAULT_TRACK_API_HOST = 'track-api.syncromatics.com';
+
 /**
  * Collection of functions to make HTTP requests to the Track API
  */
@@ -17,7 +19,7 @@ class Client {
    */
   constructor(options = {}) {
     this.options = {
-      baseUri: 'https://track-api.syncromatics.com',
+      baseUri: `https://${DEFAULT_TRACK_API_HOST}`,
       ...options,
     };
 

@@ -612,11 +612,7 @@ export const realTime = {
           if (options.closeConnection) {
             // it's important to close the realtime client before the server,
             // otherwise the client will attempt to reconnect.
-            if (options.realTimeClient &&
-              typeof options.realTimeClient.closeConnection === 'function') {
-              options.realTimeClient.closeConnection();
-            }
-            server.close();
+            server.closeConnection(options.realTimeClient);
           }
           resolver(rest);
         }
@@ -624,10 +620,51 @@ export const realTime = {
       return promise;
     };
 
+    server.closeConnection = (realTimeClient) => {
+      if (realTimeClient && typeof realTimeClient.closeConnection === 'function') {
+        realTimeClient.closeConnection();
+      }
+      server.close();
+    };
+
     // automatically accept any authentication request our test server receives.
     server.onTrackMessage(messages.AUTHENTICATION.REQUEST, () => {
       const response = JSON.stringify({ type: messages.AUTHENTICATION.SUCCESS });
       server.emit('message', response);
+
+      let subscriptionIdCounter = 0;
+      server.onTrackMessage(messages.SUBSCRIPTION_START.REQUEST, (request) => {
+        subscriptionIdCounter += 1;
+        const subscriptionId = subscriptionIdCounter;
+
+        server.emit('message', JSON.stringify({
+          type: messages.SUBSCRIPTION_START.SUCCESS,
+          request_id: request.request_id,
+          subscription_id: subscriptionId,
+        }));
+
+        let data;
+        switch (request.entity) {
+          case 'VEHICLES':
+            data = vehicles.list.map((vehicle) => {
+              const {
+                // eslint-disable-next-line no-unused-vars
+                assignment: ignored,
+                ...rest
+              } = vehicle;
+              return rest;
+            });
+            break;
+          default:
+            throw new Error(`Don't know what to emit for ${request.entity}`);
+        }
+
+        server.emit('message', JSON.stringify({
+          type: messages.ENTITY.UPDATE,
+          subscription_id: subscriptionId,
+          data,
+        }));
+      });
     });
     return server;
   },

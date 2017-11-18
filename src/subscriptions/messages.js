@@ -18,6 +18,11 @@ export const SUBSCRIPTION_END = {
   FAILURE: 'SUBSCRIPTION_END_FAILURE',
 };
 
+export const ENTITY = {
+  UPDATE: 'ENTITY_UPDATE',
+  DELETE: 'ENTITY_DELETE',
+};
+
 /**
  * Creates a Track Real Time API control message for authenticating a connection.
  * @param {string} jwt A pre-authenticated JSON Web Token for authorizing this connection.

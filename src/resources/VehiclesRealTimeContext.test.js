@@ -24,9 +24,12 @@ describe('When creating a subscription for Vehicles', () => {
       ...emptyFilters,
       vehicles: [vehicleHref],
     };
-    subject.forVehicle(vehicleHref).on('update', () => { });
+    subject.forVehicle(vehicleHref).on('update', () => {});
 
-    const options = { closeConnection: true, realTimeClient };
+    const options = {
+      closeConnection: true,
+      realTimeClient,
+    };
     return server.verifySubscription(entity, options)
       .should.eventually.become(expectedFilters);
   });
@@ -42,10 +45,36 @@ describe('When creating a subscription for Vehicles', () => {
       vehicles: vehicleHrefs,
     };
 
-    subject.forVehicles(vehicleHrefs).on('update', () => { });
+    subject.forVehicles(vehicleHrefs).on('update', () => {});
 
-    const options = { closeConnection: true, realTimeClient };
+    const options = {
+      closeConnection: true,
+      realTimeClient,
+    };
     return server.verifySubscription(entity, options)
       .should.eventually.become(expectedFilters);
+  });
+
+  it('should handle entity updates', () => {
+    const server = mock.getServer();
+    const realTimeClient = new RealTimeClient(mock.authenticatedClient, mock.options);
+    const subject = new VehiclesRealTimeContext(realTimeClient, customerCode);
+
+    let resolver;
+    const updateReceived = new Promise((resolve) => {
+      resolver = resolve;
+    });
+    const connectionClosed = updateReceived
+      .then(() => server.closeConnection(realTimeClient));
+
+    const subscription = subject
+      .forVehicle('/1/SYNC/vehicles/1')
+      .on('update', resolver);
+
+    return Promise.all([
+      subscription,
+      updateReceived,
+      connectionClosed,
+    ]);
   });
 });
