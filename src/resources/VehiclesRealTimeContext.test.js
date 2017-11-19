@@ -64,16 +64,20 @@ describe('When creating a subscription for Vehicles', () => {
     const updateReceived = new Promise((resolve) => {
       resolver = resolve;
     });
-    const connectionClosed = updateReceived
-      .then(() => server.closeConnection(realTimeClient));
 
     const subscription = subject
       .forVehicle('/1/SYNC/vehicles/1')
       .on('update', resolver);
 
+    const subscriptionEnd = subscription.then(f => f());
+
+    const connectionClosed = subscriptionEnd
+      .then(() => server.closeConnection(realTimeClient));
+
     return Promise.all([
       subscription,
       updateReceived,
+      subscriptionEnd,
       connectionClosed,
     ]);
   });

@@ -608,7 +608,7 @@ export const realTime = {
     // automatically accept any authentication request our test server receives.
     server.onTrackMessage(messages.AUTHENTICATION.REQUEST, () => {
       const response = JSON.stringify({
-        type: messages.AUTHENTICATION.SUCCESS
+        type: messages.AUTHENTICATION.SUCCESS,
       });
       server.emit('message', response);
 
@@ -650,6 +650,14 @@ export const realTime = {
           type: messages.ENTITY.UPDATE,
           subscription_id: subscriptionId,
           data,
+        }));
+      });
+
+      server.onTrackMessage(messages.SUBSCRIPTION_END.REQUEST, (request) => {
+        server.emit('message', JSON.stringify({
+          type: messages.SUBSCRIPTION_END.SUCCESS,
+          request_id: request.request_id,
+          subscription_id: request.subscription_id,
         }));
       });
     });

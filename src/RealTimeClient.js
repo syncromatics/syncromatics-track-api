@@ -136,7 +136,11 @@ class RealTimeClient {
         {
           const openRequest = this.openRequests[message.request_id];
           openRequest.subscriptionStartResolver(message);
-          const handler = openRequest.handler;
+          const {
+            handler,
+            subscriptionEndRejecter,
+            subscriptionEndResolver,
+          } = openRequest;
           const subscription = this.subscriptions[messages.subscription_id];
           if (subscription && subscription.queuedMessages) {
             subscription.queuedMessages.forEach(qm => handler(qm));
@@ -144,6 +148,8 @@ class RealTimeClient {
 
           this.subscriptions[messages.subscription_id] = {
             handler,
+            subscriptionEndRejecter,
+            subscriptionEndResolver,
           };
         }
         break;
@@ -152,6 +158,23 @@ class RealTimeClient {
           const openRequest = this.openRequests[message.request_id];
           openRequest.subscriptionStartRejecter(message);
           delete this.openRequests[message.request_id];
+        }
+        break;
+      case messages.SUBSCRIPTION_END.SUCCESS:
+        {
+          const subscription = this.subscriptions[messages.subscription_id];
+          if (subscription && subscription.subscriptionEndResolver) {
+            subscription.subscriptionEndResolver(message);
+            delete this.subscriptions[messages.subscription_id];
+          }
+        }
+        break;
+      case messages.SUBSCRIPTION_END.FAILURE:
+        {
+          const subscription = this.subscriptions[messages.subscription_id];
+          if (subscription && subscription.subscriptionEndRejecter) {
+            subscription.subscriptionEndRejecter(message);
+          }
         }
         break;
       case messages.ENTITY.UPDATE:
@@ -235,26 +258,38 @@ class RealTimeClient {
       subscriptionStartResolver = resolve;
       subscriptionStartRejecter = reject;
     });
+    let subscriptionEndResolver;
+    let subscriptionEndRejecter;
+    const subscriptionEnd = new Promise((resolve, reject) => {
+      subscriptionEndResolver = resolve;
+      subscriptionEndRejecter = reject;
+    });
     this.openRequests[message.request_id] = {
       handler: handlerFunc,
       subscriptionStartResolver,
       subscriptionStartRejecter,
+      subscriptionEndResolver,
+      subscriptionEndRejecter,
     };
     return this.sendMessage(message)
       .then(() => subscriptionStart)
-      .then(success => this.stopSubscription.bind(this, success.subscription_id));
+      .then(success => this.stopSubscription.bind(this, success.subscription_id, subscriptionEnd));
   }
 
   /**
    * Ends a subscription to the Track Real Time API.
    * @param {string} subscriptionId Identity of the subscription
+   * @param {Promise} subscriptionEnd Promise that will be resolved upon end of the subscription
    * @returns {void}
    */
-  stopSubscription(subscriptionId) {
-    this.sendMessage({
+  stopSubscription(subscriptionId, subscriptionEnd) {
+    const subscriptionEndRequest = {
       type: messages.SUBSCRIPTION_END.REQUEST,
       subscription_id: subscriptionId,
-    });
+    };
+
+    return this.sendMessage(subscriptionEndRequest)
+      .then(() => subscriptionEnd);
   }
 }
 
