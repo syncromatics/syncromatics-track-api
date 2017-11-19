@@ -39,4 +39,27 @@ describe('When creating a subscription for Assignments', () => {
     return server.verifySubscription(entity, options)
       .should.eventually.become(expectedFilters);
   });
+
+  it('should handle entity updates', () => {
+    const server = mock.getServer();
+    const realTimeClient = new RealTimeClient(mock.authenticatedClient, mock.options);
+    const subject = new AssignmentsRealTimeContext(realTimeClient, customerCode);
+
+    let resolver;
+    const updateReceived = new Promise((resolve) => {
+      resolver = resolve;
+    });
+    const connectionClosed = updateReceived
+      .then(() => server.closeConnection(realTimeClient));
+
+    const subscription = subject
+      .forVehicle('/1/SYNC/vehicles/1')
+      .on('update', resolver);
+
+    return Promise.all([
+      subscription,
+      updateReceived,
+      connectionClosed,
+    ]);
+  });
 });
