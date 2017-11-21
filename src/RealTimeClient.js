@@ -142,12 +142,12 @@ class RealTimeClient {
           subscriptionStartResolver(message);
           delete this.openRequests[message.request_id];
 
-          const { queuedMessages } = this.subscriptions[messages.subscription_id] || {};
+          const { queuedMessages } = this.subscriptions[message.subscription_id] || {};
           if (queuedMessages) {
             queuedMessages.forEach(qm => handler(qm));
           }
 
-          this.subscriptions[messages.subscription_id] = {
+          this.subscriptions[message.subscription_id] = {
             handler,
             subscriptionEndRejecter,
             subscriptionEndResolver,
@@ -163,16 +163,16 @@ class RealTimeClient {
         break;
       case messages.SUBSCRIPTION_END.SUCCESS:
         {
-          const { subscriptionEndResolver } = this.subscriptions[messages.subscription_id];
+          const { subscriptionEndResolver } = this.subscriptions[message.subscription_id];
           if (subscriptionEndResolver) {
             subscriptionEndResolver(message);
-            delete this.subscriptions[messages.subscription_id];
+            delete this.subscriptions[message.subscription_id];
           }
         }
         break;
       case messages.SUBSCRIPTION_END.FAILURE:
         {
-          const { subscriptionEndRejecter } = this.subscriptions[messages.subscription_id];
+          const { subscriptionEndRejecter } = this.subscriptions[message.subscription_id];
           if (subscriptionEndRejecter) {
             subscriptionEndRejecter(message);
           }
@@ -181,7 +181,7 @@ class RealTimeClient {
       case messages.ENTITY.UPDATE:
       case messages.ENTITY.DELETE:
         {
-          const subscription = this.subscriptions[messages.subscription_id] || {
+          const subscription = this.subscriptions[message.subscription_id] || {
             queuedMessages: [],
           };
           if (subscription.handler) {
@@ -190,7 +190,7 @@ class RealTimeClient {
           }
 
           subscription.queuedMessages.push(message);
-          this.subscriptions[messages.subscription_id] = subscription;
+          this.subscriptions[message.subscription_id] = subscription;
         }
         break;
       default:
