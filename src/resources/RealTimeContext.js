@@ -1,3 +1,5 @@
+import * as messages from '../subscriptions/messages';
+
 /**
  * Base "RealTimeContext"  type for all other real time contexts.
  */
@@ -48,7 +50,7 @@ class RealTimeContext {
    * be either "update" or "delete".
    * @param {function} handler The handler function to be fired when updates are received for the
    * newly-created subscription.
-   * @returns {void} Nothing, but anticipating it will be the newly created subscription.
+   * @returns {Promise} Promise of a response to the SUBSCRIPTION_START_REQUEST message.
    */
   on(event, handler) {
     if (typeof handler !== 'function') {
@@ -67,16 +69,28 @@ class RealTimeContext {
       this.entityName,
       this.customerCode,
       this.filters,
-      this.handleEvent);
+      this.handleEvent.bind(this));
   }
 
   /**
    * Intended to be used for handling subscription events.
    * Will be implemented in an upcoming user story.
+   * @param {object} message The message intended for this subscription
    * @returns {void}
    */
-  handleEvent() { // eslint-disable-line class-methods-use-this
-    throw new Error('Not yet supported.');
+  handleEvent(message) {
+    let handler;
+    switch (message.type) {
+      case messages.ENTITY.UPDATE:
+        handler = this.onUpdate;
+        break;
+      case messages.ENTITY.DELETE:
+        handler = this.onDelete;
+        break;
+      default:
+        throw new Error(`Unexpected event ${message.type}`);
+    }
+    if (handler) handler(message);
   }
 
   /**
