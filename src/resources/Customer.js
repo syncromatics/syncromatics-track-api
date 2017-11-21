@@ -1,6 +1,8 @@
 import RealTimeContextFactory from './RealTimeContextFactory';
 import Resource from './Resource';
 import Agency from './Agency';
+import Driver from './Driver';
+import DriversContext from './DriversContext';
 import ExternalApi from './ExternalApi';
 import ExternalApisContext from './ExternalApisContext';
 import MessageTemplate from './MessageTemplate';
@@ -9,12 +11,14 @@ import Pattern from './Pattern';
 import PatternsContext from './PatternsContext';
 import Route from './Route';
 import RoutesContext from './RoutesContext';
+import Run from './Run';
 import Sign from './Sign';
 import SignsContext from './SignsContext';
 import Stop from './Stop';
 import StopsContext from './StopsContext';
 import Tag from './Tag';
 import TagsContext from './TagsContext';
+import Trip from './Trip';
 import Vehicle from './Vehicle';
 import VehiclesContext from './VehiclesContext';
 
@@ -56,6 +60,23 @@ class Customer extends Resource {
    */
   agency(payload = {}) {
     return this.resource(Agency, Agency.makeHref(this.code), payload);
+  }
+
+  /**
+   * Gets a context for querying this customer's drivers
+   * @returns {DriversContext} Context for querying this customer's drivers
+   */
+  drivers() {
+    return this.resource(DriversContext, this.code);
+  }
+
+  /**
+   * Gets a driver resource by id
+   * @param {Number} id Identity of the driver
+   * @returns {Driver} Driver resource
+   */
+  driver(id) {
+    return this.resource(Driver, Driver.makeHref(this.code, id));
   }
 
   /**
@@ -130,6 +151,15 @@ class Customer extends Resource {
   }
 
   /**
+   * Gets a Run resource by ID
+   * @param {Number} id Identity of the run
+   * @returns {Run} Run resource
+   */
+  run(id) {
+    return this.resource(Run, Run.makeHref(this.code, id));
+  }
+
+  /**
    * Gets a context for querying this customer's signs
    * @returns {SignsContext} Context for querying this customer's signs
    */
@@ -181,6 +211,15 @@ class Customer extends Resource {
       return this.resource(Tag, Tag.makeHref(this.code, id));
     }
     return this.resource(Tag, { code: this.code, ...id });
+  }
+
+  /**
+   * Gets a trip resource by id
+   * @param {Number} id Identity of the trip
+   * @returns {Trip} Trip resource
+   */
+  trip(id) {
+    return this.resource(Trip, Trip.makeHref(this.code, id));
   }
 
   /**
