@@ -1,6 +1,8 @@
 import RealTimeContextFactory from './RealTimeContextFactory';
 import Resource from './Resource';
 import Agency from './Agency';
+import Driver from './Driver';
+import DriversContext from './DriversContext';
 import ExternalApi from './ExternalApi';
 import ExternalApisContext from './ExternalApisContext';
 import MessageTemplate from './MessageTemplate';
@@ -56,6 +58,23 @@ class Customer extends Resource {
    */
   agency(payload = {}) {
     return this.resource(Agency, Agency.makeHref(this.code), payload);
+  }
+
+  /**
+   * Gets a context for querying this customer's drivers
+   * @returns {DriversContext} Context for querying this customer's drivers
+   */
+  drivers() {
+    return this.resource(DriversContext, this.code);
+  }
+
+  /**
+   * Gets a driver resource by id
+   * @param {Number} id Identity of the driver
+   * @returns {Driver} Driver resource
+   */
+  driver(id) {
+    return this.resource(Driver, Driver.makeHref(this.code, id));
   }
 
   /**
