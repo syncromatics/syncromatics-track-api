@@ -4,6 +4,8 @@ import Client from '../Client';
 import Customer from './Customer';
 import RealTimeClient from '../RealTimeClient';
 import Agency from './Agency';
+import Driver from './Driver';
+import DriversContext from './DriversContext';
 import ExternalApi from './ExternalApi';
 import ExternalApisContext from './ExternalApisContext';
 import MessageTemplate from './MessageTemplate';
@@ -17,6 +19,7 @@ import SignsContext from './SignsContext';
 import Stop from './Stop';
 import StopsContext from './StopsContext';
 import Tag from './Tag';
+import Trip from './Trip';
 import TagsContext from './TagsContext';
 import Vehicle from './Vehicle';
 import VehiclesContext from './VehiclesContext';
@@ -30,6 +33,8 @@ describe('When getting resources related to a customer', () => {
   const customer = new Customer(client, realTimeClient, 'SYNC');
 
   it('should allow the agency record to be retrieved', () => customer.agency().should.be.instanceOf(Agency));
+  it('should allow drivers to be searched', () => customer.drivers().should.be.instanceOf(DriversContext));
+  it('should allow a driver to be retrieved', () => customer.driver().should.be.instanceOf(Driver));
   it('should allow external apis to be searched', () => customer.externalApis().should.be.instanceOf(ExternalApisContext));
   it('should allow an external api to be retrieved', () => customer.externalApi().should.be.instanceOf(ExternalApi));
   it('should allow message templates to be searched', () => customer.messageTemplates().should.be.instanceof(MessageTemplatesContext));
@@ -44,6 +49,7 @@ describe('When getting resources related to a customer', () => {
   it('should allow a stop to be retrieved', () => customer.stop().should.be.instanceof(Stop));
   it('should allow tags to be searched', () => customer.tags().should.be.instanceof(TagsContext));
   it('should allow a tag to be retrieved', () => customer.tag().should.be.instanceof(Tag));
+  it('should allow a trip to be retrieved', () => customer.trip().should.be.instanceof(Trip));
   it('should allow vehicles to be searched', () => customer.vehicles().should.be.instanceof(VehiclesContext));
   it('should allow a vehicle to be retrieved', () => customer.vehicle().should.be.instanceof(Vehicle));
 });
