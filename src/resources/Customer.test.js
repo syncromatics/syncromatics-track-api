@@ -19,6 +19,7 @@ import SignsContext from './SignsContext';
 import Stop from './Stop';
 import StopsContext from './StopsContext';
 import Tag from './Tag';
+import Trip from './Trip';
 import TagsContext from './TagsContext';
 import Vehicle from './Vehicle';
 import VehiclesContext from './VehiclesContext';
@@ -48,6 +49,7 @@ describe('When getting resources related to a customer', () => {
   it('should allow a stop to be retrieved', () => customer.stop().should.be.instanceof(Stop));
   it('should allow tags to be searched', () => customer.tags().should.be.instanceof(TagsContext));
   it('should allow a tag to be retrieved', () => customer.tag().should.be.instanceof(Tag));
+  it('should allow a trip to be retrieved', () => customer.trip().should.be.instanceof(Trip));
   it('should allow vehicles to be searched', () => customer.vehicles().should.be.instanceof(VehiclesContext));
   it('should allow a vehicle to be retrieved', () => customer.vehicle().should.be.instanceof(Vehicle));
 });

@@ -17,6 +17,7 @@ import Stop from './Stop';
 import StopsContext from './StopsContext';
 import Tag from './Tag';
 import TagsContext from './TagsContext';
+import Trip from './Trip';
 import Vehicle from './Vehicle';
 import VehiclesContext from './VehiclesContext';
 
@@ -200,6 +201,15 @@ class Customer extends Resource {
       return this.resource(Tag, Tag.makeHref(this.code, id));
     }
     return this.resource(Tag, { code: this.code, ...id });
+  }
+
+  /**
+   * Gets a trip resource by id
+   * @param {Number} id Identity of the trip
+   * @returns {Trip} Trip resource
+   */
+  trip(id) {
+    return this.resource(Trip, Trip.makeHref(this.code, id));
   }
 
   /**
