@@ -11,6 +11,7 @@ import Pattern from './Pattern';
 import PatternsContext from './PatternsContext';
 import Route from './Route';
 import RoutesContext from './RoutesContext';
+import Run from './Run';
 import Sign from './Sign';
 import SignsContext from './SignsContext';
 import Stop from './Stop';
@@ -147,6 +148,15 @@ class Customer extends Resource {
  */
   pattern(id) {
     return this.resource(Pattern, Pattern.makeHref(this.code, id));
+  }
+
+  /**
+   * Gets a Run resource by ID
+   * @param {Number} id Identity of the run
+   * @returns {Run} Run resource
+   */
+  run(id) {
+    return this.resource(Run, Run.makeHref(this.code, id));
   }
 
   /**

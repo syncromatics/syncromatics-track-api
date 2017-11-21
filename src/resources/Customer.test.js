@@ -14,6 +14,7 @@ import Pattern from './Pattern';
 import PatternsContext from './PatternsContext';
 import Route from './Route';
 import RoutesContext from './RoutesContext';
+import Run from './Run';
 import Sign from './Sign';
 import SignsContext from './SignsContext';
 import Stop from './Stop';
@@ -43,6 +44,7 @@ describe('When getting resources related to a customer', () => {
   it('should allow a pattern to be retrieved', () => customer.pattern().should.be.instanceof(Pattern));
   it('should allow routes to be searched', () => customer.routes().should.be.instanceof(RoutesContext));
   it('should allow a route to be retrieved', () => customer.route().should.be.instanceof(Route));
+  it('should allow a run to be retrieved', () => customer.run().should.be.instanceof(Run));
   it('should allow signs to be searched', () => customer.signs().should.be.instanceof(SignsContext));
   it('should allow a sign to be retrieved', () => customer.sign().should.be.instanceof(Sign));
   it('should allow stops to be searched', () => customer.stops().should.be.instanceof(StopsContext));
