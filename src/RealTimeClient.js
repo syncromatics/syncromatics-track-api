@@ -123,7 +123,6 @@ class RealTimeClient {
   onMessageReceived(event) {
     const message = JSON.parse(event.data);
     switch (message.type) {
-      // authentication messages
       case messages.AUTHENTICATION.FAILURE:
         throw new Error('Authentication failed when establishing real-time connection.');
       case messages.AUTHENTICATION.SUCCESS:
@@ -134,16 +133,18 @@ class RealTimeClient {
         return;
       case messages.SUBSCRIPTION_START.SUCCESS:
         {
-          const openRequest = this.openRequests[message.request_id];
-          openRequest.subscriptionStartResolver(message);
           const {
             handler,
+            subscriptionStartResolver,
             subscriptionEndRejecter,
             subscriptionEndResolver,
-          } = openRequest;
-          const subscription = this.subscriptions[messages.subscription_id];
-          if (subscription && subscription.queuedMessages) {
-            subscription.queuedMessages.forEach(qm => handler(qm));
+          } = this.openRequests[message.request_id];
+          subscriptionStartResolver(message);
+          delete this.openRequests[message.request_id];
+
+          const { queuedMessages } = this.subscriptions[messages.subscription_id] || {};
+          if (queuedMessages) {
+            queuedMessages.forEach(qm => handler(qm));
           }
 
           this.subscriptions[messages.subscription_id] = {
@@ -155,25 +156,25 @@ class RealTimeClient {
         break;
       case messages.SUBSCRIPTION_START.FAILURE:
         {
-          const openRequest = this.openRequests[message.request_id];
-          openRequest.subscriptionStartRejecter(message);
+          const { subscriptionStartRejecter } = this.openRequests[message.request_id];
+          subscriptionStartRejecter(message);
           delete this.openRequests[message.request_id];
         }
         break;
       case messages.SUBSCRIPTION_END.SUCCESS:
         {
-          const subscription = this.subscriptions[messages.subscription_id];
-          if (subscription && subscription.subscriptionEndResolver) {
-            subscription.subscriptionEndResolver(message);
+          const { subscriptionEndResolver } = this.subscriptions[messages.subscription_id];
+          if (subscriptionEndResolver) {
+            subscriptionEndResolver(message);
             delete this.subscriptions[messages.subscription_id];
           }
         }
         break;
       case messages.SUBSCRIPTION_END.FAILURE:
         {
-          const subscription = this.subscriptions[messages.subscription_id];
-          if (subscription && subscription.subscriptionEndRejecter) {
-            subscription.subscriptionEndRejecter(message);
+          const { subscriptionEndRejecter } = this.subscriptions[messages.subscription_id];
+          if (subscriptionEndRejecter) {
+            subscriptionEndRejecter(message);
           }
         }
         break;
