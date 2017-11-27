@@ -156,14 +156,14 @@ class RealTimeClient {
         break;
       case messages.SUBSCRIPTION_START.FAILURE:
         {
-          const { subscriptionStartRejecter } = this.openRequests[message.request_id];
+          const { subscriptionStartRejecter } = this.openRequests[message.request_id] || {};
           subscriptionStartRejecter(message);
           delete this.openRequests[message.request_id];
         }
         break;
       case messages.SUBSCRIPTION_END.SUCCESS:
         {
-          const { subscriptionEndResolver } = this.subscriptions[message.subscription_id];
+          const { subscriptionEndResolver } = this.subscriptions[message.subscription_id] || {};
           if (subscriptionEndResolver) {
             subscriptionEndResolver(message);
             delete this.subscriptions[message.subscription_id];
@@ -172,7 +172,7 @@ class RealTimeClient {
         break;
       case messages.SUBSCRIPTION_END.FAILURE:
         {
-          const { subscriptionEndRejecter } = this.subscriptions[message.subscription_id];
+          const { subscriptionEndRejecter } = this.subscriptions[message.subscription_id] || {};
           if (subscriptionEndRejecter) {
             subscriptionEndRejecter(message);
           }
