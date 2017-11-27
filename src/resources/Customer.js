@@ -12,6 +12,8 @@ import PatternsContext from './PatternsContext';
 import Route from './Route';
 import RoutesContext from './RoutesContext';
 import Run from './Run';
+import ServicePackage from './ServicePackage';
+import ServicePackagesContext from './ServicePackagesContext';
 import Sign from './Sign';
 import SignsContext from './SignsContext';
 import Stop from './Stop';
@@ -157,6 +159,23 @@ class Customer extends Resource {
    */
   run(id) {
     return this.resource(Run, Run.makeHref(this.code, id));
+  }
+
+  /**
+   * Gets a context for querying this customer's service packages
+   * @returns {ServicePackagesContext} Context for querying this customer's service packages
+   */
+  servicePackages() {
+    return this.resource(ServicePackagesContext, this.code);
+  }
+
+  /**
+   * Gets a Service Package resource by ID
+   * @param {Number} id Identity of the service package
+   * @returns {ServicePackage} ServicePackage resource
+   */
+  servicePackage(id) {
+    return this.resource(ServicePackage, ServicePackage.makeHref(this.code, id));
   }
 
   /**
