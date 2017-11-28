@@ -12,6 +12,7 @@ import PatternsContext from './PatternsContext';
 import Route from './Route';
 import RoutesContext from './RoutesContext';
 import Run from './Run';
+import Service from './Service';
 import ServicePackage from './ServicePackage';
 import ServicePackagesContext from './ServicePackagesContext';
 import Sign from './Sign';
@@ -176,6 +177,15 @@ class Customer extends Resource {
    */
   servicePackage(id) {
     return this.resource(ServicePackage, ServicePackage.makeHref(this.code, id));
+  }
+
+  /**
+   * Gets a Service resource by ID
+   * @param {Number} id Identity of the service
+   * @returns {Service} Service resource
+   */
+  service(id) {
+    return this.resource(Service, Service.makeHref(this.code, id));
   }
 
   /**
