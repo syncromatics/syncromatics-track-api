@@ -1,4 +1,5 @@
 import Resource from './Resource';
+import Block from './Block';
 import Run from './Run';
 import Trip from './Trip';
 
@@ -32,6 +33,7 @@ class Service extends Resource {
     const newProperties = Object.assign({}, ...rest);
     const hydrated = !Object.keys(newProperties).every(k => k === 'href');
     const references = {
+      blocks: newProperties.blocks && newProperties.blocks.map(b => new Block(this.client, b)),
       runs: newProperties.runs && newProperties.runs.map(r => new Run(this.client, r)),
       trips: newProperties.trips && newProperties.trips.map(t => new Trip(this.client, t)),
     };

@@ -1,6 +1,7 @@
 import RealTimeContextFactory from './RealTimeContextFactory';
 import Resource from './Resource';
 import Agency from './Agency';
+import Block from './Block';
 import Driver from './Driver';
 import DriversContext from './DriversContext';
 import ExternalApi from './ExternalApi';
@@ -63,6 +64,15 @@ class Customer extends Resource {
    */
   agency(payload = {}) {
     return this.resource(Agency, Agency.makeHref(this.code), payload);
+  }
+
+  /**
+   * Gets a block resource by id
+   * @param {Number} id Identity of the block
+   * @returns {Block} Block resource
+   */
+  block(id) {
+    return this.resource(Block, Block.makeHref(this.code, id));
   }
 
   /**
