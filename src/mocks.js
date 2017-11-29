@@ -522,9 +522,9 @@ export const services = {
           block: {
             href: '/1/SYNC/blocks/1',
           },
-          run: {
+          runs: [{
             href: '/1/SYNC/runs/1',
-          },
+          }],
         },
         {
           href: '/1/SYNC/trips/2',
@@ -665,9 +665,9 @@ export const trips = {
     block: {
       href: '/1/SYNC/blocks/1',
     },
-    run: {
+    runs: [{
       href: '/1/SYNC/runs/1',
-    },
+    }],
   }],
 };
 

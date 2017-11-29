@@ -1,5 +1,8 @@
 import Resource from './Resource';
+import Block from './Block';
 import Pattern from './Pattern';
+import Run from './Run';
+import Service from './Service';
 
 /**
  * Trip resource
@@ -29,7 +32,10 @@ class Trip extends Resource {
     const newProperties = Object.assign({}, ...rest);
     const hydrated = !Object.keys(newProperties).every(k => k === 'href');
     const references = {
+      block: newProperties.block && new Block(this.client, newProperties.block),
       pattern: newProperties.pattern && new Pattern(this.client, newProperties.pattern),
+      runs: newProperties.runs && newProperties.runs.map(r => new Run(this.client, r)),
+      service: newProperties.service && new Service(this.client, newProperties.service),
     };
 
     Object.assign(this, newProperties, {
