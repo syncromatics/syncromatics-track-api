@@ -1,28 +1,25 @@
 import Resource from './Resource';
-import Block from './Block';
-import Run from './Run';
+import Service from './Service';
 import Trip from './Trip';
 
-
 /**
- * Service resource
+ * Block resource
  */
-class Service extends Resource {
+class Block extends Resource {
   /**
-   * Creates a new Service resource object
+   * Creates a new Block resource object
    *
    * Will populate itself with the values given to it after the client parameter
-   * @example <caption>Assigning partial Service data to a new instance</caption>
+   * @example <caption>Assigning partial block data to a new instance</caption>
    * const client = new Client();
-   * const partialServiceData = {
-   *   href: '/1/SYNC/services/1',
-   *   id: 1,
-   *   start: new Date(2017-01-01T00:00:00.000-0700),
-   *   end: '2017-01-01T00:00:00.000-0700'
+   * const partialBlockData = {
+   *   href: '/1/SYNC/blocks/1',
+   *   name: 'Scheduled Block',
+   *   short_name: 'B01',
    * };
-   * const service = new Service(client, partialServiceData);
+   * const block = new Block(client, partialBlockData);
    *
-   * service.hydrated === true;
+   * block.hydrated == true;
    *
    * @param {Client} client Instance of pre-configured client
    * @param {Array} rest Remaining arguments to use in assigning values to this instance
@@ -33,8 +30,7 @@ class Service extends Resource {
     const newProperties = Object.assign({}, ...rest);
     const hydrated = !Object.keys(newProperties).every(k => k === 'href');
     const references = {
-      blocks: newProperties.blocks && newProperties.blocks.map(r => new Block(this.client, r)),
-      runs: newProperties.runs && newProperties.runs.map(r => new Run(this.client, r)),
+      service: newProperties.service && new Service(this.client, newProperties.service),
       trips: newProperties.trips && newProperties.trips.map(t => new Trip(this.client, t)),
     };
 
@@ -47,24 +43,24 @@ class Service extends Resource {
   /**
    * Makes a href for a given customer code and ID
    * @param {string} customerCode Customer code
-   * @param {Number} id Service ID
-   * @returns {{href: string}} URI to instance of Service
+   * @param {Number} id Block ID
+   * @returns {{href: string}} URI to instance of block
    */
   static makeHref(customerCode, id) {
     return {
-      href: `/1/${customerCode}/services/${id}`,
+      href: `/1/${customerCode}/blocks/${id}`,
     };
   }
 
   /**
-   * Fetches the data for this service via the client
-   * @returns {Promise} If successful, a hydrated instance of this Service
+   * Fetches the data for this block via the client
+   * @returns {Promise} If successful, a hydrated instance of this block
    */
   fetch() {
     return this.client.get(this.href)
       .then(response => response.json())
-      .then(service => new Service(this.client, this, service));
+      .then(block => new Block(this.client, this, block));
   }
 }
 
-export default Service;
+export default Block;

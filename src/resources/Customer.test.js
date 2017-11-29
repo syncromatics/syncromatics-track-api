@@ -4,6 +4,7 @@ import Client from '../Client';
 import Customer from './Customer';
 import RealTimeClient from '../RealTimeClient';
 import Agency from './Agency';
+import Block from './Block';
 import Driver from './Driver';
 import DriversContext from './DriversContext';
 import ExternalApi from './ExternalApi';
@@ -37,6 +38,7 @@ describe('When getting resources related to a customer', () => {
   const customer = new Customer(client, realTimeClient, 'SYNC');
 
   it('should allow the agency record to be retrieved', () => customer.agency().should.be.instanceOf(Agency));
+  it('should allow a block to be retrieved', () => customer.block().should.be.instanceof(Block));
   it('should allow drivers to be searched', () => customer.drivers().should.be.instanceOf(DriversContext));
   it('should allow a driver to be retrieved', () => customer.driver().should.be.instanceOf(Driver));
   it('should allow external apis to be searched', () => customer.externalApis().should.be.instanceOf(ExternalApisContext));
