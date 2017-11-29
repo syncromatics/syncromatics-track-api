@@ -9,19 +9,22 @@ chai.use(chaiAsPromised);
 
 
 describe('When creating a real time connection', () => {
+  let server;
+  beforeEach(() => { server = mock.getServer(); });
+  afterEach(() => server.closeConnection());
+
   it('should connect only after REST client authenticates', () => {
     let resolveAuthentication;
     const mockClient = {
       authenticated: new Promise((resolve) => { resolveAuthentication = resolve; }),
     };
     let wasConnectionOpened = false;
-    const server = mock.getServer();
     server.on('connection', () => {
       wasConnectionOpened = true;
     });
-    const rtClient = new RealTimeClient(mockClient, mock.options);
+    const realTimeClient = new RealTimeClient(mockClient, mock.options);
 
-    const messagePromise = rtClient.sendMessage({ foo: 'bar' });
+    const messagePromise = realTimeClient.sendMessage({ foo: 'bar' });
     wasConnectionOpened.should.equal(false);
 
     resolveAuthentication();
@@ -29,32 +32,27 @@ describe('When creating a real time connection', () => {
       mockClient.authenticated,
       messagePromise,
     ])
-    .then(() => rtClient.closeConnection())
-    .then(() => server.close())
-    .then(() => wasConnectionOpened)
-    .should.eventually.become(true);
+    .then(() => server.closeConnection(realTimeClient))
+    .then(() => wasConnectionOpened).should.eventually.become(true);
   });
 
   it('should create at most one connection', () => {
-    const server = mock.getServer();
     let numConnections = 0;
     server.on('connection', () => {
       numConnections += 1;
     });
-    const rtClient = new RealTimeClient(mock.authenticatedClient, mock.options);
+    const realTimeClient = new RealTimeClient(mock.authenticatedClient, mock.options);
 
-    const message1 = rtClient.sendMessage({ foo: 'bar' });
-    const message2 = rtClient.sendMessage({ bar: 'baz' });
-    const message3 = rtClient.sendMessage({ baz: 'foo' });
+    const message1 = realTimeClient.sendMessage({ foo: 'bar' });
+    const message2 = realTimeClient.sendMessage({ bar: 'baz' });
+    const message3 = realTimeClient.sendMessage({ baz: 'foo' });
     return Promise.all([
       message1,
       message2,
       message3,
     ])
-    .then(() => rtClient.closeConnection())
-    .then(() => server.close())
-    .then(() => numConnections)
-    .should.eventually.become(1);
+    .then(() => server.closeConnection(realTimeClient))
+    .then(() => numConnections).should.eventually.become(1);
   });
 
   it('should queue messages to send while connecting', () => {
@@ -64,7 +62,6 @@ describe('When creating a real time connection', () => {
       authenticated: new Promise((resolve) => { resolveAuthentication = resolve; }),
     };
     let numMessagesReceived = 0;
-    const server = mock.getServer();
 
     // no guarantee on when our webserver mock will fire its message, just that it will.
     // so let's create a promise of it and inspect later.
@@ -77,11 +74,11 @@ describe('When creating a real time connection', () => {
         resolveGotAllMessages();
       }
     });
-    const rtClient = new RealTimeClient(mockClient, mock.options);
+    const realTimeClient = new RealTimeClient(mockClient, mock.options);
 
-    const message1 = rtClient.sendMessage({ foo: 'bar' });
-    const message2 = rtClient.sendMessage({ bar: 'baz' });
-    const message3 = rtClient.sendMessage({ baz: 'foo' });
+    const message1 = realTimeClient.sendMessage({ foo: 'bar' });
+    const message2 = realTimeClient.sendMessage({ bar: 'baz' });
+    const message3 = realTimeClient.sendMessage({ baz: 'foo' });
 
     resolveAuthentication();
 
@@ -91,39 +88,120 @@ describe('When creating a real time connection', () => {
       message3,
       gotAllMessages,
     ])
-    .then(() => rtClient.closeConnection())
-    .then(() => server.close())
-    .should.be.fulfilled;
+      .then(() => server.closeConnection(realTimeClient));
   });
 });
 
 describe('When the real time connection is disconnected', () => {
-  it('should reconnect and re-authenticate', () => {
-    const server = mock.getServer();
-    let numAuths = 0;
-    const rtClient = new RealTimeClient(mock.authenticatedClient, mock.options);
+  let server;
+  let realTimeClient;
+  beforeEach(() => {
+    server = mock.getServer();
+    realTimeClient = new RealTimeClient(mock.authenticatedClient, {
+      ...mock.options,
+      reconnectTimeout: 0,
+    });
+  });
+  afterEach(() => {
+    server.closeConnection(realTimeClient);
+  });
 
+  const reconnect = () => {
+    server.closeConnection();
+    server = mock.getServer();
+    return Promise.resolve();
+  };
+
+  it('should reconnect and re-authenticate', () => {
+    let numAuths = 0;
     let resolveGotAllAuths;
     const gotAllAuths = new Promise((resolve) => { resolveGotAllAuths = resolve; });
-    server.onTrackMessage(messages.AUTHENTICATION.REQUEST, () => {
-      numAuths += 1;
-      if (numAuths === 2) {
-        resolveGotAllAuths();
-      }
+    let numMessages = 0;
+    let resolveGotAllMessages;
+    const gotAllMessages = new Promise((resolve) => {
+      resolveGotAllMessages = resolve;
     });
+    const configureListener = () => {
+      server.onTrackMessage(messages.AUTHENTICATION.REQUEST, () => {
+        numAuths += 1;
+        if (numAuths === 2) {
+          resolveGotAllAuths();
+        }
+      });
+      server.onTrackMessage('TEST', () => {
+        numMessages += 1;
+        if (numMessages === 2) {
+          resolveGotAllMessages();
+        }
+      });
+    };
 
-    const message1 = rtClient.sendMessage({ foo: 'bar' })
-      // force a connection close.  this will trigger another authentication
-      // request when it reconnects.
-      .then(() => rtClient.connection.close());
-    const message2 = rtClient.sendMessage({ bar: 'baz' });
+    configureListener();
+    const message1 = realTimeClient.sendMessage({ type: 'TEST', id: 1 })
+      .then(reconnect)
+      .then(configureListener);
+    const message2 = message1
+      .then(() => realTimeClient.sendMessage({ type: 'TEST', id: 2 }));
     return Promise.all([
       message1,
       message2,
       gotAllAuths,
-    ])
-    .then(() => rtClient.closeConnection())
-    .then(() => server.close())
-    .should.be.fulfilled;
+      gotAllMessages,
+    ]);
+  });
+
+  it('should resubscribe to all subscriptions', () => {
+    let startRequests = 0;
+    let gotAllStartRequestsResolver;
+    const gotAllStartRequests = new Promise((resolve) => {
+      gotAllStartRequestsResolver = resolve;
+    });
+    let lastSubscriptionResolver;
+    const lastSubscription = new Promise((resolve) => {
+      lastSubscriptionResolver = resolve;
+    });
+    const configureListener = () => {
+      server.onTrackMessage(messages.SUBSCRIPTION_START.REQUEST, () => {
+        startRequests += 1;
+        if (startRequests === 2) {
+          gotAllStartRequestsResolver();
+        }
+      });
+      server.onTrackMessage(messages.SUBSCRIPTION_END.REQUEST, (message) => {
+        lastSubscriptionResolver(message.subscription_id);
+      });
+    };
+    configureListener();
+    const observedSubscriptionIds = [];
+    const subscriptionStart = realTimeClient.startSubscription(
+      'VEHICLES',
+      'SYNC',
+      {
+        one: '1',
+        two: '2',
+        three: '3',
+      },
+      (update) => { observedSubscriptionIds.push(update.subscription_id); },
+    );
+
+    let subscriptionEnder;
+    const disruptConnection = subscriptionStart
+      .then((end) => {
+        subscriptionEnder = end;
+      })
+      .then(reconnect)
+      .then(configureListener);
+    const endSubscription = gotAllStartRequests
+      .then(() => subscriptionEnder());
+    const multipleSubscriptions = endSubscription
+      .then(() => observedSubscriptionIds);
+    return Promise.all([
+      subscriptionStart,
+      disruptConnection,
+      endSubscription,
+      gotAllStartRequests,
+      multipleSubscriptions.should.eventually.become([1, 2]),
+      lastSubscription.should.eventually.become(2),
+    ]);
   });
 });
