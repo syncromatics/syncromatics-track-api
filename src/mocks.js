@@ -728,6 +728,7 @@ export const realTime = {
   authenticatedClient: {
     authenticated: Promise.resolve(),
   },
+  subscriptionIdCounter: 0,
 
   /**
    * Returns a websocket server to which you can attach events.
@@ -815,10 +816,9 @@ export const realTime = {
       });
       server.emit('message', response);
 
-      let subscriptionIdCounter = 0;
       server.onTrackMessage(messages.SUBSCRIPTION_START.REQUEST, (request) => {
-        subscriptionIdCounter += 1;
-        const subscriptionId = subscriptionIdCounter;
+        realTime.subscriptionIdCounter += 1;
+        const subscriptionId = realTime.subscriptionIdCounter;
 
         server.emit('message', JSON.stringify({
           type: messages.SUBSCRIPTION_START.SUCCESS,
