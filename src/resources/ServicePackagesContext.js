@@ -36,6 +36,24 @@ class ServicePackagesContext extends PagedContext {
   }
 
   /**
+   * Sets the "as of" date to retrieve service packages as of this date
+   * @param {(string|Date)} date - Date to retrieve service package that are active on this date
+   * @returns {ServicePackagesContext} Returns itself
+   */
+  asOf(date) {
+    let asOf;
+    if (date instanceof Date) {
+      const [d] = date.toISOString().split('T');
+      asOf = d;
+    } else {
+      asOf = date;
+    }
+
+    this.params.as_of = asOf;
+    return this;
+  }
+
+  /**
    * Gets the first page of results for this context
    * @returns {Promise} If successful, a page of ServicePackage objects
    * @see ServicePackage

@@ -14,7 +14,7 @@ describe('When building a query for service packages', () => {
 
 
   beforeEach(() => fetchMock
-    .get(client.resolve('/1/SYNC/service_packages?page=9&per_page=27&q=valid&sort=first_valid asc,second_valid desc'), mockServicePackages.list)
+    .get(client.resolve('/1/SYNC/service_packages?page=9&per_page=27&q=valid&as_of=2017-01-01&sort=first_valid asc,second_valid desc'), mockServicePackages.list)
     .catch(503));
   afterEach(fetchMock.restore);
 
@@ -28,6 +28,7 @@ describe('When building a query for service packages', () => {
       .sortedBy('ignored', 'desc')
       .sortedBy('first_valid')
       .thenBy('second_valid', 'desc')
+      .asOf(new Date('2017-01-01T12:34:56'))
       .getPage();
   });
 

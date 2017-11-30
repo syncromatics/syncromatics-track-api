@@ -1,4 +1,5 @@
 import Resource from './Resource';
+import Service from './Service';
 
 /**
  * Service package resource
@@ -26,7 +27,15 @@ class ServicePackage extends Resource {
     const newProperties = Object.assign({}, ...rest);
     const hydrated = !Object.keys(newProperties).every(k => k === 'href');
 
-    Object.assign(this, newProperties, { hydrated });
+    const references = {
+      services: newProperties.services && newProperties.services.map(s =>
+        new Service(this.client, s)),
+    };
+
+    Object.assign(this, newProperties, {
+      hydrated,
+      ...references,
+    });
   }
 
   /**
