@@ -707,10 +707,16 @@ export const vehicles = {
         },
       });
     const singleResponse = () => new Response(Client.toBlob(vehicles.getById(1)));
+    const singleAssignmentResponse = () =>
+      new Response(Client.toBlob(vehicles.getById(1).assignment));
+    const assignmentMutationResponse = () => new Response(undefined);
 
     fetchMock
       .get(client.resolve('/1/SYNC/vehicles?page=1&per_page=10&q=12&sort='), listResponse)
-      .get(client.resolve('/1/SYNC/vehicles/1'), singleResponse);
+      .get(client.resolve('/1/SYNC/vehicles/1'), singleResponse)
+      .get(client.resolve('/1/SYNC/vehicles/1/assignment'), singleAssignmentResponse)
+      .put(client.resolve('/1/SYNC/vehicles/1/assignment'), assignmentMutationResponse)
+      .delete(client.resolve('/1/SYNC/vehicles/1/assignment'), assignmentMutationResponse);
   },
   getById: id => vehicles.list.find(v => v.id === id),
   list: [{
