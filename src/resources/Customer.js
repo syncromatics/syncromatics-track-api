@@ -1,6 +1,7 @@
 import RealTimeContextFactory from './RealTimeContextFactory';
 import Resource from './Resource';
 import Agency from './Agency';
+import Assignment from './Assignment';
 import Block from './Block';
 import Driver from './Driver';
 import DriversContext from './DriversContext';
@@ -64,6 +65,15 @@ class Customer extends Resource {
    */
   agency(payload = {}) {
     return this.resource(Agency, Agency.makeHref(this.code), payload);
+  }
+
+  /**
+   * Gets a assignment resource by vehicle id
+   * @param {Number} id Identity of the vehicle
+   * @returns {Assignment} Assignment resource
+   */
+  assignment(id) {
+    return this.resource(Assignment, Assignment.makeHref(this.code, id));
   }
 
   /**

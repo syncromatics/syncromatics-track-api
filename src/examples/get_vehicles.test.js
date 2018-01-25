@@ -46,3 +46,58 @@ describe('When retrieving a vehicle by ID', () => {
     return vehiclesPromise;
   });
 });
+
+describe('When retrieving a vehicle assignment by vehicle ID', () => {
+  const api = new Track({ autoRenew: false });
+
+  beforeEach(() => charlie.setUpSuccessfulMock(api.client));
+  beforeEach(() => mockVehicles.setUpSuccessfulMock(api.client));
+  beforeEach(() => fetchMock.catch(503));
+  afterEach(fetchMock.restore);
+
+  it('should get an assignment', () => {
+    api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
+
+    const assignmentPromise = api.customer('SYNC').assignment(1)
+      .fetch()
+      .then(assignment => assignment); // Do things with assignment
+
+    return assignmentPromise;
+  });
+});
+
+describe('When assigning a vehicle', () => {
+  const api = new Track({ autoRenew: false });
+
+  beforeEach(() => charlie.setUpSuccessfulMock(api.client));
+  beforeEach(() => mockVehicles.setUpSuccessfulMock(api.client));
+  beforeEach(() => fetchMock.catch(503));
+  afterEach(fetchMock.restore);
+
+  it('should create an assignment', () => {
+    api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
+
+    const customer = api.customer('SYNC');
+    const assignment = customer.assignment(1);
+    assignment.driver = customer.driver(1);
+    assignment.pattern = customer.pattern(1);
+    assignment.run = customer.run(1);
+    assignment.trip = customer.trip(1);
+
+    const assignmentPromise = assignment.update()
+      .then(() => { /* Do something now that the assignment creation has been requested */ });
+
+    return assignmentPromise;
+  });
+
+  it('should remove an assignment', () => {
+    api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
+
+    const customer = api.customer('SYNC');
+    const assignmentPromise = customer.assignment(1).fetch()
+      .then(assignment => assignment.delete())
+      .then(() => { /* Do something now that the assignment deletion has been requested */ });
+
+    return assignmentPromise;
+  });
+});

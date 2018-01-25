@@ -112,6 +112,16 @@ class Client {
   }
 
   /**
+   * Convenience method of request() to make an HTTP DELETE request
+   * @param {Array} args Any other arguments for request()
+   * @returns {Promise} Promise from request()
+   * @see request
+   */
+  delete(...args) {
+    return this.request('DELETE', ...args);
+  }
+
+  /**
    * Sets the internal authentication state of the client to "authenticated" with given user
    * @param {Object} user User object representing the payload from the JSON Web Token
    * @returns {void}
