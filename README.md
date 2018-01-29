@@ -28,7 +28,8 @@ You can also log in with a username and password or a previously-generated JWT t
 
 ## Documentation
 
-Generated documentation is available on the [project page][project-page]
+Generated documentation is available on the [project page][project-page].  You can also find example
+usages in the [src/examples directory][src-examples].
 
 ## Contributing
 
@@ -37,3 +38,4 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for our guide to contributing and cod
 [project-page]: http://syncromatics.github.io/syncromatics-track-api
 [login-docs]: http://syncromatics.github.io/syncromatics-track-api#tracklogin
 [track-api-docs]: http://docs.syncromaticstrackapi.apiary.io
+[src-examples]: https://github.com/syncromatics/syncromatics-track-api/tree/master/src/examples
