@@ -24,6 +24,7 @@ describe('When instantiating a trip based on an object', () => {
   it('should set the href', () => trip.href.should.equal('/1/SYNC/trips/3'));
   it('should be hydrated', () => trip.hydrated.should.equal(true));
   it('should set the name', () => trip.name.should.equal('T03'));
+  it('should set the short name', () => trip.short_name.should.equal('T3'));
   it('should set the order', () => trip.order.should.equal(1));
   it('should have the expected pattern', () => trip.pattern.href.should.equal('/1/SYNC/patterns/1'));
 });
@@ -45,6 +46,7 @@ describe('When fetching a trip based on customer and ID', () => {
   it('should set the href', () => promise.then(p => p.href).should.eventually.equal('/1/SYNC/trips/3'));
   it('should be hydrated', () => promise.then(p => p.hydrated).should.eventually.equal(true));
   it('should set the name', () => promise.then(p => p.name).should.eventually.equal('T03'));
+  it('should set the short name', () => promise.then(p => p.short_name).should.eventually.equal('T3'));
   it('should set the order', () => promise.then(p => p.order).should.eventually.equal(1));
   it('should have the expected pattern', () => promise.then(p => p.pattern.href).should.eventually.equal('/1/SYNC/patterns/1'));
 });

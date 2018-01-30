@@ -655,6 +655,7 @@ export const trips = {
     href: '/1/SYNC/trips/3',
     id: 3,
     name: 'T03',
+    short_name: 'T3',
     order: 1,
     pattern: {
       href: '/1/SYNC/patterns/1',
