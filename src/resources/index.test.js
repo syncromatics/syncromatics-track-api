@@ -25,7 +25,7 @@ describe('When successfully authenticating with the Track API client', () => {
     return Promise.all([
       promise.should.become(charlie.payload),
       promise.then(() => fetchMock.lastOptions().headers).should.become({
-        Accept: 'application/json',
+        Accept: 'text/plain',
         Authorization: 'Bearer whatever',
       }),
     ]).should.be.fulfilled;
@@ -36,7 +36,7 @@ describe('When successfully authenticating with the Track API client', () => {
     return Promise.all([
       promise.should.become(charlie.payload),
       promise.then(() => fetchMock.lastOptions().headers).should.become({
-        Accept: 'application/json',
+        Accept: 'text/plain',
         'Api-Key': 'whatever',
       }),
     ]).should.be.fulfilled;
@@ -47,7 +47,7 @@ describe('When successfully authenticating with the Track API client', () => {
     return Promise.all([
       promise.should.become(charlie.payload),
       promise.then(() => fetchMock.lastOptions().headers).should.become({
-        Accept: 'application/json',
+        Accept: 'text/plain',
         Authorization: 'Basic Y3NpbmdoQGV4YW1wbGUuY29tOndoYXRldmVy',
       }),
     ]).should.be.fulfilled;
@@ -59,7 +59,7 @@ describe('When successfully authenticating with the Track API client', () => {
     return Promise.all([
       promise.should.become(charlie.payload),
       promise.then(() => fetchMock.lastOptions().headers).should.become({
-        Accept: 'application/json',
+        Accept: 'text/plain',
         Authorization: `Bearer ${charlie.token}`,
       }),
     ]).should.be.fulfilled;
@@ -80,8 +80,8 @@ describe('When unsuccessfully authenticating with the Track API client', () => {
 
   beforeEach(() => {
     fetchMock
-      .post(api.client.resolve('/1/login'), () => new Response(Client.toBlob('', s => s, 'plain/text'), { status: 403 }))
-      .post(api.client.resolve('/1/login/renew'), () => new Response(Client.toBlob('', s => s, 'plain/text'), { status: 403 }))
+      .post(api.client.resolve('/1/login'), () => new Response(Client.toBlob('', s => s, 'text/plain'), { status: 403 }))
+      .post(api.client.resolve('/1/login/renew'), () => new Response(Client.toBlob('', s => s, 'text/plain'), { status: 403 }))
       .catch(503);
 
     api.stopAutoRenew();
