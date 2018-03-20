@@ -73,7 +73,15 @@ class Track extends Resource {
 
           if (this.options.autoRenew) {
             const msBeforeExp = this.options.autoRenewMinutesBeforeExpiration * 60 * 1000;
-            const ms = Math.max(payload.claim.exp - msBeforeExp - new Date().getTime(), 0);
+
+            /* payload.claim.exp used to be milliseconds, but this was a mis-implementation
+             * in the spec; this is rough logic to handle backwards compatibility.
+             */
+            const expMs = (payload.claim.exp / 1000000000) > 1000
+              ? payload.claim.exp
+              : payload.claim.exp * 1000;
+
+            const ms = Math.max(expMs - msBeforeExp - new Date().getTime(), 0);
             const onAutoRenew = this.options.onAutoRenew || (() => {});
             this.autoRenewTimeout = setTimeout(() =>
               this.renewAuthentication().then(onAutoRenew), ms);
@@ -115,7 +123,7 @@ class Track extends Resource {
   logIn(options) {
     let uri;
     let headers = {
-      Accept: 'application/json',
+      Accept: 'text/plain',
     };
 
     if (options.token) {
