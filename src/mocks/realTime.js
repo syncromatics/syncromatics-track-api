@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Server } from 'mock-socket';
 import * as messages from '../subscriptions/messages';
+import dispatchMessages from './dispatchMessages';
 import vehicles from './vehicles';
 
 const realTimeUri = 'ws://localhost:8083/1/realtime';
@@ -112,6 +113,16 @@ const realTime = {
 
         let data;
         switch (request.entity) {
+          case 'ASSIGNMENTS':
+            data = vehicles.list.map(v => v.assignment);
+            break;
+          case 'DISPATCH_MESSAGES':
+            data = dispatchMessages.list;
+            break;
+          case 'STOPTIMES':
+            console.warn('Need to define mocks for STOPTIMES');
+            data = [];
+            break;
           case 'VEHICLES':
             data = vehicles.list.map((vehicle) => {
               const {
@@ -121,13 +132,6 @@ const realTime = {
               } = vehicle;
               return rest;
             });
-            break;
-          case 'ASSIGNMENTS':
-            data = vehicles.list.map(v => v.assignment);
-            break;
-          case 'STOPTIMES':
-            console.warn('Need to define mocks for STOPTIMES');
-            data = [];
             break;
           default:
             throw new Error(`Don't know what to emit for ${request.entity}`);

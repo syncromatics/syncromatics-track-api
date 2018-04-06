@@ -73,8 +73,7 @@ class RealTimeContext {
   }
 
   /**
-   * Intended to be used for handling subscription events.
-   * Will be implemented in an upcoming user story.
+   * Handle real-time subscription events.
    * @param {object} message The message intended for this subscription
    * @returns {void}
    */
@@ -94,7 +93,7 @@ class RealTimeContext {
   }
 
   /**
-   * Used for consolidating plan href strings and Resources that have hrefs.
+   * Used for consolidating plain href strings and Resources that have hrefs.
    * @param {Resource|string} resource The resource object or href that represents the resource.
    * @returns {string}|The href of the passed-in resource, if any.  Otherwise the string that was
    * passed in.
