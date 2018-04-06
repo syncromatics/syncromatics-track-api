@@ -6,6 +6,8 @@ import RealTimeClient from '../RealTimeClient';
 import Agency from './Agency';
 import Block from './Block';
 import DispatchMessage from './DispatchMessage';
+import DispatchMessagesContext from './DispatchMessagesContext';
+import DispatchMessageBatch from './DispatchMessageBatch';
 import Driver from './Driver';
 import DriversContext from './DriversContext';
 import ExternalApi from './ExternalApi';
@@ -30,7 +32,6 @@ import TagsContext from './TagsContext';
 import Vehicle from './Vehicle';
 import VehiclesContext from './VehiclesContext';
 import Assignment from './Assignment';
-import DispatchMessagesContext from './DispatchMessagesContext';
 
 chai.should();
 chai.use(chaiAsPromised);
@@ -45,6 +46,7 @@ describe('When getting resources related to a customer', () => {
   it('should allow a block to be retrieved', () => customer.block().should.be.instanceof(Block));
   it('should allow dispatch messages to be searched', () => customer.dispatchMessages().should.be.instanceOf(DispatchMessagesContext));
   it('should allow a dispatch message to be retrieved', () => customer.dispatchMessage().should.be.instanceOf(DispatchMessage));
+  it('should allow a dispatch message batch to be retrieved', () => customer.dispatchMessageBatch().should.be.instanceOf(DispatchMessageBatch));
   it('should allow drivers to be searched', () => customer.drivers().should.be.instanceOf(DriversContext));
   it('should allow a driver to be retrieved', () => customer.driver().should.be.instanceOf(Driver));
   it('should allow external apis to be searched', () => customer.externalApis().should.be.instanceOf(ExternalApisContext));

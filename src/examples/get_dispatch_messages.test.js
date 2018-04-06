@@ -64,3 +64,30 @@ describe('When retrieving a dispatch message by ID', () => {
     return dispatchMessagePromise;
   });
 });
+
+describe('When creating a dispatch message', () => {
+  const api = new Track({ autoRenew: false });
+
+  beforeEach(() => charlie.setUpSuccessfulMock(api.client));
+  beforeEach(() => mocks.setUpSuccessfulMock(api.client));
+  beforeEach(() => fetchMock.catch(503));
+  afterEach(fetchMock.restore);
+
+  it('should save a dispatch message', () => {
+    api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
+
+    const dispatchMessagePromise = api.customer('SYNC').dispatchMessage({
+      vehicle: { href: '/1/SYNC/vehicles/1' },
+      driver: { href: '/1/SYNC/drivers/1' },
+      message_direction: 'FromDispatch',
+      route: { href: '/1/SYNC/routes/1' },
+      dispatch_user: { href: '/1/users/1' },
+      customerId: 1,
+      message: 'Radio chatter',
+    })
+    .create()
+    .then(dispatchMessage => dispatchMessage); // Do things with dispatchMessage
+
+    return dispatchMessagePromise;
+  });
+});

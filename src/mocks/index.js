@@ -5,6 +5,7 @@ import Client from '../Client';
 export { default as agencies } from './agencies';
 export { default as blocks } from './blocks';
 export { default as dispatchMessages } from './dispatchMessages';
+export { default as dispatchMessageBatches } from './dispatchMessageBatches';
 export { default as drivers } from './drivers';
 export { default as externalApis } from './externalApis';
 export { default as messageTemplates } from './messageTemplates';

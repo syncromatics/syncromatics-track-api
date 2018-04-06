@@ -5,6 +5,7 @@ import Assignment from './Assignment';
 import Block from './Block';
 import DispatchMessage from './DispatchMessage';
 import DispatchMessagesContext from './DispatchMessagesContext';
+import DispatchMessageBatch from './DispatchMessageBatch';
 import Driver from './Driver';
 import DriversContext from './DriversContext';
 import ExternalApi from './ExternalApi';
@@ -102,6 +103,15 @@ class Customer extends Resource {
    */
   dispatchMessage(id) {
     return this.resource(DispatchMessage, DispatchMessage.makeHref(this.code, id));
+  }
+
+  /**
+   * Gets a dispatch message batch resource by id
+   * @param {string} id Alphanumeric ID of the dispatch message batch
+   * @return {DispatchMessageBatch} Dispatch Message Batch resource
+   */
+  dispatchMessageBatch(id) {
+    return this.resource(DispatchMessageBatch, DispatchMessageBatch.makeHref(this.code, id));
   }
 
   /**
