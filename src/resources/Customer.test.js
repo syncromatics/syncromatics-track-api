@@ -30,6 +30,7 @@ import TagsContext from './TagsContext';
 import Vehicle from './Vehicle';
 import VehiclesContext from './VehiclesContext';
 import Assignment from './Assignment';
+import DispatchMessagesContext from './DispatchMessagesContext';
 
 chai.should();
 chai.use(chaiAsPromised);
@@ -42,6 +43,7 @@ describe('When getting resources related to a customer', () => {
   it('should allow the agency record to be retrieved', () => customer.agency().should.be.instanceOf(Agency));
   it('should allow an assignment to be retrieved', () => customer.assignment().should.be.instanceOf(Assignment));
   it('should allow a block to be retrieved', () => customer.block().should.be.instanceof(Block));
+  it('should allow dispatch messages to be searched', () => customer.dispatchMessages().should.be.instanceOf(DispatchMessagesContext));
   it('should allow a dispatch message to be retrieved', () => customer.dispatchMessage().should.be.instanceOf(DispatchMessage));
   it('should allow drivers to be searched', () => customer.drivers().should.be.instanceOf(DriversContext));
   it('should allow a driver to be retrieved', () => customer.driver().should.be.instanceOf(Driver));

@@ -4,6 +4,7 @@ import Agency from './Agency';
 import Assignment from './Assignment';
 import Block from './Block';
 import DispatchMessage from './DispatchMessage';
+import DispatchMessagesContext from './DispatchMessagesContext';
 import Driver from './Driver';
 import DriversContext from './DriversContext';
 import ExternalApi from './ExternalApi';
@@ -84,6 +85,14 @@ class Customer extends Resource {
    */
   block(id) {
     return this.resource(Block, Block.makeHref(this.code, id));
+  }
+
+  /**
+   * Gets a context for querying this customer's dispatch messages
+   * @returns {DispatchMessagesContext} Context for querying this customer's dispatch messages
+   */
+  dispatchMessages() {
+    return this.resource(DispatchMessagesContext, this.code);
   }
 
   /**
