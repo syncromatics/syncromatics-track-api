@@ -4,21 +4,22 @@ import Client from '../Client';
 
 export { default as agencies } from './agencies';
 export { default as blocks } from './blocks';
+export { default as dispatchMessages } from './dispatchMessages';
 export { default as drivers } from './drivers';
-export { default as externalApis } from './externalApis.js';
-export { default as messageTemplates } from './messageTemplates.js';
-export { default as patterns } from './patterns.js';
-export { default as realTime } from './realTime.js';
-export { default as routes } from './routes.js';
-export { default as runs } from './runs.js';
-export { default as servicePackages } from './servicePackages.js';
-export { default as services } from './services.js';
-export { default as signs } from './signs.js';
-export { default as stops } from './stops.js';
-export { default as tags } from './tags.js';
-export { default as trips } from './trips.js';
-export { default as users } from './users.js';
-export { default as vehicles } from './vehicles.js';
+export { default as externalApis } from './externalApis';
+export { default as messageTemplates } from './messageTemplates';
+export { default as patterns } from './patterns';
+export { default as realTime } from './realTime';
+export { default as routes } from './routes';
+export { default as runs } from './runs';
+export { default as servicePackages } from './servicePackages';
+export { default as services } from './services';
+export { default as signs } from './signs';
+export { default as stops } from './stops';
+export { default as tags } from './tags';
+export { default as trips } from './trips';
+export { default as users } from './users';
+export { default as vehicles } from './vehicles';
 
 export const charlie = {
   setUpSuccessfulMock: (client) => {

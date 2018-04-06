@@ -3,6 +3,7 @@ import Resource from './Resource';
 import Agency from './Agency';
 import Assignment from './Assignment';
 import Block from './Block';
+import DispatchMessage from './DispatchMessage';
 import Driver from './Driver';
 import DriversContext from './DriversContext';
 import ExternalApi from './ExternalApi';
@@ -83,6 +84,15 @@ class Customer extends Resource {
    */
   block(id) {
     return this.resource(Block, Block.makeHref(this.code, id));
+  }
+
+  /**
+   * Gets a dispatch message resource by id
+   * @param {Number} id  Identity of the dispatch message
+   * @returns {DispatchMessage} Dispatch Message resource
+   */
+  dispatchMessage(id) {
+    return this.resource(DispatchMessage, DispatchMessage.makeHref(this.code, id));
   }
 
   /**
