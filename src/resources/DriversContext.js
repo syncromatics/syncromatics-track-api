@@ -12,7 +12,7 @@ class DriversContext extends PagedContext {
    * Creates a new drivers context
    * @param {Client} client Instance of pre-configured client
    * @param {string} customerCode  Customer code
-   * @param {object} params Object of querystring parameters to append to the RUL
+   * @param {object} params Object of querystring parameters to append to the URL
    */
   constructor(client, customerCode, params) {
     super(client, { ...params });
@@ -23,7 +23,7 @@ class DriversContext extends PagedContext {
    * Sets the query term for the context
    * @example
    * const drivers = new DriversContext(...);
-   * patterns
+   * drivers
    *   .withQuery('blue')
    *   .getPage()
    *   .then(page => ...);

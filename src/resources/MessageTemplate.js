@@ -62,7 +62,7 @@ class MessageTemplate extends Resource {
 
 /**
  * Creates a new message template via the client
- * @returns {Promise} If successful, the a hydrated instance of message template with id
+ * @returns {Promise} If successful, a hydrated instance of message template with id
  */
   create() {
     // eslint-disable-next-line no-unused-vars
