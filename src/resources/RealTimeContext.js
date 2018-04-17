@@ -50,7 +50,8 @@ class RealTimeContext {
    * be either "update" or "delete".
    * @param {function} handler The handler function to be fired when updates are received for the
    * newly-created subscription.
-   * @returns {Promise} Promise of a response to the SUBSCRIPTION_START_REQUEST message.
+   * @returns {Promise} A promise that resolves when the subscription has started.  The
+   * value of the resolved promise is a function that, when called, will end the subscription.
    */
   on(event, handler) {
     if (typeof handler !== 'function') {
