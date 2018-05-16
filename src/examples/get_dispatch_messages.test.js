@@ -80,7 +80,7 @@ describe('When creating a dispatch message', () => {
       vehicle: { href: '/1/SYNC/vehicles/1' },
       driver: { href: '/1/SYNC/drivers/1' },
       message_direction: 'FromDispatch',
-      route: { href: '/1/SYNC/routes/1' },
+      pattern: { href: '/1/SYNC/patterns/1' },
       dispatch_user: { href: '/1/users/1' },
       customerId: 1,
       message: 'Radio chatter',

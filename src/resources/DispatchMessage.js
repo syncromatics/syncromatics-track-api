@@ -1,7 +1,7 @@
 import Resource from './Resource';
 
 import Driver from './Driver';
-import Route from './Route';
+import Pattern from './Pattern';
 import User from './User';
 import Vehicle from './Vehicle';
 
@@ -32,7 +32,7 @@ class DispatchMessage extends Resource {
     const hydrated = !Object.keys(newProperties).every(k => k === 'href' || k === 'customerCode');
     const references = {
       driver: newProperties.driver && new Driver(this.client, newProperties.driver),
-      route: newProperties.route && new Route(this.client, newProperties.route),
+      pattern: newProperties.pattern && new Pattern(this.client, newProperties.pattern),
       user: newProperties.user && new User(this.client, newProperties.user),
       vehicle: newProperties.vehicle && new Vehicle(this.client, newProperties.vehicle),
     };

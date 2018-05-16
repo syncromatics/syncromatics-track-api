@@ -37,7 +37,7 @@ const dispatchMessages = {
     driver: { href: '/1/SYNC/drivers/1' },
     at_time: '2017-01-01T00:00:00.000-07:00',
     message_direction: 'FromDispatch',
-    route: { href: '/1/SYNC/routes/1' },
+    pattern: { href: '/1/SYNC/patterns/1' },
     dispatch_user: { href: '/1/users/1' },
     customerId: 1,
     message: 'Radio chatter',
