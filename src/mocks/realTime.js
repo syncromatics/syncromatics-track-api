@@ -2,6 +2,8 @@
 import { Server } from 'mock-socket';
 import * as messages from '../subscriptions/messages';
 import dispatchMessages from './dispatchMessages';
+import stopArrivals from './stopArrivals';
+import vehicleArrivals from './vehicleArrivals';
 import vehicles from './vehicles';
 
 const realTimeUri = 'ws://localhost:8083/1/realtime';
@@ -119,9 +121,15 @@ const realTime = {
           case 'DISPATCH_MESSAGES':
             data = dispatchMessages.list;
             break;
+          case 'STOP_ARRIVALS':
+            data = stopArrivals.list;
+            break;
           case 'STOPTIMES':
             console.warn('Need to define mocks for STOPTIMES');
             data = [];
+            break;
+          case 'VEHICLE_ARRIVALS':
+            data = vehicleArrivals.list;
             break;
           case 'VEHICLES':
             data = vehicles.list.map((vehicle) => {
