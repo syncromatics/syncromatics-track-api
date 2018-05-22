@@ -1,6 +1,8 @@
 import AssignmentsRealTimeContext from './AssignmentsRealTimeContext';
 import DispatchMessagesRealTimeContext from './DispatchMessagesRealTimeContext';
+import StopArrivalsRealTimeContext from './StopArrivalsRealTimeContext';
 import StopTimesRealTimeContext from './StopTimesRealTimeContext';
+import VehicleArrivalsRealTimeContext from './VehicleArrivalsRealTimeContext';
 import VehiclesRealTimeContext from './VehiclesRealTimeContext';
 
 /**
@@ -43,11 +45,27 @@ class RealTimeContextFactory {
   }
 
   /**
+   * Creates a RealTimeContext for querying Stop Arrivals updates.
+   * @returns {StopArrivalsRealTimeContext} The newly created context.
+   */
+  stopArrivals() {
+    return new StopArrivalsRealTimeContext(this.realTimeClient, this.customerCode);
+  }
+
+  /**
    * Creates a RealTimeContext for querying Stop Time updates.
    * @returns {StopTimesRealTimeContext} The newly created context.
    */
   stopTimes() {
     return new StopTimesRealTimeContext(this.realTimeClient, this.customerCode);
+  }
+
+  /**
+   * Creates a RealTimeContext for querying Vehicle Arrivals updates.
+   * @returns {VehicleArrivalsRealTimeContext} The newly created context.
+   */
+  vehicleArrivals() {
+    return new VehicleArrivalsRealTimeContext(this.realTimeClient, this.customerCode);
   }
 
   /**
