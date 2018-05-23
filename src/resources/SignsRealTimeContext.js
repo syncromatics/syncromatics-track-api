@@ -1,16 +1,16 @@
 import RealTimeContext from './RealTimeContext';
 
 /**
- * A real-time context that can be used to generate subscriptions to Dispatch Messages
+ * A real-time context that can be used to generate subscriptions to Signs
  */
-class DispatchMessagesRealTimeContext extends RealTimeContext {
+class SignsRealTimeContext extends RealTimeContext {
   /**
-   * Creates a context that can subscribe to DispatchMessage updates.
+   * Creates a context that can subscribe to Signs updates.
    * @param {RealTimeClient} realTimeClient  Pre-configured instance of RealTimeClient
    * @param {string} customerCode Alpha-numeric code of the customer
    */
   constructor(realTimeClient, customerCode) {
-    const entityName = 'DISPATCH_MESSAGES';
+    const entityName = 'SIGNS';
     super(realTimeClient, entityName, customerCode);
     this.filters = {
       drivers: [],
@@ -22,7 +22,7 @@ class DispatchMessagesRealTimeContext extends RealTimeContext {
    * Overwrites any existing driver filter for this context.
    * Cannot be called after subscription is started.
    * @param {Resource|string} driver Href or resource representation of a Driver
-   * @returns {DispatchMessagesRealTimeContext} Context with filter applied.
+   * @returns {SignsRealTimeContext} Context with filter applied.
    */
   forDriver(driver) {
     return this.forDrivers([driver]);
@@ -33,7 +33,7 @@ class DispatchMessagesRealTimeContext extends RealTimeContext {
    * Overwrites any existing driver filter for this context.
    * Cannot be called after subscription is started.
    * @param {Array.<Resource|string>} drivers Array of href or resource representations of Drivers.
-   * @returns {DispatchMessagesRealTimeContext} Context with filter applied.
+   * @returns {SignsRealTimeContext} Context with filter applied.
    */
   forDrivers(drivers) {
     this.assertSubscriptionNotStarted();
@@ -42,4 +42,4 @@ class DispatchMessagesRealTimeContext extends RealTimeContext {
   }
 }
 
-export default DispatchMessagesRealTimeContext;
+export default SignsRealTimeContext;

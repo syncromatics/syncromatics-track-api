@@ -1,5 +1,6 @@
 import AssignmentsRealTimeContext from './AssignmentsRealTimeContext';
 import DispatchMessagesRealTimeContext from './DispatchMessagesRealTimeContext';
+import SignsRealTimeContext from './SignsRealTimeContext';
 import StopArrivalsRealTimeContext from './StopArrivalsRealTimeContext';
 import StopTimesRealTimeContext from './StopTimesRealTimeContext';
 import VehicleArrivalsRealTimeContext from './VehicleArrivalsRealTimeContext';
@@ -42,6 +43,14 @@ class RealTimeContextFactory {
    */
   dispatchMessages() {
     return new DispatchMessagesRealTimeContext(this.realTimeClient, this.customerCode);
+    }
+
+  /**
+   * Creates a RealTimeContext for querying Signs updates.
+   * @returns {SignsRealTimeContext} The newly created context.
+   */
+  signs() {
+    return new SignsRealTimeContext(this.realTimeClient, this.customerCode);
   }
 
   /**
