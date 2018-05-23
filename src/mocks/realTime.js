@@ -2,6 +2,7 @@
 import { Server } from 'mock-socket';
 import * as messages from '../subscriptions/messages';
 import dispatchMessages from './dispatchMessages';
+import signs from './signs';
 import stopArrivals from './stopArrivals';
 import vehicleArrivals from './vehicleArrivals';
 import vehicles from './vehicles';
@@ -120,6 +121,9 @@ const realTime = {
             break;
           case 'DISPATCH_MESSAGES':
             data = dispatchMessages.list;
+            break;
+          case 'SIGNS':
+            data = signs.list;
             break;
           case 'STOP_ARRIVALS':
             data = stopArrivals.list;

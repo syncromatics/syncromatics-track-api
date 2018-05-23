@@ -22,6 +22,12 @@ const signs = {
     id: 1,
     name: 'The first sign',
     enabled: true,
+    current_health: {
+      last_check_in: '2017-01-01T00:00:00.000-0700',
+      hardware_health: 'HardwareError',
+      hardware_error_info: 'Exception thrown',
+      rssi: -34,
+    },
   }],
 };
 
