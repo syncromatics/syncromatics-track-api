@@ -43,7 +43,7 @@ class RealTimeContextFactory {
    */
   dispatchMessages() {
     return new DispatchMessagesRealTimeContext(this.realTimeClient, this.customerCode);
-  }
+    }
 
   /**
    * Creates a RealTimeContext for querying Signs updates.

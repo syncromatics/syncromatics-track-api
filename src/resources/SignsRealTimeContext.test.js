@@ -8,17 +8,17 @@ chai.should();
 chai.use(chaiAsPromised);
 
 describe('When creating a subscription for Signs', () => {
-  const entity = 'SIGNS';
+  const entity = 'DISPATCH_MESSAGES';
   const customerCode = 'SYNC';
 
   it('can add filters for a single sign', () => {
     const server = mock.getServer();
     const realTimeClient = new RealTimeClient(mock.authenticatedClient, mock.options);
-    const subject = new SignsRealTimeContext(realTimeClient, customerCode);
+    const subject = new SignRealTimeContext(realTimeClient, customerCode);
 
-    const signHref = '/1/SYNC/signs/1';
-    const expectedFilters = { signs: [signHref] };
-    subject.forSign(signHref).on('update', () => { });
+    const driverHref = '/1/SYNC/drivers/1';
+    const expectedFilters = { drivers: [driverHref] };
+    subject.forDriver(driverHref).on('update', () => { });
 
     const options = { closeConnection: true, realTimeClient };
     return server.verifySubscription(entity, options)
@@ -28,11 +28,11 @@ describe('When creating a subscription for Signs', () => {
   it('can add filters for multiple signs', () => {
     const server = mock.getServer();
     const realTimeClient = new RealTimeClient(mock.authenticatedClient, mock.options);
-    const subject = new SignsRealTimeContext(realTimeClient, customerCode);
+    const subject = new DispatchMessagesRealTimeContext(realTimeClient, customerCode);
 
-    const signHrefs = ['/1/SYNC/signs/1', '/1/SYNC/signs/2'];
-    const expectedFilters = { signs: signHrefs };
-    subject.forSigns(signHrefs).on('update', () => { });
+    const driverHrefs = ['/1/SYNC/drivers/1', '/1/SYNC/drivers/2'];
+    const expectedFilters = { drivers: driverHrefs };
+    subject.forDrivers(driverHrefs).on('update', () => { });
 
     const options = { closeConnection: true, realTimeClient };
     return server.verifySubscription(entity, options)
@@ -42,16 +42,16 @@ describe('When creating a subscription for Signs', () => {
   it('should handle entity updates', () => {
     const server = mock.getServer();
     const realTimeClient = new RealTimeClient(mock.authenticatedClient, mock.options);
-    const subject = new SignsRealTimeContext(realTimeClient, customerCode);
+    const subject = new DispatchMessagesRealTimeContext(realTimeClient, customerCode);
 
     let resolver;
     const updateReceived = new Promise((resolve) => { resolver = resolve; });
     const connectionClosed = updateReceived
       .then(() => server.closeConnection(realTimeClient));
 
-    const signHref = '/1/SYNC/signs/1';
+    const driverHref = '/1/SYNC/drivers/1';
     const subscription = subject
-      .forSign(signHref)
+      .forDriver(driverHref)
       .on('update', resolver);
 
     return Promise.all([

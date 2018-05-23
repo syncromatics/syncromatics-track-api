@@ -23,11 +23,6 @@ describe('When creating a RealTimeContext', () => {
     result.realTimeClient.should.equal(realTimeClient);
   });
 
-  it('should reuse its RealTimeClient when creating a SignsRealTimeContext', () => {
-    const result = factory.signs();
-    result.realTimeClient.should.equal(realTimeClient);
-  });
-
   it('should reuse its RealTimeClient when creating a StopTimesRealTimeContext', () => {
     const result = factory.stopTimes();
     result.realTimeClient.should.equal(realTimeClient);

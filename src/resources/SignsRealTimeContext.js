@@ -13,31 +13,31 @@ class SignsRealTimeContext extends RealTimeContext {
     const entityName = 'SIGNS';
     super(realTimeClient, entityName, customerCode);
     this.filters = {
-      signs: [],
+      drivers: [],
     };
   }
 
   /**
-   * Restrict subscriptions created by this context to a single sign.
-   * Overwrites any existing sign filter for this context.
+   * Restrict subscriptions created by this context to a single driver.
+   * Overwrites any existing driver filter for this context.
    * Cannot be called after subscription is started.
-   * @param {Resource|string} sign Href or resource representation of a Sign
+   * @param {Resource|string} driver Href or resource representation of a Driver
    * @returns {SignsRealTimeContext} Context with filter applied.
    */
-  forSign(sign) {
-    return this.forSigns([sign]);
+  forDriver(driver) {
+    return this.forDrivers([driver]);
   }
 
   /**
-   * Restrict subscriptions created by this context to a set of signs.
-   * Overwrites any existing sign filter for this context.
+   * Restrict subscriptions created by this context to a set of drivers.
+   * Overwrites any existing driver filter for this context.
    * Cannot be called after subscription is started.
-   * @param {Array.<Resource|string>} signs Array of href or resource representations of Signs.
+   * @param {Array.<Resource|string>} drivers Array of href or resource representations of Drivers.
    * @returns {SignsRealTimeContext} Context with filter applied.
    */
-  forSigns(signs) {
+  forDrivers(drivers) {
     this.assertSubscriptionNotStarted();
-    this.filters.signs = signs.map(RealTimeContext.resolveHref);
+    this.filters.drivers = drivers.map(RealTimeContext.resolveHref);
     return this;
   }
 }
