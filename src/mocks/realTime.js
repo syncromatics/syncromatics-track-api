@@ -4,6 +4,7 @@ import * as messages from '../subscriptions/messages';
 import dispatchMessages from './dispatchMessages';
 import signs from './signs';
 import stopArrivals from './stopArrivals';
+import stops from './stops';
 import vehicleArrivals from './vehicleArrivals';
 import vehicles from './vehicles';
 
@@ -127,6 +128,9 @@ const realTime = {
             break;
           case 'STOP_ARRIVALS':
             data = stopArrivals.list;
+            break;
+          case 'STOPS':
+            data = stops.list;
             break;
           case 'STOPTIMES':
             console.warn('Need to define mocks for STOPTIMES');

@@ -5,6 +5,7 @@ import StopArrivalsRealTimeContext from './StopArrivalsRealTimeContext';
 import StopTimesRealTimeContext from './StopTimesRealTimeContext';
 import VehicleArrivalsRealTimeContext from './VehicleArrivalsRealTimeContext';
 import VehiclesRealTimeContext from './VehiclesRealTimeContext';
+import StopsRealTimeContext from './StopsRealTimeContext';
 
 /**
  * A factory for creating entity-specific Real Time Contexts for a given Real Time Client.
@@ -59,6 +60,14 @@ class RealTimeContextFactory {
    */
   stopArrivals() {
     return new StopArrivalsRealTimeContext(this.realTimeClient, this.customerCode);
+  }
+
+  /**
+   * Creates a RealTimeContext for querying Stop updates.
+   * @returns {StopsRealTimeContext} The newly created context.
+   */
+  stops() {
+    return new StopsRealTimeContext(this.realTimeClient, this.customerCode);
   }
 
   /**
