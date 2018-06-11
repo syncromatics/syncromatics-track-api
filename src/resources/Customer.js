@@ -20,6 +20,7 @@ import Run from './Run';
 import Service from './Service';
 import ServicePackage from './ServicePackage';
 import ServicePackagesContext from './ServicePackagesContext';
+import Settings from './Settings';
 import Sign from './Sign';
 import SignsContext from './SignsContext';
 import Stop from './Stop';
@@ -235,6 +236,14 @@ class Customer extends Resource {
    */
   service(id) {
     return this.resource(Service, Service.makeHref(this.code, id));
+  }
+
+  /**
+   * Gets a customer's settings resource by its code
+   * @returns {Settings} Settings resource
+   */
+  settings() {
+    return this.resource(Settings, Settings.makeHref(this.code));
   }
 
   /**
