@@ -4,16 +4,17 @@ import Client from '../Client';
 
 const settings = {
   setUpSuccessfulMock: (client) => {
-    const singleResponse = () => new Response(Client.toBlob(settings.get()));
+    const singleResponse = () => new Response(Client.toBlob({
+      href: '/1/SYNC/settings',
+      sign_in_type: 'trip',
+    }));
 
-    fetchMock
-      .get(client.resolve('/1/SYNC/settings'), singleResponse);
+    fetchMock.get(client.resolve('/1/SYNC/settings'), singleResponse);
   },
-  get: () => settings.object,
-  object: {
+  get: () => ({
     href: '/1/SYNC/settings',
     sign_in_type: 'trip',
-  },
+  }),
 };
 
 export default settings;
