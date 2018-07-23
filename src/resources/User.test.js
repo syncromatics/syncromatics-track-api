@@ -56,7 +56,7 @@ describe('When updating a user', () => {
   let promise;
   beforeEach(() => {
     promise = new User(client, User.makeHref(1))
-      .create()
+      .fetch()
       .then((user) => {
         // eslint-disable-next-line no-param-reassign
         user.firstName = newFirstName;
