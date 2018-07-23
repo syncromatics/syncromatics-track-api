@@ -44,3 +44,26 @@ describe('When retrieving the user for the authenticated session', () => {
     return usersPromise;
   });
 });
+
+describe('When updating a user for the authenticated session', () => {
+  const api = new Track({ autoRenew: false });
+
+  beforeEach(() => charlie.setUpSuccessfulMock(api.client));
+  beforeEach(() => mockUsers.setUpSuccessfulMock(api.client));
+  beforeEach(() => fetchMock.catch(503));
+  afterEach(fetchMock.restore);
+
+  it('should update a user', () => {
+    api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
+
+    const userPromise = api.user()
+      .fetch()
+      .then((user) => {
+        // eslint-disable-next-line no-param-reassign
+        user.firstName = 'updatedFirstName';
+        return user.update();
+      });
+
+    return userPromise;
+  });
+});
