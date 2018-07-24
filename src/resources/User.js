@@ -51,6 +51,18 @@ class User extends Resource {
       .then(response => response.json())
       .then(user => new User(this.client, this, user));
   }
+
+    /**
+   * Updates data for a user via the client
+   * @returns {Promise} if successful returns instance of this user
+   */
+  update() {
+    // eslint-disable-next-line no-unused-vars
+    const { client, hydrated, href, ...body } = this;
+    return this.client.put(href, { body })
+      .then(() => new User(this.client, { ...this }));
+  }
+
 }
 
 export default User;
