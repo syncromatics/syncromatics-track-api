@@ -21,6 +21,7 @@ describe('When instantiating settings based on an object', () => {
   const settings = new Settings(client, {
     href: '/1/SYNC/settings',
     sign_in_type: 'trip',
+    is_voip_enabled: true,
   });
 
   it('should set the href', () => settings.href.should.equal('/1/SYNC/settings'));
@@ -33,6 +34,7 @@ describe('When fetching settings based on customer', () => {
   fetchMock.get(client.resolve('/1/SYNC/settings'), Client.toBlob({
     href: '/1/SYNC/settings',
     sign_in_type: 'trip',
+    is_voip_enabled: true,
   }));
 
   const promise = new Settings(client, Settings.makeHref('SYNC')).fetch();

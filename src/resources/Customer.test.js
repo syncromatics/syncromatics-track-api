@@ -31,6 +31,7 @@ import Trip from './Trip';
 import TagsContext from './TagsContext';
 import Vehicle from './Vehicle';
 import VehiclesContext from './VehiclesContext';
+import VoipTicket from './VoipTicket';
 import Assignment from './Assignment';
 
 chai.should();
@@ -70,6 +71,7 @@ describe('When getting resources related to a customer', () => {
   it('should allow a trip to be retrieved', () => customer.trip().should.be.instanceof(Trip));
   it('should allow vehicles to be searched', () => customer.vehicles().should.be.instanceof(VehiclesContext));
   it('should allow a vehicle to be retrieved', () => customer.vehicle().should.be.instanceof(Vehicle));
+  it('should allow a voip ticket to be retrieved', () => customer.voipTicket().should.be.instanceof(VoipTicket));
 });
 
 describe('When accessing a realTimeContext', () => {
