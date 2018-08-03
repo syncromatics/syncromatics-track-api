@@ -7,6 +7,7 @@ const settings = {
     const singleResponse = () => new Response(Client.toBlob({
       href: '/1/SYNC/settings',
       sign_in_type: 'trip',
+      is_voip_enabled: true,
     }));
 
     fetchMock.get(client.resolve('/1/SYNC/settings'), singleResponse);
@@ -14,6 +15,7 @@ const settings = {
   get: () => ({
     href: '/1/SYNC/settings',
     sign_in_type: 'trip',
+    is_voip_enabled: true,
   }),
 };
 

@@ -30,6 +30,7 @@ import TagsContext from './TagsContext';
 import Trip from './Trip';
 import Vehicle from './Vehicle';
 import VehiclesContext from './VehiclesContext';
+import VoipTicket from './VoipTicket';
 
 /**
  * Customer resource
@@ -324,6 +325,14 @@ class Customer extends Resource {
    */
   vehicle(id) {
     return this.resource(Vehicle, Vehicle.makeHref(this.code, id));
+  }
+
+  /**
+   * Gets a voip ticket resource
+   * @returns {VoipTicket} VoipTicket resource
+   */
+  voipTicket() {
+    return this.resource(VoipTicket, VoipTicket.makeHref(this.code));
   }
 }
 
