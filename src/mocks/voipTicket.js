@@ -8,7 +8,7 @@ const voipTickets = {
     const singleResponse = () => new Response(Client.toBlob(sync));
 
     fetchMock
-      .get(client.resolve('/1/SYNC/voip_ticket'), singleResponse);
+      .post(client.resolve('/1/SYNC/voip_ticket'), singleResponse);
   },
   getByCode: code => voipTickets.list.find(a => a.code === code),
   list: [{

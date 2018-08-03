@@ -33,11 +33,11 @@ class VoipTicket extends Resource {
   }
 
   /**
-   * Fetches the data for this voip ticket via the client
-   * @returns {Promise} If successful, a hydrated instance of a frehs voip ticket
+   * Generates a new voip ticket via the client
+   * @returns {Promise} If successful, a hydrated instance of a fresh voip ticket
    */
   fetch() {
-    return this.client.get(this.href)
+    return this.client.post(this.href)
       .then(response => response.json())
       .then(voipTicket => new VoipTicket(this.client, this, voipTicket));
   }
