@@ -20,10 +20,7 @@ describe('When retrieving a VoIP ticket for a customer', () => {
 
     const voipTicketPromise = api.customer('SYNC').voipTicket()
       .fetch()
-      .then((voipTicket) => {
-        /* do something with voipTicket */
-        return voipTicket;
-      });
+      .then(voipTicket => voipTicket); // do something with voipTicket
 
     return voipTicketPromise;
   });

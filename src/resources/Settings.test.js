@@ -3,7 +3,6 @@ import chaiAsPromised from 'chai-as-promised';
 import fetchMock from 'fetch-mock';
 import Client from '../Client';
 import Settings from './Settings';
-import { settings as mockSettings } from '../mocks';
 
 chai.should();
 chai.use(chaiAsPromised);
