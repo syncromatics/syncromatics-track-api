@@ -39,7 +39,7 @@ describe('When searching for patterns that are enabled for operations', () => {
   it('should get a list of patterns', () => {
     api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
 
-    const asOf = new Date(2018, 2, 5);
+    const asOf = new Date('05 March 2018 00:00 UTC');
     const patternsPromise = api.customer('SYNC').patterns()
       .withEnabledForOperations()
       .withAsOf(asOf)
@@ -74,7 +74,7 @@ describe('When getting a collection of patterns with their associated stop infor
   it('should respect withAsOf and withEnabledForOperations', () => {
     api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
 
-    const asOf = new Date(2018, 2, 5);
+    const asOf = new Date('05 March 2018 00:00 UTC');
     const patternsPromise = api.customer('SYNC').patterns()
       .withExpandedProperty('stops')
       .withEnabledForOperations()
