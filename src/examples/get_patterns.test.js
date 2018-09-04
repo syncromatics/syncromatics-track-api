@@ -28,6 +28,29 @@ describe('When searching for patterns by name', () => {
   });
 });
 
+describe('When searching for patterns that are enabled for operations', () => {
+  const api = new Track({ autoRenew: false });
+
+  beforeEach(() => charlie.setUpSuccessfulMock(api.client));
+  beforeEach(() => mockPatterns.setUpSuccessfulMock(api.client));
+  beforeEach(() => fetchMock.catch(503));
+  afterEach(fetchMock.restore);
+
+  it('should get a list of patterns', () => {
+    api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
+
+    const asOf = new Date('05 March 2018 00:00 UTC');
+    const patternsPromise = api.customer('SYNC').patterns()
+      .withEnabledForOperations()
+      .withAsOf(asOf)
+      .getPage()
+      .then(page => page.list)
+      .then(patterns => patterns); // Do things with list of patterns
+
+    return patternsPromise;
+  });
+});
+
 describe('When getting a collection of patterns with their associated stop information', () => {
   const api = new Track({ autoRenew: false });
 
@@ -41,6 +64,21 @@ describe('When getting a collection of patterns with their associated stop infor
 
     const patternsPromise = api.customer('SYNC').patterns()
       .withExpandedProperty('stops')
+      .getPage()
+      .then(page => page.list)
+      .then(patterns => patterns); // Do things with list of patterns
+
+    return patternsPromise;
+  });
+
+  it('should respect withAsOf and withEnabledForOperations', () => {
+    api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
+
+    const asOf = new Date('05 March 2018 00:00 UTC');
+    const patternsPromise = api.customer('SYNC').patterns()
+      .withExpandedProperty('stops')
+      .withEnabledForOperations()
+      .withAsOf(asOf)
       .getPage()
       .then(page => page.list)
       .then(patterns => patterns); // Do things with list of patterns

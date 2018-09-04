@@ -57,6 +57,40 @@ class PatternsContext extends PagedContext {
   }
 
   /**
+   * Restricts this context to only patterns that are enabled or disabled for operations
+   * @example
+   * const patterns = new PatternsContext(...);
+   * patterns
+   *   .withEnabledForOperations()
+   *   .getPage()
+   *   .then(page => ...);
+   * @param {bool} isEnabledForOperations Whether to return only enabled or disabled patterns
+   * @returns {PatternsContext} Returns itself
+   */
+  withEnabledForOperations(isEnabledForOperations = true) {
+    this.params.enabled_for_operations = isEnabledForOperations;
+    return this;
+  }
+
+  /**
+   * Restricts this context to only patterns that are assigned to an active service as of asOf.
+   * If the customer signs their vehicles in to trips or to runs, this criteria is ignored.
+   * @example
+   * const patterns = new PatternsContext(...);
+   * const now = new Date();
+   * patterns
+   *   .withAsOf(now)
+   *   .getPage()
+   *   .then(page => ...);
+   * @param {Date} asOf The date to search
+   * @returns {PatternsContext} Returns itself
+   */
+  withAsOf(asOf) {
+    this.params.as_of = asOf.toISOString();
+    return this;
+  }
+
+  /**
    * Gets the first page of results for this context
    * @returns {Promise} If successful, a page of Pattern objects
    * @see Pattern
