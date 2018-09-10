@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Server } from 'mock-socket';
 import * as messages from '../subscriptions/messages';
+import callRequests from './callRequests';
 import dispatchMessages from './dispatchMessages';
 import signs from './signs';
 import stopArrivals from './stopArrivals';
@@ -119,6 +120,9 @@ const realTime = {
         switch (request.entity) {
           case 'ASSIGNMENTS':
             data = vehicles.list.map(v => v.assignment);
+            break;
+          case 'CALL_REQUESTS':
+            data = callRequests.list;
             break;
           case 'DISPATCH_MESSAGES':
             data = dispatchMessages.list;

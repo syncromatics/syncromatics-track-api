@@ -18,6 +18,11 @@ describe('When creating a RealTimeContext', () => {
     result.realTimeClient.should.equal(realTimeClient);
   });
 
+  it('should reuse its RealTimeClient when creating an CallRequestsRealTimeContext', () => {
+    const result = factory.callRequests();
+    result.realTimeClient.should.equal(realTimeClient);
+  });
+
   it('should reuse its RealTimeClient when creating a DispatchMessagesRealTimeContext', () => {
     const result = factory.dispatchMessages();
     result.realTimeClient.should.equal(realTimeClient);
