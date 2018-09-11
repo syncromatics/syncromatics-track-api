@@ -1,4 +1,5 @@
 import AssignmentsRealTimeContext from './AssignmentsRealTimeContext';
+import CallRequestsRealTimeContext from './CallRequestsRealTimeContext';
 import DispatchMessagesRealTimeContext from './DispatchMessagesRealTimeContext';
 import SignsRealTimeContext from './SignsRealTimeContext';
 import StopArrivalsRealTimeContext from './StopArrivalsRealTimeContext';
@@ -36,6 +37,14 @@ class RealTimeContextFactory {
    */
   assignments() {
     return new AssignmentsRealTimeContext(this.realTimeClient, this.customerCode);
+  }
+
+  /**
+   * Creates a RealTimeContext for querying Call Request updates.
+   * @returns {CallRequestsRealTimeContext} The newly created context.
+   */
+  callRequests() {
+    return new CallRequestsRealTimeContext(this.realTimeClient, this.customerCode);
   }
 
   /**
