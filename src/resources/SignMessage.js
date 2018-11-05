@@ -1,7 +1,5 @@
 import Resource from './Resource';
 import Route from './Route';
-import Sign from './Sign';
-import SignMessageSchedule from './SignMessageSchedule';
 import Stop from './Stop';
 import Tag from './Tag';
 
@@ -22,9 +20,6 @@ class SignMessage extends Resource {
     const hydrated = !Object.keys(newProperties).every(k => k === 'href');
     const references = {
       routes: newProperties.routes && newProperties.routes.map(x => new Route(this.client, x)),
-      schedules: newProperties.schedules &&
-        newProperties.schedules.map(x => new SignMessageSchedule(this.client, x)),
-      signs: newProperties.signs && newProperties.signs.map(x => new Sign(this.client, x)),
       stops: newProperties.stops && newProperties.stops.map(x => new Stop(this.client, x)),
       tags: newProperties.tags && newProperties.tags.map(x => new Tag(this.client, x)),
     };

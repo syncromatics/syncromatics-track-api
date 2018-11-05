@@ -10,8 +10,8 @@ import Driver from './Driver';
 import DriversContext from './DriversContext';
 import ExternalApi from './ExternalApi';
 import ExternalApisContext from './ExternalApisContext';
-import MessageTemplate from './MessageTemplate';
-import MessageTemplatesContext from './MessageTemplatesContext';
+import Message from './Message';
+import MessagesContext from './MessagesContext';
 import Pattern from './Pattern';
 import PatternsContext from './PatternsContext';
 import Route from './Route';
@@ -151,23 +151,23 @@ class Customer extends Resource {
   }
 
   /**
-   * Gets a context for querying this customer's message templates
-   * @returns {MessageTemplatesContext} Context for querying this customer's message templates
+   * Gets a context for querying this customer's messages
+   * @returns {MessagesContext} Context for querying this customer's messages
    */
-  messageTemplates() {
-    return this.resource(MessageTemplatesContext, this.code);
+  messages() {
+    return this.resource(MessagesContext, this.code);
   }
 
   /**
-   * Gets a message template resource by id
-   * @param {Object} payload Identity of the message_template or object representing a new template
-   * @returns {MessageTemplate} MessageTemplate resource
+   * Gets a message resource by id
+   * @param {Object} payload Identity of the message or object representing a new message
+   * @returns {Message} Message resource
    */
-  messageTemplate(payload) {
+  message(payload) {
     if (!isNaN(parseFloat(payload)) && isFinite(payload)) {
-      return this.resource(MessageTemplate, MessageTemplate.makeHref(this.code, payload));
+      return this.resource(Message, Message.makeHref(this.code, payload));
     }
-    return this.resource(MessageTemplate, { code: this.code, ...payload });
+    return this.resource(Message, { code: this.code, ...payload });
   }
 
   /**
