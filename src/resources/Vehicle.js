@@ -1,5 +1,6 @@
 import Resource from './Resource';
 import Assignment from './Assignment';
+import VehicleMedia from './VehicleMedia';
 
 /**
  * Vehicle resource
@@ -31,6 +32,7 @@ class Vehicle extends Resource {
     const hydrated = !Object.keys(newProperties).every(k => k === 'href');
     const references = {
       assignment: newProperties.assignment && new Assignment(this.client, newProperties.assignment),
+      media: newProperties.media && newProperties.media.map(m => new VehicleMedia(this.client, m)),
     };
 
     Object.assign(this, newProperties, {

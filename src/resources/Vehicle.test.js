@@ -44,6 +44,7 @@ describe('When fetching a vehicle based on customer and ID', () => {
   it('should set the href', () => promise.then(v => v.href).should.eventually.equal('/1/SYNC/vehicles/1'));
   it('should be hydrated', () => promise.then(v => v.hydrated).should.eventually.equal(true));
   it('should have an assignment', () => promise.then(v => v.assignment).should.eventually.be.an.instanceof(Assignment));
+  it('should have media associated', () => promise.then(v => v.media).should.eventually.be.not.empty);
 });
 
 describe('When fetching a vehicle related to an assignment', () => {
