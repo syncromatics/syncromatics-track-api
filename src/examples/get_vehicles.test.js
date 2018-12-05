@@ -101,3 +101,25 @@ describe('When assigning a vehicle', () => {
     return assignmentPromise;
   });
 });
+
+describe('When retrieving vehicle media by vehicle', () => {
+  const api = new Track({ autoRenew: false });
+
+  beforeEach(() => charlie.setUpSuccessfulMock(api.client));
+  beforeEach(() => mockVehicles.setUpSuccessfulMock(api.client));
+  beforeEach(() => fetchMock.catch(503));
+  afterEach(fetchMock.restore);
+
+  it('should get a vehicle', () => {
+    api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
+
+    const vehicleMediaPromise = api.customer('SYNC').vehicle(1)
+      .fetch()
+      .then(vehicle => vehicle.media
+        .find(media => media.name === '1')
+        .fetch()) // Choose vehicle media
+      .then(media => media.data); // Do something with Blob
+
+    return vehicleMediaPromise;
+  });
+});
