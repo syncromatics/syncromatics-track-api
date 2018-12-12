@@ -1,15 +1,15 @@
 import 'isomorphic-fetch';
 import PagedContext from './PagedContext';
-import MessageTemplate from './MessageTemplate';
+import Message from './Message';
 
 /**
- * Message template querying context
+ * Message querying context
  *
- * This is used to query the list of message templates for a customer
+ * This is used to query the list of messages for a customer
  */
-class MessageTemplatesContext extends PagedContext {
+class MessagesContext extends PagedContext {
   /**
-   * Creates a new message template context
+   * Creates a new message context
    * @param {Client} client Instance of pre-configured client
    * @param {string} customerCode Customer code
    * @param {Object} params Object of querystring parameters to append to the URL
@@ -22,13 +22,13 @@ class MessageTemplatesContext extends PagedContext {
   /**
    * Sets the query term for the context
    * @example
-   * const messageTemplates = new MessageTemplatesContext(...);
-   * messageTemplates
+   * const messages = new MessagesContext(...);
+   * messages
    *   .withQuery('12')
    *   .getPage()
    *   .then(page => ...);
    * @param {string} term Query term to search for
-   * @returns {MessageTemplatesContext} Returns itself
+   * @returns {MessagesContext} Returns itself
    */
   withQuery(term) {
     this.params.q = term;
@@ -37,12 +37,12 @@ class MessageTemplatesContext extends PagedContext {
 
   /**
    * Gets the first page of results for this context
-   * @returns {Promise} If successful, a page of MessageTemplate objects
-   * @see MessageTemplate
+   * @returns {Promise} If successful, a page of Message objects
+   * @see Message
    */
   getPage() {
-    return this.page(MessageTemplate, `/1/${this.code}/message_templates`);
+    return this.page(Message, `/1/${this.code}/messages`);
   }
 }
 
-export default MessageTemplatesContext;
+export default MessagesContext;
