@@ -2,57 +2,57 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import fetchMock from 'fetch-mock';
 import Client from '../Client';
-import MessageTemplate from './MessageTemplate';
-import { messageTemplates as mockMessageTemplates } from '../mocks';
+import Message from './Message';
+import { messages as mockMessages } from '../mocks';
 
 chai.should();
 chai.use(chaiAsPromised);
 
-describe('When instantiating a message template based on customer and ID', () => {
+describe('When instantiating a message based on customer and ID', () => {
   const client = new Client();
-  const messageTemplate = new MessageTemplate(client, MessageTemplate.makeHref('SYNC', 1));
+  const message = new Message(client, Message.makeHref('SYNC', 1));
 
-  it('should set the href', () => messageTemplate.href.should.equal('/1/SYNC/message_templates/1'));
-  it('should not be hydrated', () => messageTemplate.hydrated.should.equal(false));
+  it('should set the href', () => message.href.should.equal('/1/SYNC/messages/1'));
+  it('should not be hydrated', () => message.hydrated.should.equal(false));
 });
 
-describe('When instantiating a message template based on an object', () => {
+describe('When instantiating a message based on an object', () => {
   const client = new Client();
-  const messageTemplate = new MessageTemplate(client, mockMessageTemplates.getById(1));
+  const message = new Message(client, mockMessages.getById(1));
 
-  it('should set the ID', () => messageTemplate.id.should.equal(1));
-  it('should set the href', () => messageTemplate.href.should.equal('/1/SYNC/message_templates/1'));
-  it('should be hydrated', () => messageTemplate.hydrated.should.equal(true));
+  it('should set the ID', () => message.id.should.equal(1));
+  it('should set the href', () => message.href.should.equal('/1/SYNC/messages/1'));
+  it('should be hydrated', () => message.hydrated.should.equal(true));
 });
 
-describe('When fetching a message template based on customer and ID', () => {
+describe('When fetching a message based on customer and ID', () => {
   const client = new Client();
 
-  beforeEach(() => mockMessageTemplates.setUpSuccessfulMock(client));
+  beforeEach(() => mockMessages.setUpSuccessfulMock(client));
   beforeEach(() => fetchMock.catch(503));
   afterEach(fetchMock.restore);
 
   let promise;
   beforeEach(() => {
-    promise = new MessageTemplate(client, MessageTemplate.makeHref('SYNC', 1)).fetch();
+    promise = new Message(client, Message.makeHref('SYNC', 1)).fetch();
   });
 
   it('should resolve the promise', () => promise.should.be.fulfilled);
   it('should set the ID', () => promise.then(v => v.id).should.eventually.equal(1));
-  it('should set the href', () => promise.then(v => v.href).should.eventually.equal('/1/SYNC/message_templates/1'));
+  it('should set the href', () => promise.then(v => v.href).should.eventually.equal('/1/SYNC/messages/1'));
   it('should be hydrated', () => promise.then(v => v.hydrated).should.eventually.equal(true));
 });
 
-describe('When creating a message template', () => {
+describe('When creating a message', () => {
   const client = new Client();
 
-  beforeEach(() => mockMessageTemplates.setUpSuccessfulMock(client));
+  beforeEach(() => mockMessages.setUpSuccessfulMock(client));
   beforeEach(() => fetchMock.catch(503));
   afterEach(fetchMock.restore);
 
   let promise;
   beforeEach(() => {
-    promise = new MessageTemplate(client, { code: 'SYNC',
+    promise = new Message(client, { code: 'SYNC',
       ...{
 
         name: '5k Detour',
@@ -98,21 +98,21 @@ describe('When creating a message template', () => {
 
   it('should resolve the promise', () => promise.should.be.fulfilled);
   it('should set the ID', () => promise.then(v => v.id).should.eventually.equal(1));
-  it('should set the href', () => promise.then(v => v.href).should.eventually.equal('/1/SYNC/message_templates/1'));
+  it('should set the href', () => promise.then(v => v.href).should.eventually.equal('/1/SYNC/messages/1'));
   it('should be hydrated', () => promise.then(v => v.hydrated).should.eventually.equal(true));
 });
 
-describe('When updating a message template', () => {
+describe('When updating a message', () => {
   const client = new Client();
-  const updateValue = 'newTemplateName';
+  const updateValue = 'newMessageName';
 
-  beforeEach(() => mockMessageTemplates.setUpSuccessfulMock(client));
+  beforeEach(() => mockMessages.setUpSuccessfulMock(client));
   beforeEach(() => fetchMock.catch(503));
   afterEach(fetchMock.restore);
 
   let promise;
   beforeEach(() => {
-    promise = new MessageTemplate(client, { code: 'SYNC',
+    promise = new Message(client, { code: 'SYNC',
       ...{
 
         name: '5k Detour',
@@ -154,16 +154,16 @@ describe('When updating a message template', () => {
         ],
       },
     }).create()
-    .then((messageTemplate) => {
-    // eslint-disable-next-line no-param-reassign
-      messageTemplate.name = updateValue;
-      return messageTemplate.update();
+    .then((message) => {
+      // eslint-disable-next-line no-param-reassign
+      message.name = updateValue;
+      return message.update();
     })
-    .then(messageTemplate => messageTemplate);
+    .then(message => message);
   });
 
   it('should resolve the promise', () => promise.should.be.fulfilled);
   it('should set the ID', () => promise.then(v => v.id).should.eventually.equal(1));
-  it('should set the href', () => promise.then(v => v.href).should.eventually.equal('/1/SYNC/message_templates/1'));
+  it('should set the href', () => promise.then(v => v.href).should.eventually.equal('/1/SYNC/messages/1'));
   it('should be hydrated', () => promise.then(v => v.hydrated).should.eventually.equal(true));
 });
