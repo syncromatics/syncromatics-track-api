@@ -1,3 +1,4 @@
+import AreasRealTimeContext from './AreasRealTimeContext';
 import AssignmentsRealTimeContext from './AssignmentsRealTimeContext';
 import CallRequestsRealTimeContext from './CallRequestsRealTimeContext';
 import DispatchMessagesRealTimeContext from './DispatchMessagesRealTimeContext';
@@ -29,6 +30,14 @@ class RealTimeContextFactory {
     }
     this.realTimeClient = realTimeClient;
     this.customerCode = customerCode;
+  }
+
+  /**
+   * Creates a RealTimeContext for querying Area updates.
+   * @returns {AreasRealTimeContext} The newly created context.
+   */
+  areas() {
+    return new AreasRealTimeContext(this.realTimeClient, this.customerCode);
   }
 
   /**

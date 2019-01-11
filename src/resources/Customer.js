@@ -1,6 +1,8 @@
 import RealTimeContextFactory from './RealTimeContextFactory';
 import Resource from './Resource';
 import Agency from './Agency';
+import Area from './Area';
+import AreasContext from './AreasContext';
 import Assignment from './Assignment';
 import Block from './Block';
 import DispatchMessage from './DispatchMessage';
@@ -70,6 +72,23 @@ class Customer extends Resource {
    */
   agency(payload = {}) {
     return this.resource(Agency, Agency.makeHref(this.code), payload);
+  }
+
+  /**
+   * Gets an area resource by id
+   * @param {Number} id Identity of the area
+   * @returns {Area} Area resource
+   */
+  area(id) {
+    return this.resource(Area, Area.makeHref(this.code, id));
+  }
+
+  /**
+   * Gets a context for querying this customer's areas
+   * @returns {AreasContext} Context for querying this customer's areas
+   */
+  areas() {
+    return this.resource(AreasContext, this.code);
   }
 
   /**

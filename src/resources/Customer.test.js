@@ -4,6 +4,8 @@ import Client from '../Client';
 import Customer from './Customer';
 import RealTimeClient from '../RealTimeClient';
 import Agency from './Agency';
+import Area from './Area';
+import AreasContext from './AreasContext';
 import Block from './Block';
 import DispatchMessage from './DispatchMessage';
 import DispatchMessagesContext from './DispatchMessagesContext';
@@ -43,6 +45,8 @@ describe('When getting resources related to a customer', () => {
   const customer = new Customer(client, realTimeClient, 'SYNC');
 
   it('should allow the agency record to be retrieved', () => customer.agency().should.be.instanceOf(Agency));
+  it('should allow an area to be retrieved', () => customer.area().should.be.instanceOf(Area));
+  it('should allow a list of areas to be retrieved', () => customer.areas().should.be.instanceOf(AreasContext));
   it('should allow an assignment to be retrieved', () => customer.assignment().should.be.instanceOf(Assignment));
   it('should allow a block to be retrieved', () => customer.block().should.be.instanceof(Block));
   it('should allow dispatch messages to be searched', () => customer.dispatchMessages().should.be.instanceOf(DispatchMessagesContext));

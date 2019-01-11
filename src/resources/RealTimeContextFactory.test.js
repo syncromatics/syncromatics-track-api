@@ -13,6 +13,11 @@ describe('When creating a RealTimeContext', () => {
   const realTimeClient = new RealTimeClient(client);
   const factory = new RealTimeContextFactory(realTimeClient, customerCode);
 
+  it('should reuse its RealTimeClient when creating an AreasRealTimeContext', () => {
+    const result = factory.areas();
+    result.realTimeClient.should.equal(realTimeClient);
+  });
+
   it('should reuse its RealTimeClient when creating an AssignmentsRealTimeContext', () => {
     const result = factory.assignments();
     result.realTimeClient.should.equal(realTimeClient);
