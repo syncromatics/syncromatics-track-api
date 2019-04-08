@@ -7,6 +7,52 @@ import { charlie, users as mockUsers } from '../mocks';
 chai.should();
 chai.use(chaiAsPromised);
 
+describe('When searching for users', () => {
+  const api = new Track({ autoRenew: false });
+
+  beforeEach(() => charlie.setUpSuccessfulMock(api.client));
+  beforeEach(() => mockUsers.setUpSuccessfulMock(api.client));
+  beforeEach(() => fetchMock.catch(503));
+  afterEach(fetchMock.restore);
+
+  it('should create a user', () => {
+    api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
+
+    const userPromise = api.customer('SYNC')
+      .user({
+        firstName: 'Charlie',
+        lastName: 'Singh',
+      })
+      .create()
+      .then(user => user); // Do things with user
+
+    return userPromise;
+  });
+});
+
+describe('When creating a user', () => {
+  const api = new Track({ autoRenew: false });
+
+  beforeEach(() => charlie.setUpSuccessfulMock(api.client));
+  beforeEach(() => mockUsers.setUpSuccessfulMock(api.client));
+  beforeEach(() => fetchMock.catch(503));
+  afterEach(fetchMock.restore);
+
+  it('should create a user', () => {
+    api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
+
+    const userPromise = api.customer('SYNC')
+      .user({
+        firstName: 'Charlie',
+        lastName: 'Singh',
+      })
+      .create()
+      .then(user => user); // Do things with user
+
+    return userPromise;
+  });
+});
+
 describe('When retrieving a user by ID', () => {
   const api = new Track({ autoRenew: false });
 
