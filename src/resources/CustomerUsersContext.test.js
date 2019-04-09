@@ -2,7 +2,7 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import fetchMock from 'fetch-mock';
 import Client from '../Client';
-import UsersContext from './UsersContext';
+import CustomerUsersContext from './CustomerUsersContext';
 import { users as mockUsers } from '../mocks';
 
 chai.should();
@@ -19,7 +19,7 @@ describe('When building a query for users', () => {
 
   let promise;
   beforeEach(() => {
-    const users = new UsersContext(client, 'SYNC');
+    const users = new CustomerUsersContext(client, 'SYNC');
     promise = users
       .withPage(21)
       .withPerPage(42)

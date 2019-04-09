@@ -7,7 +7,7 @@ import User from './User';
  *
  * This is used to query the list of users for a customer
  */
-class UsersContext extends PagedContext {
+class CustomerUsersContext extends PagedContext {
   /**
    * Creates a new users context
    * @param {Client} client Instance of pre-configured client
@@ -22,13 +22,13 @@ class UsersContext extends PagedContext {
   /**
    * Sets the query term for the context
    * @example
-   * const users = new UsersContext(...);
+   * const users = new CustomerUsersContext(...);
    * users
    *   .withQuery('Charlie')
    *   .getPage()
    *   .then(page => ...);
    * @param {string} term Query term to search for
-   * @returns {UsersContext} Returns itself
+   * @returns {CustomerUsersContext} Returns itself
    */
   withQuery(term) {
     this.params.q = term;
@@ -45,4 +45,4 @@ class UsersContext extends PagedContext {
   }
 }
 
-export default UsersContext;
+export default CustomerUsersContext;

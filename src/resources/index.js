@@ -4,6 +4,8 @@ import Resource from './Resource';
 import Customer from './Customer';
 import ExternalApi from './ExternalApi';
 import ExternalApisContext from './ExternalApisContext';
+import Role from './Role';
+import RolesContext from './RolesContext';
 import User from './User';
 import Client from '../Client';
 import RealTimeClient from '../RealTimeClient';
@@ -222,6 +224,23 @@ class Track extends Resource {
    */
   externalApi(id) {
     return this.resource(ExternalApi, ExternalApi.makeHref(id));
+  }
+
+  /**
+   * Gets a context for querying system-wide roles
+   * @returns {RolesContext} Context for querying system-wide roles
+   */
+  roles() {
+    return this.resource(RolesContext);
+  }
+
+  /**
+   * Gets a role resource by id
+   * @param {Number} id  Identity of the role
+   * @returns {Role} Role resource
+   */
+  role(id) {
+    return this.resource(Role, Role.makeHref(id));
   }
 
   /**

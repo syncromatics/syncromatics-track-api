@@ -15,16 +15,15 @@ describe('When searching for users', () => {
   beforeEach(() => fetchMock.catch(503));
   afterEach(fetchMock.restore);
 
-  it('should create a user', () => {
+  it('should find a list of users', () => {
     api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
 
     const userPromise = api.customer('SYNC')
-      .user({
-        firstName: 'Charlie',
-        lastName: 'Singh',
-      })
-      .create()
-      .then(user => user); // Do things with user
+      .users()
+      .withQuery('1st')
+      .getPage()
+      .then(page => page.list)
+      .then(users => users); // Do things with users
 
     return userPromise;
   });
@@ -41,7 +40,7 @@ describe('When creating a user', () => {
   it('should create a user', () => {
     api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
 
-    const userPromise = api.customer('SYNC')
+    const userPromise = api
       .user({
         firstName: 'Charlie',
         lastName: 'Singh',

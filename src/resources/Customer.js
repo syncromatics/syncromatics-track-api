@@ -5,6 +5,7 @@ import Area from './Area';
 import AreasContext from './AreasContext';
 import Assignment from './Assignment';
 import Block from './Block';
+import CustomerUsersContext from './CustomerUsersContext';
 import DispatchMessage from './DispatchMessage';
 import DispatchMessagesContext from './DispatchMessagesContext';
 import DispatchMessageBatch from './DispatchMessageBatch';
@@ -16,8 +17,6 @@ import Message from './Message';
 import MessagesContext from './MessagesContext';
 import Pattern from './Pattern';
 import PatternsContext from './PatternsContext';
-import Role from './Role';
-import RolesContext from './RolesContext';
 import Route from './Route';
 import RoutesContext from './RoutesContext';
 import Run from './Run';
@@ -32,8 +31,6 @@ import StopsContext from './StopsContext';
 import Tag from './Tag';
 import TagsContext from './TagsContext';
 import Trip from './Trip';
-import User from './User';
-import UsersContext from './UsersContext';
 import Vehicle from './Vehicle';
 import VehiclesContext from './VehiclesContext';
 import VoipTicket from './VoipTicket';
@@ -194,23 +191,6 @@ class Customer extends Resource {
   }
 
   /**
-   * Gets a context for querying system-wide roles
-   * @returns {RolesContext} Context for querying system-wide roles
-   */
-  roles() {
-    return this.resource(RolesContext);
-  }
-
-  /**
-   * Gets a role resource by id
-   * @param {Number} id  Identity of the role
-   * @returns {Role} Role resource
-   */
-  role(id) {
-    return this.resource(Role, Role.makeHref(id));
-  }
-
-  /**
    * Gets a context for querying this customer's routes
    * @returns {RoutesContext} Context for querying this customer's routes
    */
@@ -351,23 +331,14 @@ class Customer extends Resource {
   }
 
   /**
-   * Gets a user resource by id
-   * @param {Object} id Identity of the user or the new object
-   * @returns {User} User resource
-   */
-  user(id) {
-    if (!isNaN(parseFloat(id)) && isFinite(id)) {
-      return this.resource(User, User.makeHref(this.code, id));
-    }
-    return this.resource(User, { code: this.code, ...id });
-  }
-
-  /**
-   * Gets a context for querying this customer's users
+   * Gets a context for querying users that have access to this customer.
+   * Note that returned users might also have access to other customers,
+   * and other users that do not have access to this customer might not
+   * be returned.
    * @returns {UserContext} Context for querying this customer's users
    */
   users() {
-    return this.resource(UsersContext, this.code);
+    return this.resource(CustomerUsersContext, this.code);
   }
 
   /**

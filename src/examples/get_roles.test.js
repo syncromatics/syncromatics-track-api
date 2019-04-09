@@ -18,7 +18,7 @@ describe('When searching for roles', () => {
   it('should get a list of roles', () => {
     api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
 
-    const rolesPromise = api.customer('SYNC').roles()
+    const rolesPromise = api.roles()
       .withQuery('Di') // Roles containing "Di" in their name
       .getPage()
       .then(page => page.list)
@@ -39,7 +39,7 @@ describe('When retrieving a role by ID', () => {
   it('should get a role', () => {
     api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
 
-    const rolePromise = api.customer('SYNC')
+    const rolePromise = api
       .role(2)
       .fetch()
       .then(role => role); // Do things with role
@@ -59,7 +59,7 @@ describe('When creating a role', () => {
   it('should get a role', () => {
     api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
 
-    const rolePromise = api.customer('SYNC')
+    const rolePromise = api
       .role({
         name: 'Junior Dispatcher',
       })
@@ -81,7 +81,7 @@ describe('When updating a role', () => {
   it('should update a role', () => {
     api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
 
-    const rolePromise = api.customer('SYNC')
+    const rolePromise = api
       .role(2)
       .fetch()
       .then((role) => {
