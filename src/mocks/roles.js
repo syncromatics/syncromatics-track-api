@@ -25,10 +25,6 @@ const roles = {
     fetchMock
       .get(client.resolve('/1/roles?page=1&per_page=10&q=Di&sort='), listResponse)
       .get(client.resolve('/1/roles/2'), singleResponse)
-      .get(client.resolve('/1/roles/2'), singleResponse)
-      .post(client.resolve('/1/roles'), postResponse)
-      .put(client.resolve('/1/roles/2'), putResponse(2))
-      .put(client.resolve('/1/roles/4'), putResponse(4));
   },
   getById: id => roles.list.find(x => x.id === id),
   list: [
