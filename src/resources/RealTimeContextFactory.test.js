@@ -47,4 +47,9 @@ describe('When creating a RealTimeContext', () => {
     const result = factory.vehicles();
     result.realTimeClient.should.equal(realTimeClient);
   });
+
+  it('should reuse its RealTimeClient when creating a VoipHeartbeatHandler', () => {
+    const result = factory.voip();
+    result.realTimeClient.should.equal(realTimeClient);
+  });
 });

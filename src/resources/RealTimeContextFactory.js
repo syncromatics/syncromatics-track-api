@@ -3,11 +3,12 @@ import AssignmentsRealTimeContext from './AssignmentsRealTimeContext';
 import CallStatesRealTimeContext from './CallStatesRealTimeContext';
 import DispatchMessagesRealTimeContext from './DispatchMessagesRealTimeContext';
 import SignsRealTimeContext from './SignsRealTimeContext';
+import StopsRealTimeContext from './StopsRealTimeContext';
 import StopArrivalsRealTimeContext from './StopArrivalsRealTimeContext';
 import StopTimesRealTimeContext from './StopTimesRealTimeContext';
 import VehicleArrivalsRealTimeContext from './VehicleArrivalsRealTimeContext';
 import VehiclesRealTimeContext from './VehiclesRealTimeContext';
-import StopsRealTimeContext from './StopsRealTimeContext';
+import VoipHeartbeatHandler from './VoipHeartbeatHandler';
 
 /**
  * A factory for creating entity-specific Real Time Contexts for a given Real Time Client.
@@ -110,6 +111,15 @@ class RealTimeContextFactory {
    */
   vehicles() {
     return new VehiclesRealTimeContext(this.realTimeClient, this.customerCode);
+  }
+
+  /**
+   * Creates a VoipHeartbeatHandler for sending current VOIP call state and receiving
+   * desired VOIP call state over heartbeats.
+   * @returns {VoipHeartbeatHandler} The newly created handler.
+   */
+  voip() {
+    return new VoipHeartbeatHandler(this.realTimeClient, this.customerCode);
   }
 }
 

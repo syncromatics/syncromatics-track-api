@@ -54,6 +54,7 @@ class RealTimeClient {
 
     this.subscriptions = {};
     this.openRequests = {};
+    this.heartbeatHandlers = new Set();
 
     // since these handlers are often called from elsewhere they must be
     // bound
@@ -64,12 +65,15 @@ class RealTimeClient {
   }
 
   /**
-   * Closes the open realtime connection (if applicable) while temporarily disabling the reconnect.
+   * Closes the open realtime connection (if applicable) while temporarily superceding the reconnect
    * @returns {void}
+   * @param {Object} options Options specific for this single call
+   * @param {boolean} [options.shouldReconnect] Whether to re-open the connection after manually
+   * closing the connection.  Defaults to false.
    */
-  closeConnection() {
+  closeConnection(options = {}) {
     const { reconnectOnClose } = this.options;
-    this.options.reconnectOnClose = false;
+    this.options.reconnectOnClose = !!options.shouldReconnect;
     this.timeoutHandles.forEach(clearTimeout);
     if (this.connection && typeof this.connection.close === 'function') {
       this.connection.close();
@@ -254,6 +258,9 @@ class RealTimeClient {
           this.subscriptions[message.subscription_id] = subscription;
         }
         break;
+      case messages.HEARTBEAT:
+        this.heartbeatHandlers.forEach(handler => handler(message));
+        break;
       default:
         throw new Error(`Unsupported message received from Track Realtime API:\n${event.data}`);
     }
@@ -378,6 +385,27 @@ class RealTimeClient {
 
     return this.sendMessage(subscriptionEndRequest)
       .then(() => subscriptionEnd);
+  }
+
+  /**
+   * Registers a heartbeat handler that will be called for every heartbeat received.
+   * @param {function} heartbeatHandler function(heartbaet) to be called for each heartbeat.
+   * @returns {void}
+   */
+  registerHeartbeatHandler(heartbeatHandler) {
+    if (typeof heartbeatHandler !== 'function') {
+      throw new Error('You may only register functions as heartbeatHandlers.');
+    }
+    this.heartbeatHandlers.add(heartbeatHandler);
+  }
+
+  /**
+   * Removes a previously registered heartbeat handler.
+   * @param {function} heartbeatHandler The handler to remove.
+   * @returns {void}
+   */
+  removeHeartbeatHandler(heartbeatHandler) {
+    this.heartbeatHandlers.delete(heartbeatHandler);
   }
 }
 
