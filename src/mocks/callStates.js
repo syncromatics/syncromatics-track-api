@@ -1,6 +1,6 @@
 // currently only  used in realtime mocks, so only need .list
 
-const callRequests = {
+const callStates = {
   list: [
     {
       vehicle: { href: '/1/SYNC/vehicles/1' },
@@ -13,4 +13,4 @@ const callRequests = {
   ],
 };
 
-export default callRequests;
+export default callStates;

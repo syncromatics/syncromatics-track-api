@@ -23,8 +23,8 @@ describe('When creating a RealTimeContext', () => {
     result.realTimeClient.should.equal(realTimeClient);
   });
 
-  it('should reuse its RealTimeClient when creating an CallRequestsRealTimeContext', () => {
-    const result = factory.callRequests();
+  it('should reuse its RealTimeClient when creating an CallStatesRealTimeContext', () => {
+    const result = factory.callStates();
     result.realTimeClient.should.equal(realTimeClient);
   });
 
@@ -45,6 +45,11 @@ describe('When creating a RealTimeContext', () => {
 
   it('should reuse its RealTimeClient when creating a VehiclesRealTimeContext', () => {
     const result = factory.vehicles();
+    result.realTimeClient.should.equal(realTimeClient);
+  });
+
+  it('should reuse its RealTimeClient when creating a VoipHeartbeatHandler', () => {
+    const result = factory.voip();
     result.realTimeClient.should.equal(realTimeClient);
   });
 });
