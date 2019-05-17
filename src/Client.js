@@ -112,6 +112,16 @@ class Client {
   }
 
   /**
+   * Convenience method of request() to make an HTTP PATCH request
+   * @param {Array} args Any other arguments for request()
+   * @returns {Promise} Promise from request()
+   * @see request
+   */
+  patch(...args) {
+    return this.request('PATCH', ...args);
+  }
+
+  /**
    * Convenience method of request() to make an HTTP DELETE request
    * @param {Array} args Any other arguments for request()
    * @returns {Promise} Promise from request()

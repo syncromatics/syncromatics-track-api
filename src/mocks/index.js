@@ -5,6 +5,7 @@ import Client from '../Client';
 export { default as agencies } from './agencies';
 export { default as areas } from './areas';
 export { default as blocks } from './blocks';
+export { default as calls } from './calls';
 export { default as dispatchMessages } from './dispatchMessages';
 export { default as dispatchMessageBatches } from './dispatchMessageBatches';
 export { default as drivers } from './drivers';
