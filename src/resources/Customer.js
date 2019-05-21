@@ -5,6 +5,7 @@ import Area from './Area';
 import AreasContext from './AreasContext';
 import Assignment from './Assignment';
 import Block from './Block';
+import Call from './Call';
 import DispatchMessage from './DispatchMessage';
 import DispatchMessagesContext from './DispatchMessagesContext';
 import DispatchMessageBatch from './DispatchMessageBatch';
@@ -107,6 +108,18 @@ class Customer extends Resource {
    */
   block(id) {
     return this.resource(Block, Block.makeHref(this.code, id));
+  }
+
+  /**
+   * Gets a call resource by id
+   * @param {Object} payload Identity of the call or object representing a new call
+   * @returns {Message} Call resource
+   */
+  call(payload) {
+    if (!isNaN(parseFloat(payload)) && isFinite(payload)) {
+      return this.resource(Call, Call.makeHref(this.code, payload));
+    }
+    return this.resource(Call, { code: this.code, ...payload });
   }
 
   /**
