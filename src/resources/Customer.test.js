@@ -18,6 +18,7 @@ import Message from './Message';
 import MessagesContext from './MessagesContext';
 import Pattern from './Pattern';
 import PatternsContext from './PatternsContext';
+import ReportingTicket from './ReportingTicket';
 import Route from './Route';
 import RoutesContext from './RoutesContext';
 import Run from './Run';
@@ -60,6 +61,7 @@ describe('When getting resources related to a customer', () => {
   it('should allow a message to be retrieved', () => customer.message().should.be.instanceof(Message));
   it('should allow patterns to be searched', () => customer.patterns().should.be.instanceof(PatternsContext));
   it('should allow a pattern to be retrieved', () => customer.pattern().should.be.instanceof(Pattern));
+  it('should allow a reporting ticket to be retrieved', () => customer.reportingTicket().should.be.instanceof(ReportingTicket));
   it('should allow routes to be searched', () => customer.routes().should.be.instanceof(RoutesContext));
   it('should allow a route to be retrieved', () => customer.route().should.be.instanceof(Route));
   it('should allow a run to be retrieved', () => customer.run().should.be.instanceof(Run));
