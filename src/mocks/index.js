@@ -11,6 +11,7 @@ export { default as drivers } from './drivers';
 export { default as externalApis } from './externalApis';
 export { default as messages } from './messages';
 export { default as patterns } from './patterns';
+export { default as reportingTickets } from './reportingTickets';
 export { default as realTime } from './realTime';
 export { default as routes } from './routes';
 export { default as runs } from './runs';

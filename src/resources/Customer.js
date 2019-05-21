@@ -16,6 +16,7 @@ import Message from './Message';
 import MessagesContext from './MessagesContext';
 import Pattern from './Pattern';
 import PatternsContext from './PatternsContext';
+import ReportingTicket from './ReportingTicket';
 import Route from './Route';
 import RoutesContext from './RoutesContext';
 import Run from './Run';
@@ -187,6 +188,14 @@ class Customer extends Resource {
       return this.resource(Message, Message.makeHref(this.code, payload));
     }
     return this.resource(Message, { code: this.code, ...payload });
+  }
+
+  /**
+   * Gets a reporting ticket resource
+   * @returns {ReportingTicket} ReportingTicket resource
+   */
+  reportingTicket() {
+    return this.resource(ReportingTicket, ReportingTicket.makeHref(this.code));
   }
 
   /**
