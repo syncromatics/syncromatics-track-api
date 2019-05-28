@@ -47,7 +47,14 @@ class VoipHeartbeatHandler {
     this.setCallState = this.setCallState.bind(this);
     this.sendHeartbeat = this.sendHeartbeat.bind(this);
     this.readHeartbeat = this.readHeartbeat.bind(this);
+
     this.onHeartbeatTimeout = this.onHeartbeatTimeout.bind(this);
+    this.onDesiredCallStateChange = this.onDesiredCallStateChange.bind(this);
+    this.onDisconnect = this.onDisconnect.bind(this);
+    this.onReconnect = this.onReconnect.bind(this);
+
+    this.startHeartbeat = this.startHeartbeat.bind(this);
+    this.stopHeartbeat = this.stopHeartbeat.bind(this);
 
     this.realTimeClient.registerHeartbeatHandler(this.readHeartbeat);
   }
