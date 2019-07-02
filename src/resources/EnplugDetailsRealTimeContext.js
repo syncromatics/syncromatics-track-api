@@ -5,7 +5,7 @@ import RealTimeContext from './RealTimeContext';
  */
 class EnplugDetailsRealTimeContext extends RealTimeContext {
   /**
-   * Creates a context that can subscribe to EnplugDetails updates.
+   * Creates a context that can subscribe to updates for EnplugDetails.
    * @param {RealTimeClient} realTimeClient Pre-configured instance of RealTimeClient
    * @param {string} customerCode Alphanumeric code of the customer
    */
