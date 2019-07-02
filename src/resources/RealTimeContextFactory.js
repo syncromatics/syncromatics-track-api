@@ -7,6 +7,8 @@ import StopsRealTimeContext from './StopsRealTimeContext';
 import StopArrivalsRealTimeContext from './StopArrivalsRealTimeContext';
 import StopTimesRealTimeContext from './StopTimesRealTimeContext';
 import VehicleArrivalsRealTimeContext from './VehicleArrivalsRealTimeContext';
+import EnplugDetailsRealTimeContext from './EnplugDetailsRealTimeContext';
+import EnplugHealthsRealTimeContext from './EnplugHealthsRealTimeContext';
 import VehiclesRealTimeContext from './VehiclesRealTimeContext';
 import VoipHeartbeatHandler from './VoipHeartbeatHandler';
 
@@ -63,6 +65,22 @@ class RealTimeContextFactory {
    */
   dispatchMessages() {
     return new DispatchMessagesRealTimeContext(this.realTimeClient, this.customerCode);
+  }
+
+  /**
+   * Creates a RealTimeContext for querying Enplug Details updates.
+   * @returns {EnplugDetailsRealTimeContext} The newly created context.
+   */
+  enplugDetails() {
+    return new EnplugDetailsRealTimeContext(this.realTimeClient, this.customerCode);
+  }
+
+  /**
+   * Creates a RealTimeContext for querying Enplug Healths updates.
+   * @returns {EnplugHealthsRealTimeContext} The newly created context.
+   */
+  enplugHealths() {
+    return new EnplugHealthsRealTimeContext(this.realTimeClient, this.customerCode);
   }
 
   /**
