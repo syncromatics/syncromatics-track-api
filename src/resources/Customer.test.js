@@ -7,6 +7,8 @@ import Agency from './Agency';
 import Area from './Area';
 import AreasContext from './AreasContext';
 import Block from './Block';
+import Call from './Call';
+import CallParticipant from './CallParticipant';
 import DispatchMessage from './DispatchMessage';
 import DispatchMessagesContext from './DispatchMessagesContext';
 import DispatchMessageBatch from './DispatchMessageBatch';
@@ -50,6 +52,8 @@ describe('When getting resources related to a customer', () => {
   it('should allow a list of areas to be retrieved', () => customer.areas().should.be.instanceOf(AreasContext));
   it('should allow an assignment to be retrieved', () => customer.assignment().should.be.instanceOf(Assignment));
   it('should allow a block to be retrieved', () => customer.block().should.be.instanceof(Block));
+  it('should allow a call to be retrieved', () => customer.call().should.be.instanceOf(Call));
+  it('should allow a call participant to be retrieved', () => customer.callParticipant().should.be.instanceOf(CallParticipant));
   it('should allow dispatch messages to be searched', () => customer.dispatchMessages().should.be.instanceOf(DispatchMessagesContext));
   it('should allow a dispatch message to be retrieved', () => customer.dispatchMessage().should.be.instanceOf(DispatchMessage));
   it('should allow a dispatch message batch to be retrieved', () => customer.dispatchMessageBatch().should.be.instanceOf(DispatchMessageBatch));
