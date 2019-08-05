@@ -5,6 +5,7 @@ import Area from './Area';
 import AreasContext from './AreasContext';
 import Assignment from './Assignment';
 import Block from './Block';
+import CustomerUsersContext from './CustomerUsersContext';
 import Call from './Call';
 import DispatchMessage from './DispatchMessage';
 import DispatchMessagesContext from './DispatchMessagesContext';
@@ -349,6 +350,17 @@ class Customer extends Resource {
    */
   trip(id) {
     return this.resource(Trip, Trip.makeHref(this.code, id));
+  }
+
+  /**
+   * Gets a context for querying users that have access to this customer.
+   * Note that returned users might also have access to other customers,
+   * and other users that do not have access to this customer might not
+   * be returned.
+   * @returns {UserContext} Context for querying this customer's users
+   */
+  users() {
+    return this.resource(CustomerUsersContext, this.code);
   }
 
   /**

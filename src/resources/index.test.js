@@ -8,6 +8,8 @@ import Client from '../Client';
 import { charlie, users as mockUsers } from '../mocks';
 import ExternalApi from './ExternalApi';
 import ExternalApisContext from './ExternalApisContext';
+import Role from './Role';
+import RolesContext from './RolesContext';
 
 chai.should();
 chai.use(chaiAsPromised);
@@ -243,9 +245,16 @@ describe('When getting a user', () => {
   });
 });
 
-describe('When querying for external APIs', () => {
+describe('When accessing external APIs', () => {
   const api = new Track();
 
   it('should allow external apis to be searched', () => api.externalApis().should.be.instanceOf(ExternalApisContext));
   it('should allow an external api to be retrieved', () => api.externalApi().should.be.instanceOf(ExternalApi));
+});
+
+describe('When accessing user roles', () => {
+  const api = new Track();
+
+  it('should allow roles to be searched', () => api.roles().should.be.instanceOf(RolesContext));
+  it('should allow a role to be retrieved', () => api.role().should.be.instanceOf(Role));
 });

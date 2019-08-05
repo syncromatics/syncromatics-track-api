@@ -11,6 +11,11 @@ const users = {
         },
       });
     const singleResponse = () => new Response(Client.toBlob(users.getById(1)));
+    const postResponse = () => new Response(undefined, {
+      headers: {
+        Location: '/1/users/3',
+      },
+    });
     const putResponse = () => new Response(undefined, {
       headers: {
         Location: '/1/users/1',
@@ -19,8 +24,10 @@ const users = {
 
     fetchMock
       .get(client.resolve('/1/users?page=1&per_page=10&q=1st&sort='), listResponse)
+      .get(client.resolve('/1/SYNC/users?page=1&per_page=10&q=1st&sort='), listResponse)
       .get(client.resolve('/1/users/1'), singleResponse)
       .get(client.resolve('/1/users/me'), singleResponse)
+      .post(client.resolve('/1/users'), postResponse)
       .put(client.resolve('/1/users/1'), putResponse)
       .put(client.resolve('/1/users/me'), putResponse);
   },

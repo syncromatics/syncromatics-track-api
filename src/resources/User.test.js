@@ -43,6 +43,23 @@ describe('When fetching a user based on ID', () => {
   it('should be hydrated', () => promise.then(v => v.hydrated).should.eventually.equal(true));
 });
 
+describe('When creating a user', () => {
+  const client = new Client();
+
+  beforeEach(() => mockUsers.setUpSuccessfulMock(client));
+  beforeEach(() => fetchMock.catch(503));
+  afterEach(fetchMock.restore);
+
+  let promise;
+  beforeEach(() => {
+    promise = new User(client, { firstName: 'Charlie', lastName: 'Singh' }).create();
+  });
+
+  it('should resolve the promise', () => promise.should.be.fulfilled);
+  it('should set the href', () => promise.then(v => v.href).should.eventually.equal('/1/users/3'));
+  it('should set the ID', () => promise.then(v => v.id).should.eventually.equal(3));
+});
+
 describe('When updating a user', () => {
   const client = new Client();
   const newFirstName = 'newUserFirstName';

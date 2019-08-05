@@ -52,7 +52,22 @@ class User extends Resource {
       .then(user => new User(this.client, this, user));
   }
 
-    /**
+  /**
+   * Saves data for a new user via the client
+   * @returns {Promise} if successful, returns a User with the ID included
+   */
+  create() {
+    const { client, hydrated, customerCode, ...body } = this;
+    return this.client.post('/1/users', { body })
+      .then(response => response.headers.get('location'))
+      .then((href) => {
+        const match = /\/\d+\/users\/(\d+)/.exec(href);
+        const id = parseFloat(match[1]);
+        return new User(this.client, { ...this, href, id });
+      });
+  }
+
+  /**
    * Updates data for a user via the client
    * @returns {Promise} if successful returns instance of this user
    */
