@@ -23,6 +23,8 @@ export const ENTITY = {
   DELETE: 'ENTITY_DELETE',
 };
 
+export const HEARTBEAT = 'HEARTBEAT';
+
 /**
  * Creates a Track Real Time API control message for authenticating a connection.
  * @param {string} jwt A pre-authenticated JSON Web Token for authorizing this connection.

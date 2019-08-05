@@ -1,22 +1,28 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
-import CallRequestsRealTimeContext from './CallRequestsRealTimeContext';
+import EnplugHealthsRealTimeContext from './EnplugHealthsRealTimeContext';
 import RealTimeClient from '../RealTimeClient';
 import { realTime as mock } from '../mocks';
 
 chai.should();
 chai.use(chaiAsPromised);
 
-describe('When creating a subscription for Call Requests', () => {
-  const entity = 'CALL_REQUESTS';
+describe('When creating a subscription for enplug healths', () => {
+  const entity = 'ENPLUG_HEALTHS';
   const customerCode = 'SYNC';
 
-  it('can add filters for a single vehicle', () => {
-    const server = mock.getServer();
-    const realTimeClient = new RealTimeClient(mock.authenticatedClient, mock.options);
-    const subject = new CallRequestsRealTimeContext(realTimeClient, customerCode);
+  let server;
+  let realTimeClient;
+  let subject;
 
-    const vehicleHref = '123';
+  beforeEach(() => {
+    server = mock.getServer();
+    realTimeClient = new RealTimeClient(mock.authenticatedClient, mock.options);
+    subject = new EnplugHealthsRealTimeContext(realTimeClient, customerCode);
+  });
+
+  it('can add filters for a single vehicle', () => {
+    const vehicleHref = '/1/SYNC/vehicles/1';
     const expectedFilters = { vehicles: [vehicleHref] };
     subject.forVehicle(vehicleHref).on('update', () => { });
 
@@ -26,13 +32,8 @@ describe('When creating a subscription for Call Requests', () => {
   });
 
   it('can add filters for multiple vehicles', () => {
-    const server = mock.getServer();
-    const realTimeClient = new RealTimeClient(mock.authenticatedClient, mock.options);
-    const subject = new CallRequestsRealTimeContext(realTimeClient, customerCode);
-
-    const vehicleHrefs = ['123', '456', '489'];
+    const vehicleHrefs = ['/1/SYNC/vehicles/1', '/1/SYNC/vehicles/2'];
     const expectedFilters = { vehicles: vehicleHrefs };
-
     subject.forVehicles(vehicleHrefs).on('update', () => { });
 
     const options = { closeConnection: true, realTimeClient };
@@ -41,19 +42,14 @@ describe('When creating a subscription for Call Requests', () => {
   });
 
   it('should handle entity updates', () => {
-    const server = mock.getServer();
-    const realTimeClient = new RealTimeClient(mock.authenticatedClient, mock.options);
-    const subject = new CallRequestsRealTimeContext(realTimeClient, customerCode);
-
     let resolver;
-    const updateReceived = new Promise((resolve) => {
-      resolver = resolve;
-    });
+    const updateReceived = new Promise((resolve) => { resolver = resolve; });
     const connectionClosed = updateReceived
       .then(() => server.closeConnection(realTimeClient));
 
+    const vehicleHref = '/1/SYNC/vehicles/1';
     const subscription = subject
-      .forVehicle('/1/SYNC/vehicles/1')
+      .forVehicle(vehicleHref)
       .on('update', resolver);
 
     return Promise.all([

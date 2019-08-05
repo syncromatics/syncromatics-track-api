@@ -2,8 +2,10 @@
 import { Server } from 'mock-socket';
 import * as messages from '../subscriptions/messages';
 import areas from './areas';
-import callRequests from './callRequests';
+import callStates from './callStates';
 import dispatchMessages from './dispatchMessages';
+import enplugDetails from './enplugDetails';
+import enplugHealths from './enplugHealths';
 import signs from './signs';
 import stopArrivals from './stopArrivals';
 import stops from './stops';
@@ -125,11 +127,17 @@ const realTime = {
           case 'ASSIGNMENTS':
             data = vehicles.list.map(v => v.assignment);
             break;
-          case 'CALL_REQUESTS':
-            data = callRequests.list;
+          case 'CALL_STATES':
+            data = callStates.list;
             break;
           case 'DISPATCH_MESSAGES':
             data = dispatchMessages.list;
+            break;
+          case 'ENPLUG_DETAILS':
+            data = enplugDetails.list;
+            break;
+          case 'ENPLUG_HEALTHS':
+            data = enplugHealths.list;
             break;
           case 'SIGNS':
             data = signs.list;

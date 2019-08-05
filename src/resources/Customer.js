@@ -6,6 +6,7 @@ import AreasContext from './AreasContext';
 import Assignment from './Assignment';
 import Block from './Block';
 import CustomerUsersContext from './CustomerUsersContext';
+import Call from './Call';
 import DispatchMessage from './DispatchMessage';
 import DispatchMessagesContext from './DispatchMessagesContext';
 import DispatchMessageBatch from './DispatchMessageBatch';
@@ -17,6 +18,7 @@ import Message from './Message';
 import MessagesContext from './MessagesContext';
 import Pattern from './Pattern';
 import PatternsContext from './PatternsContext';
+import ReportingTicket from './ReportingTicket';
 import Route from './Route';
 import RoutesContext from './RoutesContext';
 import Run from './Run';
@@ -111,6 +113,18 @@ class Customer extends Resource {
   }
 
   /**
+   * Gets a call resource by id
+   * @param {Object} payload Identity of the call or object representing a new call
+   * @returns {Message} Call resource
+   */
+  call(payload) {
+    if (!isNaN(parseFloat(payload)) && isFinite(payload)) {
+      return this.resource(Call, Call.makeHref(this.code, payload));
+    }
+    return this.resource(Call, { code: this.code, ...payload });
+  }
+
+  /**
    * Gets a context for querying this customer's dispatch messages
    * @returns {DispatchMessagesContext} Context for querying this customer's dispatch messages
    */
@@ -188,6 +202,14 @@ class Customer extends Resource {
       return this.resource(Message, Message.makeHref(this.code, payload));
     }
     return this.resource(Message, { code: this.code, ...payload });
+  }
+
+  /**
+   * Gets a reporting ticket resource
+   * @returns {ReportingTicket} ReportingTicket resource
+   */
+  reportingTicket() {
+    return this.resource(ReportingTicket, ReportingTicket.makeHref(this.code));
   }
 
   /**
