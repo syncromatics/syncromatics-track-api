@@ -7,6 +7,7 @@ import Assignment from './Assignment';
 import Block from './Block';
 import CustomerUsersContext from './CustomerUsersContext';
 import Call from './Call';
+import CallParticipant from './CallParticipant';
 import DispatchMessage from './DispatchMessage';
 import DispatchMessagesContext from './DispatchMessagesContext';
 import DispatchMessageBatch from './DispatchMessageBatch';
@@ -122,6 +123,20 @@ class Customer extends Resource {
       return this.resource(Call, Call.makeHref(this.code, payload));
     }
     return this.resource(Call, { code: this.code, ...payload });
+  }
+
+  /**
+   * Gets a callParticipant resource by id
+   * @param {Number} callId ID of the call
+   * @param {Object} payload Identify of an existing or object representing a new call participant.
+   * @returns {CallParticipant} Call participant resource
+   */
+  callParticipant(callId, payload) {
+    if (!isNaN(parseFloat(payload)) && isFinite(payload)) {
+      const newProperties = CallParticipant.makeHref(this.code, callId, payload);
+      return this.resource(CallParticipant, { callId, ...newProperties });
+    }
+    return this.resource(CallParticipant, { code: this.code, callId, ...payload });
   }
 
   /**
