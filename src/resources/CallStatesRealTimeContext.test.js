@@ -17,7 +17,7 @@ describe('When creating a subscription for Call States', () => {
     const subject = new CallStatesRealTimeContext(realTimeClient, customerCode);
 
     const vehicleHref = '123';
-    const expectedFilters = { vehicles: [vehicleHref] };
+    const expectedFilters = { vehicles: [vehicleHref], users: [] };
     subject.forVehicle(vehicleHref).on('update', () => { });
 
     const options = { closeConnection: true, realTimeClient };
@@ -31,9 +31,38 @@ describe('When creating a subscription for Call States', () => {
     const subject = new CallStatesRealTimeContext(realTimeClient, customerCode);
 
     const vehicleHrefs = ['123', '456', '489'];
-    const expectedFilters = { vehicles: vehicleHrefs };
+    const expectedFilters = { vehicles: vehicleHrefs, users: [] };
 
     subject.forVehicles(vehicleHrefs).on('update', () => { });
+
+    const options = { closeConnection: true, realTimeClient };
+    return server.verifySubscription(entity, options)
+      .should.eventually.become(expectedFilters);
+  });
+
+  it('can add filters for a single user', () => {
+    const server = mock.getServer();
+    const realTimeClient = new RealTimeClient(mock.authenticatedClient, mock.options);
+    const subject = new CallStatesRealTimeContext(realTimeClient, customerCode);
+
+    const userHref = '123';
+    const expectedFilters = { users: [userHref], vehicles: [] };
+    subject.forUser(userHref).on('update', () => { });
+
+    const options = { closeConnection: true, realTimeClient };
+    return server.verifySubscription(entity, options)
+      .should.eventually.become(expectedFilters);
+  });
+
+  it('can add filters for multiple users', () => {
+    const server = mock.getServer();
+    const realTimeClient = new RealTimeClient(mock.authenticatedClient, mock.options);
+    const subject = new CallStatesRealTimeContext(realTimeClient, customerCode);
+
+    const userHrefs = ['123', '456', '489'];
+    const expectedFilters = { users: userHrefs, vehicles: [] };
+
+    subject.forUsers(userHrefs).on('update', () => { });
 
     const options = { closeConnection: true, realTimeClient };
     return server.verifySubscription(entity, options)
