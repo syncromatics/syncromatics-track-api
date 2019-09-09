@@ -86,7 +86,14 @@ class PatternsContext extends PagedContext {
    * @returns {PatternsContext} Returns itself
    */
   withAsOf(asOf) {
-    this.params.as_of = asOf.toISOString();
+    let asOfDate;
+    if (asOf instanceof Date) {
+      asOfDate = asOf.toISOString();
+    } else {
+      asOfDate = asOf;
+    }
+
+    this.params.as_of = asOfDate;
     return this;
   }
 
