@@ -101,6 +101,7 @@ class RealTimeClient {
           const connection = new WebSocket(this.options.realTimeUri);
           connection.onopen = this.onConnectionOpened;
           connection.onclose = this.onConnectionClosed;
+          connection.onerror = this.onConnectionClosed;
           connection.onmessage = this.onMessageReceived;
           this.connection = connection;
           if (onInitialize) onInitialize();
@@ -121,6 +122,7 @@ class RealTimeClient {
     } = this.options;
 
     if (reconnectOnClose) {
+      this.initializing = false;
       // the WebSocket API doesn't offer a way to re-open a closed connection.
       // remove our connection and create a new one.
       const reconnect = () => {
@@ -145,10 +147,8 @@ class RealTimeClient {
               () => new Error('Could not resume subscription'),
               subscriptionEndResolver,
               subscriptionEndRejecter,
-            )
-              .then(() => {
-                delete this.subscriptions[subscriptionId];
-              });
+            );
+            delete this.subscriptions[subscriptionId];
           }));
       };
       this.timeoutHandles.push(setTimeout(reconnect, reconnectTimeout));
