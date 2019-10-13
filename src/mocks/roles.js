@@ -11,20 +11,10 @@ const roles = {
         },
       });
     const singleResponse = () => new Response(Client.toBlob(roles.getById(2)));
-    const postResponse = () => new Response(undefined, {
-      headers: {
-        Location: '/1/roles/4',
-      },
-    });
-    const putResponse = id => () => new Response(undefined, {
-      headers: {
-        Location: `/1/roles/${id}`,
-      },
-    });
 
     fetchMock
       .get(client.resolve('/1/roles?page=1&per_page=10&q=Di&sort='), listResponse)
-      .get(client.resolve('/1/roles/2'), singleResponse)
+      .get(client.resolve('/1/roles/2'), singleResponse);
   },
   getById: id => roles.list.find(x => x.id === id),
   list: [

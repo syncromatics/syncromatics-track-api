@@ -53,3 +53,79 @@ describe('When creating a RealTimeContext', () => {
     result.realTimeClient.should.equal(realTimeClient);
   });
 });
+
+describe('When attaching disconnect and reconnect handlers', () => {
+  const customerCode = 'SYNC';
+
+  it('should attach disconnect handlers to the realTimeClient', () => {
+    const disconnectHandler = () => {};
+    let verifyCallback;
+    const didVerifyCallback = new Promise((resolve) => { verifyCallback = resolve; });
+    const realTimeClientMock = {
+      addEventListener: (event, handler) => {
+        if (event === 'disconnect' && handler === disconnectHandler) {
+          verifyCallback(true);
+        }
+      }
+    }
+    const factory = new RealTimeContextFactory(realTimeClientMock, customerCode);
+
+    factory.onDisconnect(disconnectHandler);
+    didVerifyCallback.should.become(true);
+  });
+
+  it('should remove disconnect handlers', () => {
+    const disconnectHandler = () => {};
+    let verifyCallback;
+    const didVerifyCallback = new Promise((resolve) => { verifyCallback = resolve; });
+    const realTimeClientMock = {
+      addEventListener: () => {},
+      removeEventListener: (event, handler) => {
+        if (event === 'disconnect' && handler === disconnectHandler) {
+          verifyCallback(true);
+        }
+      }
+    }
+    const factory = new RealTimeContextFactory(realTimeClientMock, customerCode);
+
+    const handlerRemover = factory.onDisconnect(disconnectHandler);
+    handlerRemover();
+    didVerifyCallback.should.become(true);
+  });
+
+  it('should fire reconnect handlers', () => {
+    const reconnectHandler = () => {};
+    let verifyCallback;
+    const didVerifyCallback = new Promise((resolve) => { verifyCallback = resolve; });
+    const realTimeClientMock = {
+      addEventListener: (event, handler) => {
+        if (event === 'reconnect' && handler === reconnectHandler) {
+          verifyCallback(true);
+        }
+      }
+    }
+    const factory = new RealTimeContextFactory(realTimeClientMock, customerCode);
+
+    factory.onReconnect(reconnectHandler);
+    didVerifyCallback.should.become(true);
+  });
+
+  it('should remove reconnect handlers', () => {
+    const reconnectHandler = () => {};
+    let verifyCallback;
+    const didVerifyCallback = new Promise((resolve) => { verifyCallback = resolve; });
+    const realTimeClientMock = {
+      addEventListener: () => {},
+      removeEventListener: (event, handler) => {
+        if (event === 'reconnect' && handler === reconnectHandler) {
+          verifyCallback(true);
+        }
+      }
+    }
+    const factory = new RealTimeContextFactory(realTimeClientMock, customerCode);
+
+    const handlerRemover = factory.onReconnect(reconnectHandler);
+    handlerRemover();
+    didVerifyCallback.should.become(true);
+  });
+});
