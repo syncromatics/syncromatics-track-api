@@ -204,4 +204,23 @@ describe('When the real time connection is disconnected', () => {
       lastSubscription.should.eventually.become(2),
     ]);
   });
+
+  it('should fire disconnect and reconnect event handlers', () => {
+    let resolveDisconnectEvent;
+    const disconnectEvent = new Promise((resolve) => { resolveDisconnectEvent = resolve; });
+    let resolveReconnectEvent;
+    const reconnectEvent = new Promise((resolve) => { resolveReconnectEvent = resolve; });
+
+    realTimeClient.addEventListener('disconnect', resolveDisconnectEvent);
+    realTimeClient.addEventListener('reconnect', resolveReconnectEvent);
+
+    const startAndRestart = realTimeClient.sendMessage({ type: 'TEST', id: 1 })
+      .then(reconnect);
+
+    return Promise.all([
+      startAndRestart,
+      disconnectEvent,
+      reconnectEvent,
+    ]);
+  });
 });

@@ -36,6 +36,33 @@ class RealTimeContextFactory {
   }
 
   /**
+   * Attaches a global event handler to be fired when the real time client disconnects unexpectedly.
+   * @param {function} handler The handler to be fired.
+   * @returns {function} A function that, when called, will remove the event handler.
+   */
+  onDisconnect(handler) {
+    if (typeof handler !== 'function') {
+      throw new Error('handler must be a function.');
+    }
+    this.realTimeClient.addEventListener('disconnect', handler);
+    return () => this.realTimeClient.removeEventListener('disconnect', handler);
+  }
+
+  /**
+   * Attaches a global event handler to be fired when the real time client reconnects after an
+   * unexpected disconnection.
+   * @param {function} handler The handler to be fired.
+   * @returns {function} A function that, when called, will remove the event handler.
+   */
+  onReconnect(handler) {
+    if (typeof handler !== 'function') {
+      throw new Error('handler must be a function.');
+    }
+    this.realTimeClient.addEventListener('reconnect', handler);
+    return () => this.realTimeClient.removeEventListener('reconnect', handler);
+  }
+
+  /**
    * Creates a RealTimeContext for querying Area updates.
    * @returns {AreasRealTimeContext} The newly created context.
    */

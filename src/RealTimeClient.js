@@ -51,6 +51,8 @@ class RealTimeClient {
     this.timeoutHandles = [];
 
     this.queuedMessages = [];
+    this.disconnectHandlers = [];
+    this.reconnectHandlers = [];
 
     this.subscriptions = {};
     this.openRequests = {};
@@ -63,6 +65,59 @@ class RealTimeClient {
     this.onMessageReceived = this.onMessageReceived.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
     this.queueAndRemoveSubscriptions = this.queueAndRemoveSubscriptions.bind(this);
+
+    this.addEventListener = this.addEventListener.bind(this);
+    this.removeEventListener = this.removeEventListener.bind(this);
+  }
+
+  /**
+   * Adds an event listener to be called whenever the client disconnects unexpectedly
+   * or subsequently reconnects.
+   * @param {string} type The event name on which the listener should fire.  Must be either
+   * 'disconnect' or 'reconnect'.
+   * @param {function} listener The listener function to be fired as appropriate.
+   * @returns {void}
+   */
+  addEventListener(type, listener) {
+    if (typeof listener !== 'function') {
+      const msg = 'You must pass a function as `listener` to addEventListener';
+      throw new Error(msg);
+    }
+    switch (type) {
+      case 'disconnect':
+        this.disconnectHandlers.push(listener);
+        break;
+      case 'reconnect':
+        this.reconnectHandlers.push(listener);
+        break;
+      default: {
+        const msg = 'You must pass "disconnect" or "reconnect" as `type` to addEventListener.';
+        throw new Error(msg);
+      }
+    }
+  }
+
+  /**
+   * Removes a previously added event listener for unexpected disconnects or reconnects, using
+   * strict equality comparisons.
+   * @param {string} type The event name from which the listener should be remove.  Must be either
+   * 'disconnect' or 'reconnect'.
+   * @param {function} listener The listener function to be removed.
+   * @returns {void}
+   */
+  removeEventListener(type, listener) {
+    switch (type) {
+      case 'disconnect':
+        this.disconnectHandlers = this.disconnectHandlers.filter(x => x !== listener);
+        break;
+      case 'reconnect':
+        this.reconnectHandlers = this.reconnectHandlers.filter(x => x !== listener);
+        break;
+      default: {
+        const msg = 'You must pass "disconnect" or "reconnect" as `type` to removeEventListener.';
+        throw new Error(msg);
+      }
+    }
   }
 
   /**
@@ -126,6 +181,11 @@ class RealTimeClient {
         this.isInReconnectLoop = true;
         this.queueAndRemoveSubscriptions(x => x.openRequests);
         this.queueAndRemoveSubscriptions(x => x.subscriptions);
+        this.disconnectHandlers.forEach((handler) => {
+          if (typeof handler === 'function') {
+            setTimeout(handler, 0);
+          }
+        });
       }
       this.initializing = false;
       // the WebSocket API doesn't offer a way to re-open a closed connection.
@@ -144,6 +204,11 @@ class RealTimeClient {
     this.initializing = false;
     if (this.isInReconnectLoop) {
       delete this.isInReconnectLoop;
+      this.reconnectHandlers.forEach((handler) => {
+        if (typeof handler === 'function') {
+          setTimeout(handler, 0);
+        }
+      });
     }
     this.sendAuthentication()
       .then(() => {

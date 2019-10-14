@@ -59,5 +59,5 @@ describe('When subscribing to call states', () => {
       .callStates()
       .forUser(user)
       .on('update', callState => callState); // do things with callState
-  })
+  });
 });
