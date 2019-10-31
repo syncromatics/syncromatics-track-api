@@ -17,6 +17,7 @@ import { ForbiddenResponse } from '../responses';
 class Track extends Resource {
   /**
    * @callback onAutoRenew
+   * @callback onAutoRenewFailure
    * @param {Object} user the claim of the JWT payload (user object)
    */
 
@@ -28,6 +29,7 @@ class Track extends Resource {
    * @param {Number} [options.autoRenewMinutesBeforeExpiration=5] Minutes before the expiration of
    *  a token when automatic renewal will take place
    * @param {onAutoRenew} [options.onAutoRenew] Callback called when auto-renew takes place
+   * @param {onAutoRenewFailure} [options.onAutoRenewFailure] Callback called when auto-renew fails
    */
   constructor(options) {
     const client = new Client(options);
@@ -38,6 +40,7 @@ class Track extends Resource {
       autoRenew: true,
       autoRenewMinutesBeforeExpiration: 5,
       onAutoRenew: () => {},
+      onAutoRenewFailure: () => {},
       ...options,
       ...{
         token: undefined,
@@ -75,18 +78,16 @@ class Track extends Resource {
 
           if (this.options.autoRenew) {
             const msBeforeExp = this.options.autoRenewMinutesBeforeExpiration * 60 * 1000;
-
-            /* payload.claim.exp used to be milliseconds, but this was a mis-implementation
-             * in the spec; this is rough logic to handle backwards compatibility.
-             */
-            const expMs = (payload.claim.exp / 1000000000) > 1000
-              ? payload.claim.exp
-              : payload.claim.exp * 1000;
+            const expMs = payload.claim.exp * 1000;
 
             const ms = Math.max(expMs - msBeforeExp - new Date().getTime(), 0);
-            const onAutoRenew = this.options.onAutoRenew || (() => {});
-            this.autoRenewTimeout = setTimeout(() =>
-              this.renewAuthentication().then(onAutoRenew), ms);
+            const onAutoRenew = this.options.onAutoRenew || noop;
+            const onAutoRenewFailure = this.options.onAutoRenewFailure || noop;
+            this.autoRenewTimeout = setTimeout(() => {
+              this.renewAuthentication()
+                .then(onAutoRenew)
+                .catch(onAutoRenewFailure);
+            }, ms);
           }
 
           this.client.setAuthenticated(payload.claim);
@@ -149,8 +150,6 @@ class Track extends Resource {
     }
 
     return this.client.post(uri, { headers })
-      .then(response => response.text())
-      .then(token => this.authenticateToken(token))
       .catch((errorResponse) => {
         if (errorResponse instanceof ForbiddenResponse) {
           return this.logOut()
@@ -158,7 +157,9 @@ class Track extends Resource {
         }
 
         return Promise.reject(errorResponse);
-      });
+      })
+      .then(response => response.text())
+      .then(token => this.authenticateToken(token));
   }
 
   /**
