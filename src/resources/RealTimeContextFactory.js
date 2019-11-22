@@ -161,10 +161,11 @@ class RealTimeContextFactory {
   /**
    * Creates a VoipHeartbeatHandler for sending current VOIP call state and receiving
    * desired VOIP call state over heartbeats.
+   * @param {Object} options Options for the handler
    * @returns {VoipHeartbeatHandler} The newly created handler.
    */
-  voip() {
-    return new VoipHeartbeatHandler(this.realTimeClient, this.customerCode);
+  voip(options) {
+    return new VoipHeartbeatHandler(this.realTimeClient, this.customerCode, options);
   }
 }
 
