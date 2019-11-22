@@ -30,7 +30,21 @@ const getHeartbeat = (voipHeartbeatHandler) => {
   };
 };
 
+/**
+ * Handler for VOIP call state and receiving desired VOIP call state over heartbeats.
+ */
 class VoipHeartbeatHandler {
+  /**
+   * Creates a VoipHeartbeatHandler for sending current VOIP call state and receiving
+   * desired VOIP call state over heartbeats.
+   * @param {RealTimeClient} realTimeClient A pre-configured instance of RealTimeClient.
+   * @param {string} customerCode The customer code for this real-time context.
+   * @param {Object} options Options for the handler
+   * @param {number} [options.heartbeatIntervalMs] The minimum interval to send heartbeats to
+   * Track API
+   * @param {number} [options.heartbeatReadTimeoutMs] The time to wait for receiving a heartbeat
+   * from Track API
+   */
   constructor(realTimeClient, customerCode, options = {}) {
     this.realTimeClient = realTimeClient;
     this.customerCode = customerCode;
