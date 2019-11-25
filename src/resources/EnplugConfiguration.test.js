@@ -1,4 +1,6 @@
 import chai from 'chai';
+import fetchMock from 'fetch-mock';
+
 import chaiAsPromised from 'chai-as-promised';
 import Client from '../Client';
 import EnplugConfiguration from './EnplugConfiguration';
@@ -27,8 +29,13 @@ describe('When instantiating a vehicle media based on an object', () => {
 
 describe('When updating enplug configuration', () => {
   const client = new Client();
-
   const mockConfiguration = new EnplugConfiguration(client, { deviceSerial: 'LLCM2', volume: 28, shouldSwitch: true, vehicleHref: '/1/SYNC/vehicles/1234' });
+
+  const singleResponse = () => new Response(mockConfiguration);
+  beforeEach(() => {
+    fetchMock.put(client.resolve('/1/SYNC/enplugs/LLCM2/configuration'), singleResponse);
+  });
+
   let promise;
   beforeEach(() => {
     promise = new EnplugConfiguration(client, mockConfiguration).update();
