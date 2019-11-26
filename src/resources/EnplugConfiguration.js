@@ -13,7 +13,6 @@ class EnplugConfiguration extends Resource {
    * const partialEnplugConfiguration = {
    *   href: '/1/SYNC/enplugs/LLM3/configuration',
    *   volume: 27,
-   *   deviceSerial: 'LLMC-123',
    *   vehicleHref: '/1/SYNC/vehicles/1234',
    * };
    * const enplugConfiguration = new EnplugConfiguration(client, partialEnplugConfiguration);

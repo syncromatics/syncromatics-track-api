@@ -8,8 +8,8 @@ chai.use(chaiAsPromised);
 
 describe('When instantiating an enplug screenshot based on customer and enplug serial', () => {
   const client = new Client();
-  const enplugScreenshot = new EnplugScreenshot(client, EnplugScreenshot.makeHref('SYNC', 'SERIAL#11'));
+  const enplugScreenshot = new EnplugScreenshot(client, EnplugScreenshot.makeHref('SYNC', 'SERIAL11'));
 
-  it('should set the href', () => enplugScreenshot.href.should.equal('/1/SYNC/enplugs/SERIAL#11/screenshot'));
+  it('should set the href', () => enplugScreenshot.href.should.equal('/1/SYNC/enplugs/SERIAL11/screenshot'));
   it('should not be hydrated', () => enplugScreenshot.hydrated.should.equal(false));
 });
