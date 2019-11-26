@@ -15,6 +15,8 @@ import Driver from './Driver';
 import DriversContext from './DriversContext';
 import ExternalApi from './ExternalApi';
 import ExternalApisContext from './ExternalApisContext';
+import EnplugScreenshot from './EnplugScreenshot';
+import EnplugConfiguration from './EnplugConfiguration';
 import Message from './Message';
 import MessagesContext from './MessagesContext';
 import Pattern from './Pattern';
@@ -180,6 +182,27 @@ class Customer extends Resource {
    */
   driver(id) {
     return this.resource(Driver, Driver.makeHref(this.code, id));
+  }
+
+  /**
+   * Gets an enplug screenshot by id
+   * @param {String} serial Serial of the Enplug device
+   * @returns {EnplugScreenshot} EnplugScreenshot resource
+   */
+  enplugScreenshot(serial) {
+    return this.resource(EnplugScreenshot, EnplugScreenshot.makeHref(this.code, serial));
+  }
+
+  /**
+   * Gets an enplug configuration for customer with fields
+   * @param {Object} [configOptions] Values for this enplug configuration.
+   * @returns {EnplugConfiguration} EnplugConfiguration resource
+   */
+  enplugConfiguration(configOptions) {
+    const options = {
+      ...EnplugConfiguration.makeHref(this.code, configOptions.deviceSerial),
+      ...configOptions };
+    return this.resource(EnplugConfiguration, options);
   }
 
   /**
