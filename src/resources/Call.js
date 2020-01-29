@@ -76,7 +76,6 @@ class Call extends Resource {
       ],
     });
   }
-
 }
 
 export default Call;

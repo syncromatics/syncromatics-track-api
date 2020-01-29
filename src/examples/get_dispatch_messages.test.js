@@ -85,8 +85,8 @@ describe('When creating a dispatch message', () => {
       customerId: 1,
       message: 'Radio chatter',
     })
-    .create()
-    .then(dispatchMessage => dispatchMessage); // Do things with dispatchMessage
+      .create()
+      .then(dispatchMessage => dispatchMessage); // Do things with dispatchMessage
 
     return dispatchMessagePromise;
   });

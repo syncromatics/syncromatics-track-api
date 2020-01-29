@@ -5,7 +5,6 @@ import Vehicle from './Vehicle';
  * Area resource
  */
 class Area extends Resource {
-
   /**
    * Creates a new area.
    *

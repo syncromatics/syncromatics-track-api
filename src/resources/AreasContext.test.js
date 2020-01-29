@@ -13,7 +13,7 @@ describe('When building a query for areas', () => {
   client.setAuthenticated();
 
   beforeEach(() => fetchMock
-  .get(client.resolve('/1/SYNC/areas?page=9&per_page=27&sort='), mockAreas.list)
+    .get(client.resolve('/1/SYNC/areas?page=9&per_page=27&sort='), mockAreas.list)
     .catch(503));
   afterEach(fetchMock.restore);
 

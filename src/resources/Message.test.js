@@ -52,7 +52,8 @@ describe('When creating a message', () => {
 
   let promise;
   beforeEach(() => {
-    promise = new Message(client, { code: 'SYNC',
+    promise = new Message(client, {
+      code: 'SYNC',
       ...{
 
         name: '5k Detour',
@@ -112,7 +113,8 @@ describe('When updating a message', () => {
 
   let promise;
   beforeEach(() => {
-    promise = new Message(client, { code: 'SYNC',
+    promise = new Message(client, {
+      code: 'SYNC',
       ...{
 
         name: '5k Detour',
@@ -154,12 +156,12 @@ describe('When updating a message', () => {
         ],
       },
     }).create()
-    .then((message) => {
-      // eslint-disable-next-line no-param-reassign
-      message.name = updateValue;
-      return message.update();
-    })
-    .then(message => message);
+      .then((message) => {
+        // eslint-disable-next-line no-param-reassign
+        message.name = updateValue;
+        return message.update();
+      })
+      .then(message => message);
   });
 
   it('should resolve the promise', () => promise.should.be.fulfilled);

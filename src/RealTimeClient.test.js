@@ -32,8 +32,8 @@ describe('When creating a real time connection', () => {
       mockClient.authenticated,
       messagePromise,
     ])
-    .then(() => server.closeConnection(realTimeClient))
-    .then(() => wasConnectionOpened).should.eventually.become(true);
+      .then(() => server.closeConnection(realTimeClient))
+      .then(() => wasConnectionOpened).should.eventually.become(true);
   });
 
   it('should create at most one connection', () => {
@@ -51,8 +51,8 @@ describe('When creating a real time connection', () => {
       message2,
       message3,
     ])
-    .then(() => server.closeConnection(realTimeClient))
-    .then(() => numConnections).should.eventually.become(1);
+      .then(() => server.closeConnection(realTimeClient))
+      .then(() => numConnections).should.eventually.become(1);
   });
 
   it('should queue messages to send while connecting', () => {
