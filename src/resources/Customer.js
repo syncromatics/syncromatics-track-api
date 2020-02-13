@@ -201,7 +201,8 @@ class Customer extends Resource {
   enplugConfiguration(configOptions) {
     const options = {
       ...EnplugConfiguration.makeHref(this.code, configOptions.deviceSerial),
-      ...configOptions };
+      ...configOptions,
+    };
     return this.resource(EnplugConfiguration, options);
   }
 
@@ -267,19 +268,19 @@ class Customer extends Resource {
     return this.resource(Route, Route.makeHref(this.code, id));
   }
 
-/**
- * Gets a context for querying this customer's patterns
- * @returns {PatternsContext} Context for querying this customer's patterns
- */
+  /**
+   * Gets a context for querying this customer's patterns
+   * @returns {PatternsContext} Context for querying this customer's patterns
+   */
   patterns() {
     return this.resource(PatternsContext, this.code);
   }
 
-/**
- * Gets a pattern resource by id
- * @param {Number} id Identity of the pattern
- * @returns {Pattern} Pattern resource
- */
+  /**
+   * Gets a pattern resource by id
+   * @param {Number} id Identity of the pattern
+   * @returns {Pattern} Pattern resource
+   */
   pattern(id) {
     return this.resource(Pattern, Pattern.makeHref(this.code, id));
   }

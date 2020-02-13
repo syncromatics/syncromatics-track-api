@@ -80,7 +80,6 @@ class Stop extends Resource {
     return this.client.put(href, { body })
       .then(() => new Stop(this.client, { ...this }));
   }
-
 }
 
 export default Stop;

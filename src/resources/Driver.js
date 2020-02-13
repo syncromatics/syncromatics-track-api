@@ -4,7 +4,6 @@ import Resource from './Resource';
  * Driver resource
  */
 class Driver extends Resource {
-
   /**
    * Creates a new driver.
    *

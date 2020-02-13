@@ -60,8 +60,8 @@ describe('When creating a dispatch message batch', () => {
         },
       ],
     })
-    .create()
-    .then(dispatchMessageBatch => dispatchMessageBatch); // Do things with dispatchMessageBatch
+      .create()
+      .then(dispatchMessageBatch => dispatchMessageBatch); // Do things with dispatchMessageBatch
 
     return dispatchMessageBatchPromise;
   });

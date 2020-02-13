@@ -14,7 +14,6 @@ const WEBSOCKET_READY_STATES = {
  * Track Real Time API.
  */
 class RealTimeClient {
-
   /**
    * Creates a new realtime client
    * @param {Client} client Instance of pre-configured REST client
@@ -34,10 +33,9 @@ class RealTimeClient {
     const { baseUri } = options;
     const baseRealTimeUri = baseUri ?
       baseUri
-      .replace(/^http(s?):\/\//, 'ws$1://') // Change https? to wss?
-      .replace(/$\/+/, '') // Trim trailing slashes
-      :
-      `wss://${DEFAULT_TRACK_API_HOST}`;
+        .replace(/^http(s?):\/\//, 'ws$1://') // Change https? to wss?
+        .replace(/$\/+/, '') // Trim trailing slashes
+      : `wss://${DEFAULT_TRACK_API_HOST}`;
     const realTimeUri = `${baseRealTimeUri}/1/realtime`;
     this.options = {
       realTimeUri,
@@ -458,7 +456,7 @@ class RealTimeClient {
 
   queueAndRemoveSubscriptions(mutableBucketSelector) {
     const mutableBucket = mutableBucketSelector(this);
-    const defaultSubscriptionStartResolver = () => {};
+    const defaultSubscriptionStartResolver = () => { };
     const defaultSubscriptionStartRejector = () => new Error('Could not resume subscription');
     Object.keys(mutableBucket)
       .map(id => ({

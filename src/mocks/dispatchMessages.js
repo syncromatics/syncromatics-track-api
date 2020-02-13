@@ -23,8 +23,8 @@ const dispatchMessages = {
     });
 
     fetchMock
-    .get(client.resolve('/1/SYNC/dispatch_messages?page=1&per_page=10&q=chatter&sort='), listResponse)
-    .get(client.resolve('/1/SYNC/dispatch_messages?page=1&per_page=10&q=chatter&driver_id=1&vehicle_id=1&start=2000-01-01&end=2000-01-31&sort='), listResponse)
+      .get(client.resolve('/1/SYNC/dispatch_messages?page=1&per_page=10&q=chatter&sort='), listResponse)
+      .get(client.resolve('/1/SYNC/dispatch_messages?page=1&per_page=10&q=chatter&driver_id=1&vehicle_id=1&start=2000-01-01&end=2000-01-31&sort='), listResponse)
       .get(client.resolve('/1/SYNC/dispatch_messages/3'), singleResponse)
       .post(client.resolve('/1/SYNC/dispatch_messages'), postResponse)
       .put(client.resolve('/1/SYNC/dispatch_messages/3'), putResponse);

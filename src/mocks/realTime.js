@@ -80,6 +80,7 @@ const realTime = {
             type,
             customer,
             entity,
+            // eslint-disable-next-line camelcase
             request_id,
             ...rest
           } = data;
@@ -149,6 +150,7 @@ const realTime = {
             data = stops.list;
             break;
           case 'STOPTIMES':
+            // eslint-disable-next-line no-console
             console.warn('Need to define mocks for STOPTIMES');
             data = [];
             break;

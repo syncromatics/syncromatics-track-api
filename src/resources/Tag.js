@@ -70,7 +70,6 @@ class Tag extends Resource {
     return this.client.put(href, { body })
       .then(() => new Tag(this.client, { ...this }));
   }
-
 }
 
 export default Tag;

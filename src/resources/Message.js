@@ -69,10 +69,10 @@ class Message extends Resource {
       .then(message => new Message(this.client, { ...this, ...message }));
   }
 
-/**
- * Creates a new message via the client
- * @returns {Promise} If successful, a hydrated instance of message with id
- */
+  /**
+   * Creates a new message via the client
+   * @returns {Promise} If successful, a hydrated instance of message with id
+   */
   create() {
     // eslint-disable-next-line no-unused-vars
     const { client, hydrated, customerCode, ...body } = this;

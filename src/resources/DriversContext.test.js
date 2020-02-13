@@ -13,7 +13,7 @@ describe('When building a query for drivers', () => {
   client.setAuthenticated();
 
   beforeEach(() => fetchMock
-  .get(client.resolve('/1/SYNC/drivers?page=9&per_page=27&q=charlie&sort=first_name asc,last_name desc'), mockDrivers.list)
+    .get(client.resolve('/1/SYNC/drivers?page=9&per_page=27&q=charlie&sort=first_name asc,last_name desc'), mockDrivers.list)
     .catch(503));
   afterEach(fetchMock.restore);
 

@@ -77,7 +77,6 @@ class User extends Resource {
     return this.client.put(href, { body })
       .then(() => new User(this.client, { ...this }));
   }
-
 }
 
 export default User;
