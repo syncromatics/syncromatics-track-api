@@ -1,5 +1,4 @@
 import Resource from './Resource';
-// import SignMessage from './SignMessage';
 import Route from './Route';
 import Stop from './Stop';
 import Tag from './Tag';
