@@ -1,5 +1,4 @@
 import Resource from './Resource';
-import SignMessage from './SignMessage';
 import Route from './Route';
 import Stop from './Stop';
 import Tag from './Tag';
@@ -32,8 +31,6 @@ class Message extends Resource {
     const references = {
       routes: newProperties.routes
         && newProperties.routes.map(r => new Route(this.client, r)),
-      sign_messages: newProperties.sign_messages
-        && newProperties.sign_messages.map(sm => new SignMessage(this.client, sm)),
       stops: newProperties.stops
         && newProperties.stops.map(s => new Stop(this.client, s)),
       tags: newProperties.tags
