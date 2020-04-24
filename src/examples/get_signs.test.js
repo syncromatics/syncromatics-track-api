@@ -46,3 +46,26 @@ describe('When retrieving a sign by ID', () => {
     return signPromise;
   });
 });
+
+describe('When updating a sign', () => {
+  const api = new Track({ autoRenew: false });
+
+  beforeEach(() => charlie.setUpSuccessfulMock(api.client));
+  beforeEach(() => mockSigns.setUpSuccessfulMock(api.client));
+  beforeEach(() => fetchMock.catch(503));
+  afterEach(fetchMock.restore);
+
+  it('should update approach announcements', () => {
+    api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
+
+    const signPromise = api.customer('SYNC').sign(1)
+      .fetch()
+      .then(sign => {
+        sign.approach_announcements_enabled = true;
+        sign.approach_announcements_seconds = 120;
+        sign.update();
+      });
+
+    return signPromise;
+  });
+})

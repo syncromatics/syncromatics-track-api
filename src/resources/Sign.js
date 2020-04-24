@@ -52,6 +52,28 @@ class Sign extends Resource {
       .then(response => response.json())
       .then(sign => new Sign(this.client, this, sign));
   }
+
+  /**
+   * Updates data for a sign via the client.
+   * Note: only updates approach_announcements_enabled and approach_announcements_seconds.
+   * @returns {Promise} if successful returns instance of this sign
+   */
+  update() {
+    return this.client.patch(this.href, {
+      body: [
+        {
+          op: 'replace',
+          path: 'approach_announcements_enabled',
+          value: this.approach_announcements_enabled,
+        },
+        {
+          op: 'replace',
+          path: 'approach_announcements_seconds',
+          value: this.approach_announcements_seconds,
+        },
+      ],
+    });
+  }
 }
 
 export default Sign;
