@@ -63,12 +63,12 @@ class Sign extends Resource {
       body: [
         {
           op: 'replace',
-          path: 'approach_announcements_enabled',
+          path: '/approach_announcements_enabled',
           value: this.approach_announcements_enabled,
         },
         {
           op: 'replace',
-          path: 'approach_announcements_seconds',
+          path: '/approach_announcements_seconds',
           value: this.approach_announcements_seconds,
         },
       ],
