@@ -53,7 +53,7 @@ describe('When updating a sign', () => {
   let promise;
   beforeEach(() => {
     promise = new Sign(client, Sign.makeHref('SYNC', 1)).fetch()
-      .then(sign => {
+      .then((sign) => {
         sign.approach_announcements_enabled = true;
         sign.approach_announcements_seconds = 120;
         return sign;
