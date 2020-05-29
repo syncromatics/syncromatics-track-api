@@ -1,7 +1,7 @@
 import Resource from './Resource';
 
 /**
- * Call resource
+ * Incident resource
  */
 class Incident extends Resource {
   /**
@@ -25,25 +25,11 @@ class Incident extends Resource {
   }
 
   /**
-   * Makes a href for a given customer code and ID
-   * @param {string} customerCode Customer code
-   * @param {string} id incident ID
-   * @returns {string} URI to instance of call
-   */
-  static makeHref(customerCode, id) {
-    return {
-      href: `/1/${customerCode}/incident/${id}`,
-      code: customerCode,
-    };
-  }
-
-  /**
    * Clain an incident
    * @returns {Promise} If successful, indicates if the incident has been claimed with a boolean
    */
   claim() {
-    return this.client.post(`/1/${this.customerCode}/incidents/${this.incidentId}`)
-      .then(response => response.code === 200);
+    return this.client.post(`/1/${this.customerCode}/incidents/${this.incidentId}`);
   }
 
   /**
@@ -52,8 +38,7 @@ class Incident extends Resource {
    * @returns {Promise} If successful, indicates if the note has been added with a boolean
    */
   addNote(note) {
-    return this.client.post(`/1/${this.customerCode}/incidents/${this.incidentId}/notes`, { note })
-      .then(response => response.code === 200);
+    return this.client.post(`/1/${this.customerCode}/incidents/${this.incidentId}/notes`, { note });
   }
 
   /**
@@ -62,8 +47,7 @@ class Incident extends Resource {
    * @returns {Promise} If successful, indicates if the incident has been disposed
    */
   disposeIncident(disposeType) {
-    return this.client.post(`/1/${this.customerCode}/incidents/${this.incidentId}/dispose`, { disposeType })
-      .then(response => response.code === 200);
+    return this.client.post(`/1/${this.customerCode}/incidents/${this.incidentId}/dispose`, { disposeType });
   }
 }
 
