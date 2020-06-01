@@ -9,7 +9,7 @@ class Incident extends Resource {
    *
    * Will populate itself with the values given to it after the client parameter
    * @param {Client} client Instance of pre-configured client
-   * @param {Object} rest The object to use in assigning values to this instance
+   * @param {Object} rest Remaining arguments to use in assigning values to this instance
    */
   constructor(client, rest) {
     super(client);
@@ -25,11 +25,24 @@ class Incident extends Resource {
   }
 
   /**
+   * Makes a href for a given incident code and ID
+   * @param {string} customerCode Customer code
+   * @param {Number} id Incident ID
+   * @returns {string} URI to instance of incident
+   */
+  static makeHref(customerCode, id) {
+    return {
+      href: `/1/${customerCode}/incidents/${id}`,
+      code: customerCode,
+    };
+  }
+
+  /**
    * Clain an incident
    * @returns {Promise} If successful, indicates if the incident has been claimed with a boolean
    */
   claim() {
-    return this.client.post(`/1/${this.customerCode}/incidents/${this.incidentId}`);
+    return this.client.post(`${this.href}/claim`);
   }
 
   /**
@@ -38,7 +51,9 @@ class Incident extends Resource {
    * @returns {Promise} If successful, indicates if the note has been added with a boolean
    */
   addNote(note) {
-    return this.client.post(`/1/${this.customerCode}/incidents/${this.incidentId}/notes`, { note });
+    return this.client.post(`${this.href}/notes`, {
+      note,
+    });
   }
 
   /**
@@ -47,7 +62,9 @@ class Incident extends Resource {
    * @returns {Promise} If successful, indicates if the incident has been disposed
    */
   disposeIncident(disposeType) {
-    return this.client.post(`/1/${this.customerCode}/incidents/${this.incidentId}/dispose`, { disposeType });
+    return this.client.post(`${this.href}/dispose`, {
+      disposeType,
+    });
   }
 }
 

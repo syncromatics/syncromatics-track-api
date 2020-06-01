@@ -11,6 +11,7 @@ export { default as dispatchMessages } from './dispatchMessages';
 export { default as dispatchMessageBatches } from './dispatchMessageBatches';
 export { default as drivers } from './drivers';
 export { default as externalApis } from './externalApis';
+export { default as incidents } from './incidents';
 export { default as messages } from './messages';
 export { default as patterns } from './patterns';
 export { default as reportingTickets } from './reportingTickets';
