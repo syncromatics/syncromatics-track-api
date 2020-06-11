@@ -6,6 +6,7 @@ import callStates from './callStates';
 import dispatchMessages from './dispatchMessages';
 import enplugDetails from './enplugDetails';
 import enplugHealths from './enplugHealths';
+import incidents from './incidents';
 import signs from './signs';
 import stopArrivals from './stopArrivals';
 import stops from './stops';
@@ -139,6 +140,9 @@ const realTime = {
             break;
           case 'ENPLUG_HEALTHS':
             data = enplugHealths.list;
+            break;
+          case 'INCIDENTS':
+            data = incidents.list;
             break;
           case 'SIGNS':
             data = signs.list;
