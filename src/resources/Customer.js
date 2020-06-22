@@ -15,6 +15,7 @@ import Driver from './Driver';
 import DriversContext from './DriversContext';
 import ExternalApi from './ExternalApi';
 import ExternalApisContext from './ExternalApisContext';
+import Incident from './Incident';
 import EnplugScreenshot from './EnplugScreenshot';
 import EnplugConfiguration from './EnplugConfiguration';
 import Message from './Message';
@@ -221,6 +222,15 @@ class Customer extends Resource {
    */
   externalApi(id) {
     return this.resource(ExternalApi, ExternalApi.makeHref(this.code, id));
+  }
+
+  /**
+   * Gets an incident resource by id
+   * @param {Number} id Identity of the incident
+   * @returns {Incident} Incident resource
+   */
+  incident(id) {
+    return this.resource(Incident, Incident.makeHref(this.code, id));
   }
 
   /**

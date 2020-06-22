@@ -17,6 +17,7 @@ import Driver from './Driver';
 import DriversContext from './DriversContext';
 import ExternalApi from './ExternalApi';
 import ExternalApisContext from './ExternalApisContext';
+import Incident from './Incident';
 import Message from './Message';
 import MessagesContext from './MessagesContext';
 import Pattern from './Pattern';
@@ -62,6 +63,7 @@ describe('When getting resources related to a customer', () => {
   it('should allow a driver to be retrieved', () => customer.driver().should.be.instanceOf(Driver));
   it('should allow external apis to be searched', () => customer.externalApis().should.be.instanceOf(ExternalApisContext));
   it('should allow an external api to be retrieved', () => customer.externalApi().should.be.instanceOf(ExternalApi));
+  it('should allow an incident to be retrieved', () => customer.incident().should.be.instanceOf(Incident));
   it('should allow messages to be searched', () => customer.messages().should.be.instanceof(MessagesContext));
   it('should allow a message to be retrieved', () => customer.message().should.be.instanceof(Message));
   it('should allow patterns to be searched', () => customer.patterns().should.be.instanceof(PatternsContext));
