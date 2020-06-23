@@ -38,7 +38,7 @@ class Incident extends Resource {
   }
 
   /**
-   * Clain an incident
+   * Claim an incident
    * @returns {Promise} If successful, indicates if the incident has been claimed with a boolean
    */
   claim() {
@@ -51,20 +51,26 @@ class Incident extends Resource {
    * @returns {Promise} If successful, indicates if the note has been added with a boolean
    */
   addNote(note) {
-    return this.client.post(`${this.href}/notes`, {
-      note,
-    });
+    return this.client.post(`${this.href}/notes`, { body: note });
   }
 
   /**
-   * Add note to an existing incident
-   * @param {number} disposeType Dispose Type: 1: False Alarm, 2: Cleared
+   * Dispose an incident
+   * @param {number|string} dispositionType Disposition of incident FalseAlarm or Cleared
    * @returns {Promise} If successful, indicates if the incident has been disposed
    */
-  disposeIncident(disposeType) {
-    return this.client.post(`${this.href}/dispose`, {
-      disposeType,
-    });
+  dispose(dispositionType) {
+    return this.client.post(`${this.href}/dispose`, { body: dispositionType });
+  }
+
+  /**
+   * @deprecated use dispose() instead
+   * Dispose an incident
+   * @param {number|string} dispositionType Disposition of incident FalseAlarm or Cleared
+   * @returns {Promise} If successful, indicates if the incident has been disposed
+   */
+  disposeIncident(dispositionType) {
+    return this.dispose(dispositionType);
   }
 }
 
