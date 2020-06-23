@@ -60,12 +60,14 @@ describe('When updating a sign', () => {
 
     const signPromise = api.customer('SYNC').sign(1)
       .fetch()
-      .then(sign => {
+      .then((sign) => {
+        /* eslint-disable no-param-reassign */
         sign.approach_announcements_enabled = true;
         sign.approach_announcements_seconds = 120;
+        /* eslint-enable no-param-reassign */
         sign.update();
       });
 
     return signPromise;
   });
-})
+});

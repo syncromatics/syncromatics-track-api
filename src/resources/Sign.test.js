@@ -54,8 +54,10 @@ describe('When updating a sign', () => {
   beforeEach(() => {
     promise = new Sign(client, Sign.makeHref('SYNC', 1)).fetch()
       .then((sign) => {
+        /* eslint-disable no-param-reassign */
         sign.approach_announcements_enabled = true;
         sign.approach_announcements_seconds = 120;
+        /* eslint-enable no-param-reassign */
         return sign;
       })
       .then(sign => sign.update()
@@ -64,4 +66,4 @@ describe('When updating a sign', () => {
 
   it('should resolve the promise', () => promise.should.be.fulfilled);
   it('should set the href', () => promise.then(v => v.href).should.eventually.equal('/1/SYNC/signs/1'));
-})
+});

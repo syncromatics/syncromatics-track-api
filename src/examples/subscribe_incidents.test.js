@@ -49,7 +49,6 @@ describe('When subscribing to incidents', () => {
   });
 
   it('should get updated incidents for a customer', () => {
-
     api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
     return api.customer('SYNC')
       .realTime()
