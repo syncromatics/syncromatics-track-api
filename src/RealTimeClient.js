@@ -199,6 +199,10 @@ class RealTimeClient {
    * @returns {void}
    */
   onConnectionOpened() {
+    if (this.connection.readyState !== WEBSOCKET_READY_STATES.OPEN) {
+      console.error(`onConnectionOpened fired but WS Connection is ${this.connection.readyState}. Restarting connection.`);
+      return;
+    }
     this.initializing = false;
     if (this.isInReconnectLoop) {
       delete this.isInReconnectLoop;
