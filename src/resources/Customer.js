@@ -20,7 +20,7 @@ import EnplugScreenshot from './EnplugScreenshot';
 import EnplugConfiguration from './EnplugConfiguration';
 import Message from './Message';
 import MessagesContext from './MessagesContext';
-import MessageChannelsContext from './MessageChannelsContext';
+import MessageChannels from './MessageChannels';
 import Pattern from './Pattern';
 import PatternsContext from './PatternsContext';
 import ReportingTicket from './ReportingTicket';
@@ -235,11 +235,11 @@ class Customer extends Resource {
   }
 
   /**
-   * Gets a context for querying this customer's message channels
-   * @returns {MessageChannelsContext} Context for querying this customer's message channels
+   * Gets a customers available message channels by its code.
+   * @returns {MessageChannels} for fetching this customer's message channels
    */
   messageChannels() {
-    return this.resource(MessageChannelsContext, this.code);
+    return this.resource(MessageChannels, MessageChannels.makeHref(this.code));
   }
 
   /**
