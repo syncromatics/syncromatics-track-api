@@ -10,6 +10,7 @@ import VehicleArrivalsRealTimeContext from './VehicleArrivalsRealTimeContext';
 import EnplugDetailsRealTimeContext from './EnplugDetailsRealTimeContext';
 import EnplugHealthsRealTimeContext from './EnplugHealthsRealTimeContext';
 import IncidentsRealTimeContext from './IncidentsRealTimeContext';
+import MessageStatusRealTimeContext from './MessageStatusRealTimeContext';
 import VehiclesRealTimeContext from './VehiclesRealTimeContext';
 import VoipHeartbeatHandler from './VoipHeartbeatHandler';
 
@@ -117,6 +118,14 @@ class RealTimeContextFactory {
    */
   incidents() {
     return new IncidentsRealTimeContext(this.realTimeClient, this.customerCode);
+  }
+
+  /**
+   * Creates a RealTimeContext for querying Message Status updates.
+   * @returns {MessageStatusRealTimeContext} The newly created context.
+   */
+  messageStatus() {
+    return new MessageStatusRealTimeContext(this.realTimeClient, this.customerCode);
   }
 
   /**
