@@ -31,7 +31,7 @@ class MessageStatus extends Resource {
    */
   static makeHref(customerCode) {
     return {
-      href: `/1/${customerCode}/dispatch_message_statuses/`,
+      href: `/1/${customerCode}/dispatch_message_statuses`,
       code: customerCode,
     };
   }
@@ -41,7 +41,7 @@ class MessageStatus extends Resource {
    * @param {Array.<Resource|string>} messages Messages to mark as read
    * @returns {Promise} If successful, indicates if the messages have been marked as read
    */
-  MarkMessagesRead(messages) {
+  markMessagesRead(messages) {
     return this.client.post(`${this.href}`, { body: messages });
   }
 }

@@ -7,8 +7,12 @@ const messageStatus = {
     const singleResponse = () => new Response(Client.toBlob({}));
 
     fetchMock
-      .post(client.resolve('/1/SYNC/dispatch_message_statuses'), singleResponse)
+      .post(client.resolve('/1/SYNC/dispatch_message_statuses'), singleResponse);
   },
+  list: [{
+    href: '/1/SYNC/dispatch_message_statuses/101',
+    id: 101,
+  }],
 };
 
-export default incidents;
+export default messageStatus;

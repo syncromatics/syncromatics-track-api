@@ -15,9 +15,10 @@ describe('When mark an incident as read', () => {
   afterEach(fetchMock.restore);
   let promise;
   beforeEach(() => {
-    promise = new MessageStatus(client).MarkMessagesRead([
-      '/1/SYNC/dispatch_message_statuses/111',
-      '/1/SYNC/dispatch_message_statuses/222']);
+    promise = new MessageStatus(client, MessageStatus.makeHref('SYNC'))
+      .markMessagesRead([
+        '/1/SYNC/dispatch_message_statuses/111',
+        '/1/SYNC/dispatch_message_statuses/222']);
   });
 
   it('should resolve the promise', () => promise.should.be.fulfilled);

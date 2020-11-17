@@ -5,7 +5,7 @@ import RealTimeContext from './RealTimeContext';
  */
 class MessageStatusRealTimeContext extends RealTimeContext {
   /**
-   * Creates a context that can subscribe to Incident updates.
+   * Creates a context that can subscribe to Message Status updates.
    * @param {RealTimeClient} realTimeClient  Pre-configured instance of RealTimeClient.
    * @param {string} customerCode The customer code to query for updates.
    */

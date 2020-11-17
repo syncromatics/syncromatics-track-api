@@ -22,7 +22,7 @@ describe('When subscribing to message status', () => {
   afterEach(fetchMock.restore);
   after(() => server.close());
 
-  it('should get updated incidents for a single vehicle', () => {
+  it('should get updated message status', () => {
     api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
     return api.customer('SYNC')
       .realTime()
