@@ -1,11 +1,11 @@
 import Resource from './Resource';
 
 /**
- * Message Status resource
+ * Dispatch Message Status resource
  */
-class MessageStatus extends Resource {
+class DispatchMessageStatus extends Resource {
   /**
-   * Creates a new MessageStatus
+   * Creates a new DispatchMessageStatus
    *
    * Will populate itself with the values given to it after the client parameter
    * @param {Client} client Instance of pre-configured client
@@ -46,4 +46,4 @@ class MessageStatus extends Resource {
   }
 }
 
-export default MessageStatus;
+export default DispatchMessageStatus;

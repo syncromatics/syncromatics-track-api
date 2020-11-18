@@ -7,7 +7,7 @@ import { charlie, realTime as realTimeMocks } from '../mocks';
 chai.should();
 chai.use(chaiAsPromised);
 
-describe('When subscribing to message status', () => {
+describe('When subscribing to dispatch message status', () => {
   let server;
   const api = new Track({
     autoRenew: false,
@@ -22,11 +22,11 @@ describe('When subscribing to message status', () => {
   afterEach(fetchMock.restore);
   after(() => server.close());
 
-  it('should get updated message status', () => {
+  it('should get updated dispatch message status', () => {
     api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
     return api.customer('SYNC')
       .realTime()
-      .messageStatus()
+      .dispatchMessageStatus()
       .on('update', response => response.data); // do things with incidents
   });
 });

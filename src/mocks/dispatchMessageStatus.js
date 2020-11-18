@@ -2,7 +2,7 @@
 import fetchMock from 'fetch-mock';
 import Client from '../Client';
 
-const messageStatus = {
+const dispatchMessageStatus = {
   setUpSuccessfulMock: (client) => {
     const singleResponse = () => new Response(Client.toBlob({}));
 
@@ -15,4 +15,4 @@ const messageStatus = {
   }],
 };
 
-export default messageStatus;
+export default dispatchMessageStatus;

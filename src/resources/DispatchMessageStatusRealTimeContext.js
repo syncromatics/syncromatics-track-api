@@ -1,11 +1,12 @@
 import RealTimeContext from './RealTimeContext';
 
 /**
- * A real time context that can be used to generate subscriptions to Message Status entities.
+ * A real time context that can be used to generate
+ * subscriptions to Dispatch Message Status entities.
  */
-class MessageStatusRealTimeContext extends RealTimeContext {
+class DispatchMessageStatusRealTimeContext extends RealTimeContext {
   /**
-   * Creates a context that can subscribe to Message Status updates.
+   * Creates a context that can subscribe to Dispatch Message Status updates.
    * @param {RealTimeClient} realTimeClient  Pre-configured instance of RealTimeClient.
    * @param {string} customerCode The customer code to query for updates.
    */
@@ -15,4 +16,4 @@ class MessageStatusRealTimeContext extends RealTimeContext {
   }
 }
 
-export default MessageStatusRealTimeContext;
+export default DispatchMessageStatusRealTimeContext;

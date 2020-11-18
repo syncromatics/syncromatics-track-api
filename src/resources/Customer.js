@@ -21,7 +21,7 @@ import EnplugConfiguration from './EnplugConfiguration';
 import Message from './Message';
 import MessagesContext from './MessagesContext';
 import MessageChannels from './MessageChannels';
-import MessageStatus from './MessageStatus';
+import DispatchMessageStatus from './DispatchMessageStatus';
 import Pattern from './Pattern';
 import PatternsContext from './PatternsContext';
 import ReportingTicket from './ReportingTicket';
@@ -171,6 +171,14 @@ class Customer extends Resource {
   }
 
   /**
+   * Gets a dispatch message status resource
+      * @returns {DispatchMessageStatus} Dispatch Message Status resource
+   */
+  dispatchMessageStatus() {
+    return this.resource(DispatchMessageStatus, DispatchMessageStatus.makeHref(this.code));
+  }
+
+  /**
    * Gets a context for querying this customer's drivers
    * @returns {DriversContext} Context for querying this customer's drivers
    */
@@ -261,14 +269,6 @@ class Customer extends Resource {
       return this.resource(Message, Message.makeHref(this.code, payload));
     }
     return this.resource(Message, { code: this.code, ...payload });
-  }
-
-  /**
-   * Gets a message status resource
-      * @returns {MessageStatus} Message Status resource
-   */
-  messageStatus() {
-    return this.resource(MessageStatus, MessageStatus.makeHref(this.code));
   }
 
   /**

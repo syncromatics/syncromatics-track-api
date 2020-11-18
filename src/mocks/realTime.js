@@ -4,10 +4,10 @@ import * as messages from '../subscriptions/messages';
 import areas from './areas';
 import callStates from './callStates';
 import dispatchMessages from './dispatchMessages';
+import dispatchMessageStatus from './dispatchMessageStatus';
 import enplugDetails from './enplugDetails';
 import enplugHealths from './enplugHealths';
 import incidents from './incidents';
-import messageStatuses from './messageStatus';
 import signs from './signs';
 import stopArrivals from './stopArrivals';
 import stops from './stops';
@@ -146,7 +146,7 @@ const realTime = {
             data = incidents.list;
             break;
           case 'DISPATCH_MESSAGE_STATUSES':
-            data = messageStatuses.list;
+            data = dispatchMessageStatus.list;
             break;
           case 'SIGNS':
             data = signs.list;
