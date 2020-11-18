@@ -21,6 +21,7 @@ import EnplugConfiguration from './EnplugConfiguration';
 import Message from './Message';
 import MessagesContext from './MessagesContext';
 import MessageChannels from './MessageChannels';
+import MessageStatus from './MessageStatus';
 import Pattern from './Pattern';
 import PatternsContext from './PatternsContext';
 import ReportingTicket from './ReportingTicket';
@@ -260,6 +261,14 @@ class Customer extends Resource {
       return this.resource(Message, Message.makeHref(this.code, payload));
     }
     return this.resource(Message, { code: this.code, ...payload });
+  }
+
+  /**
+   * Gets a message status resource
+      * @returns {MessageStatus} Message Status resource
+   */
+  messageStatus() {
+    return this.resource(MessageStatus, MessageStatus.makeHref(this.code));
   }
 
   /**
