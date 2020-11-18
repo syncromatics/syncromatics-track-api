@@ -21,6 +21,7 @@ import EnplugConfiguration from './EnplugConfiguration';
 import Message from './Message';
 import MessagesContext from './MessagesContext';
 import MessageChannels from './MessageChannels';
+import DispatchMessageStatus from './DispatchMessageStatus';
 import Pattern from './Pattern';
 import PatternsContext from './PatternsContext';
 import ReportingTicket from './ReportingTicket';
@@ -167,6 +168,14 @@ class Customer extends Resource {
    */
   dispatchMessageBatch(id) {
     return this.resource(DispatchMessageBatch, DispatchMessageBatch.makeHref(this.code, id));
+  }
+
+  /**
+   * Gets a dispatch message status resource
+      * @returns {DispatchMessageStatus} Dispatch Message Status resource
+   */
+  dispatchMessageStatus() {
+    return this.resource(DispatchMessageStatus, DispatchMessageStatus.makeHref(this.code));
   }
 
   /**

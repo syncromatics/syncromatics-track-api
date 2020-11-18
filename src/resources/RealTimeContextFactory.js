@@ -2,6 +2,7 @@ import AreasRealTimeContext from './AreasRealTimeContext';
 import AssignmentsRealTimeContext from './AssignmentsRealTimeContext';
 import CallStatesRealTimeContext from './CallStatesRealTimeContext';
 import DispatchMessagesRealTimeContext from './DispatchMessagesRealTimeContext';
+import DispatchMessageStatusRealTimeContext from './DispatchMessageStatusRealTimeContext';
 import SignsRealTimeContext from './SignsRealTimeContext';
 import StopsRealTimeContext from './StopsRealTimeContext';
 import StopArrivalsRealTimeContext from './StopArrivalsRealTimeContext';
@@ -93,6 +94,14 @@ class RealTimeContextFactory {
    */
   dispatchMessages() {
     return new DispatchMessagesRealTimeContext(this.realTimeClient, this.customerCode);
+  }
+
+  /**
+   * Creates a RealTimeContext for querying Dispatch Message Status updates.
+   * @returns {DispatchMessageStatusRealTimeContext} The newly created context.
+   */
+  dispatchMessageStatus() {
+    return new DispatchMessageStatusRealTimeContext(this.realTimeClient, this.customerCode);
   }
 
   /**

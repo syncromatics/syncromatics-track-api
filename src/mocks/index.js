@@ -9,6 +9,7 @@ export { default as calls } from './calls';
 export { default as callParticipants } from './callParticipants';
 export { default as dispatchMessages } from './dispatchMessages';
 export { default as dispatchMessageBatches } from './dispatchMessageBatches';
+export { default as dispatchMessageStatus } from './dispatchMessageStatus';
 export { default as drivers } from './drivers';
 export { default as externalApis } from './externalApis';
 export { default as incidents } from './incidents';
