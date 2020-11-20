@@ -9,7 +9,7 @@
     "test:local": "karma start",
     "test": "karma start --single-run --fail-on-empty-test-suite",
     "prepublish": "webpack",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "semantic-release": "semantic-release"
   },
   "keywords": [
     "syncromatics",
@@ -44,7 +44,7 @@
     "karma-webpack": "^1.8.0",
     "mocha": "^3.2.0",
     "mock-socket": "^7.0.0",
-    "semantic-release": "^6.3.2",
+    "semantic-release": "^17.2.4",
     "webpack": "^1.13.3",
     "whatwg-fetch": "^2.0.3"
   },
