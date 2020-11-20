@@ -2,7 +2,7 @@
 
 This is the JavaScript client for accessing the [Syncromatics Track API][track-api-docs].
 
-[![Build Status](https://travis-ci.org/syncromatics/syncromatics-track-api.svg?branch=master)](https://travis-ci.org/syncromatics/syncromatics-track-api)
+![Build Status](https://github.com/syncromatics/syncromatics-track-api/workflows/Build%20and%20Publish%20CI/badge.svg?branch=master)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 ## Installation
