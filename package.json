@@ -44,7 +44,7 @@
     "karma-webpack": "^1.8.0",
     "mocha": "^3.2.0",
     "mock-socket": "^7.0.0",
-    "semantic-release": "^17.2.4",
+    "semantic-release": "^17.2.3",
     "webpack": "^1.13.3",
     "whatwg-fetch": "^2.0.3"
   },
