@@ -27,6 +27,7 @@ export { default as signs } from './signs';
 export { default as stops } from './stops';
 export { default as tags } from './tags';
 export { default as trips } from './trips';
+export { default as twitter } from './twitter';
 export { default as users } from './users';
 export { default as vehicles } from './vehicles';
 export { default as voipTickets } from './voipTicket';

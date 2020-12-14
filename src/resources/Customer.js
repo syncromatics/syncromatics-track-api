@@ -39,6 +39,8 @@ import StopsContext from './StopsContext';
 import Tag from './Tag';
 import TagsContext from './TagsContext';
 import Trip from './Trip';
+import TwitterOAuth from './TwitterOAuth';
+import TwitterUsername from './TwitterUsername';
 import Vehicle from './Vehicle';
 import VehiclesContext from './VehiclesContext';
 import VoipTicket from './VoipTicket';
@@ -417,6 +419,22 @@ class Customer extends Resource {
    */
   trip(id) {
     return this.resource(Trip, Trip.makeHref(this.code, id));
+  }
+
+  /**
+   * Gets a TwitterOAuth resource
+   * @returns {TwitterOAuth} TwitterOAuth resource
+   */
+  twitterOAuth() {
+    return this.resource(TwitterOAuth, TwitterOAuth.makeHref(this.code));
+  }
+
+  /**
+   * Gets a TwitterUsername resource
+   * @returns {TwitterUsername} TwitterUsername resource
+   */
+  twitterUsername() {
+    return this.resource(TwitterUsername, TwitterUsername.makeHref(this.code));
   }
 
   /**
