@@ -36,6 +36,8 @@ import StopsContext from './StopsContext';
 import Tag from './Tag';
 import TagsContext from './TagsContext';
 import Trip from './Trip';
+import TwitterOAuth from './TwitterOAuth';
+import TwitterUsername from './TwitterUsername';
 import Vehicle from './Vehicle';
 import VehiclesContext from './VehiclesContext';
 import VoipTicket from './VoipTicket';
@@ -82,6 +84,8 @@ describe('When getting resources related to a customer', () => {
   it('should allow tags to be searched', () => customer.tags().should.be.instanceof(TagsContext));
   it('should allow a tag to be retrieved', () => customer.tag().should.be.instanceof(Tag));
   it('should allow a trip to be retrieved', () => customer.trip().should.be.instanceof(Trip));
+  it('should allow a twitter oauth token to be created', () => customer.twitterOAuth().should.be.instanceof(TwitterOAuth));
+  it('should allow a twitter username to be retrieved', () => customer.twitterUsername().should.be.instanceof(TwitterUsername));
   it('should allow users to be searched', () => customer.users().should.be.instanceOf(CustomerUsersContext));
   it('should allow vehicles to be searched', () => customer.vehicles().should.be.instanceof(VehiclesContext));
   it('should allow a vehicle to be retrieved', () => customer.vehicle().should.be.instanceof(Vehicle));
