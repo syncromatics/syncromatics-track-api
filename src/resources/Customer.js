@@ -40,6 +40,7 @@ import Tag from './Tag';
 import TagsContext from './TagsContext';
 import Trip from './Trip';
 import TwitterOAuth from './TwitterOAuth';
+import TwitterOAuthRequest from './TwitterOAuthRequest';
 import TwitterUsername from './TwitterUsername';
 import Vehicle from './Vehicle';
 import VehiclesContext from './VehiclesContext';
@@ -427,6 +428,14 @@ class Customer extends Resource {
    */
   twitterOAuth() {
     return this.resource(TwitterOAuth, TwitterOAuth.makeHref(this.code));
+  }
+
+  /**
+   * Gets a TwitterOAuthRequest resource
+   * @returns {TwitterOAuthRequest} TwitterOAuthRequest resource
+   */
+  twitterOAuthRequest() {
+    return this.resource(TwitterOAuthRequest, TwitterOAuthRequest.makeHref(this.code));
   }
 
   /**
