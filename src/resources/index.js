@@ -1,5 +1,5 @@
 import 'isomorphic-fetch';
-import btoa from 'btoa';
+import { encode as btoa } from 'base-64';
 import JWT from 'jwt-client';
 import Resource from './Resource';
 import Customer from './Customer';
