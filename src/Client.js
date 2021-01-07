@@ -71,7 +71,7 @@ class Client {
       ...rest,
     };
 
-    if (JWT.get() && !opts.headers.Authorization && !opts.headers['Api-Key']) {
+    if (!opts.headers.Authorization && !opts.headers['Api-Key'] && JWT.get()) {
       opts.headers.Authorization = JWT.get();
     }
 
