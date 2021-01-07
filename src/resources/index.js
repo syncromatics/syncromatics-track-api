@@ -1,4 +1,5 @@
 import 'isomorphic-fetch';
+import btoa from 'btoa';
 import JWT from 'jwt-client';
 import Resource from './Resource';
 import Customer from './Customer';
@@ -37,7 +38,7 @@ class Track extends Resource {
     this.options = {
       autoRenew: true,
       autoRenewMinutesBeforeExpiration: 5,
-      onAutoRenew: () => {},
+      onAutoRenew: () => { },
       ...options,
       ...{
         token: undefined,
@@ -84,7 +85,7 @@ class Track extends Resource {
               : payload.claim.exp * 1000;
 
             const ms = Math.max(expMs - msBeforeExp - new Date().getTime(), 0);
-            const onAutoRenew = this.options.onAutoRenew || (() => {});
+            const onAutoRenew = this.options.onAutoRenew || (() => { });
             this.autoRenewTimeout = setTimeout(() =>
               this.renewAuthentication().then(onAutoRenew), ms);
           }
