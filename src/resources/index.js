@@ -180,7 +180,7 @@ class Track extends Resource {
       uri = '/1/login';
       headers = {
         ...headers,
-        Authorization: `Basic ${btoa(`${options.username}:${options.password}`)}`,
+        Authorization: `Basic ${base64.encode(`${options.username}:${options.password}`)}`,
       };
     }
 
