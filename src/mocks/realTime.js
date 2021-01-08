@@ -3,6 +3,7 @@ import { Server } from 'mock-socket';
 import * as messages from '../subscriptions/messages';
 import areas from './areas';
 import callStates from './callStates';
+import bikeRackSlots from './bikeRackSlots';
 import dispatchMessages from './dispatchMessages';
 import dispatchMessageStatus from './dispatchMessageStatus';
 import enplugDetails from './enplugDetails';
@@ -133,6 +134,9 @@ const realTime = {
             break;
           case 'ASSIGNMENTS':
             data = vehicles.list.map((v) => v.assignment);
+            break;
+          case 'BIKE_RACK_SLOTS':
+            data = bikeRackSlots.list;
             break;
           case 'CALL_STATES':
             data = callStates.list;
