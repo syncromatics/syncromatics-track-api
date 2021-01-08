@@ -1,4 +1,3 @@
-import JWT from 'jwt-client';
 import * as messages from './subscriptions/messages';
 import { DEFAULT_TRACK_API_HOST } from './Client';
 
@@ -31,10 +30,10 @@ class RealTimeClient {
     }
     this.client = client;
     const { baseUri } = options;
-    const baseRealTimeUri = baseUri ?
-      baseUri
-        .replace(/^http(s?):\/\//, 'ws$1://') // Change https? to wss?
-        .replace(/$\/+/, '') // Trim trailing slashes
+    const baseRealTimeUri = baseUri
+      ? baseUri
+          .replace(/^http(s?):\/\//, 'ws$1://') // Change https? to wss?
+          .replace(/$\/+/, '') // Trim trailing slashes
       : `wss://${DEFAULT_TRACK_API_HOST}`;
     const realTimeUri = `${baseRealTimeUri}/1/realtime`;
     this.options = {
@@ -106,10 +105,10 @@ class RealTimeClient {
   removeEventListener(type, listener) {
     switch (type) {
       case 'disconnect':
-        this.disconnectHandlers = this.disconnectHandlers.filter(x => x !== listener);
+        this.disconnectHandlers = this.disconnectHandlers.filter((x) => x !== listener);
         break;
       case 'reconnect':
-        this.reconnectHandlers = this.reconnectHandlers.filter(x => x !== listener);
+        this.reconnectHandlers = this.reconnectHandlers.filter((x) => x !== listener);
         break;
       default: {
         const msg = 'You must pass "disconnect" or "reconnect" as `type` to removeEventListener.';
@@ -170,15 +169,12 @@ class RealTimeClient {
    * @returns {void}
    */
   onConnectionClosed() {
-    const {
-      reconnectOnClose = false,
-      reconnectTimeout = 0,
-    } = this.options;
+    const { reconnectOnClose = false, reconnectTimeout = 0 } = this.options;
     if (reconnectOnClose) {
       if (!this.isInReconnectLoop) {
         this.isInReconnectLoop = true;
-        this.queueAndRemoveSubscriptions(x => x.openRequests);
-        this.queueAndRemoveSubscriptions(x => x.subscriptions);
+        this.queueAndRemoveSubscriptions((x) => x.openRequests);
+        this.queueAndRemoveSubscriptions((x) => x.subscriptions);
         this.disconnectHandlers.forEach((handler) => {
           if (typeof handler === 'function') {
             setTimeout(handler, 0);
@@ -200,7 +196,9 @@ class RealTimeClient {
    */
   onConnectionOpened() {
     if (this.connection.readyState !== WEBSOCKET_READY_STATES.OPEN) {
-      console.error(`onConnectionOpened fired but WS Connection is ${this.connection.readyState}. Restarting connection.`);
+      console.error(
+        `onConnectionOpened fired but WS Connection is ${this.connection.readyState}. Restarting connection.`,
+      );
       return;
     }
     this.initializing = false;
@@ -212,14 +210,13 @@ class RealTimeClient {
         }
       });
     }
-    this.sendAuthentication()
-      .then(() => {
-        this.queuedMessages.forEach((queuedMessage) => {
-          this.connection.send(queuedMessage.serialized);
-          queuedMessage.resolver();
-        });
-        this.queuedMessages.length = 0;
+    this.sendAuthentication().then(() => {
+      this.queuedMessages.forEach((queuedMessage) => {
+        this.connection.send(queuedMessage.serialized);
+        queuedMessage.resolver();
       });
+      this.queuedMessages.length = 0;
+    });
   }
 
   /**
@@ -255,7 +252,7 @@ class RealTimeClient {
 
           const { queuedMessages } = this.subscriptions[message.subscription_id] || {};
           if (queuedMessages) {
-            queuedMessages.forEach(qm => handler(qm));
+            queuedMessages.forEach((qm) => handler(qm));
           }
 
           mutableSubscriptionContainer.subscriptionId = message.subscription_id;
@@ -309,7 +306,7 @@ class RealTimeClient {
         }
         break;
       case messages.HEARTBEAT:
-        this.heartbeatHandlers.forEach(handler => handler(message));
+        this.heartbeatHandlers.forEach((handler) => handler(message));
         break;
       default:
         throw new Error(`Unsupported message received from Track Realtime API:\n${event.data}`);
@@ -322,16 +319,15 @@ class RealTimeClient {
    * @returns {Promise} A Promise resolved when an authentication success message is received.
    */
   sendAuthentication() {
-    return this.client.authenticated
-      .then(() => {
-        const authToken = JWT.get();
-        const authMessage = messages.creators.createAuthRequest(authToken);
-        const serialized = JSON.stringify(authMessage);
-        this.connection.send(serialized);
-        return new Promise((resolve) => {
-          this.authenticatedResolve = resolve;
-        });
+    return this.client.authenticated.then(() => {
+      const { token } = this.client.getJwt();
+      const authMessage = messages.creators.createAuthRequest(token);
+      const serialized = JSON.stringify(authMessage);
+      this.connection.send(serialized);
+      return new Promise((resolve) => {
+        this.authenticatedResolve = resolve;
       });
+    });
   }
 
   /**
@@ -348,7 +344,9 @@ class RealTimeClient {
     }
 
     let resolver;
-    const messagePromise = new Promise((resolve) => { resolver = resolve; });
+    const messagePromise = new Promise((resolve) => {
+      resolver = resolve;
+    });
     this.queuedMessages.push({
       resolver,
       serialized,
@@ -433,8 +431,7 @@ class RealTimeClient {
       subscription_id: subscriptionContainer.subscriptionId,
     };
 
-    return this.sendMessage(subscriptionEndRequest)
-      .then(() => subscriptionEnd);
+    return this.sendMessage(subscriptionEndRequest).then(() => subscriptionEnd);
   }
 
   /**
@@ -460,34 +457,36 @@ class RealTimeClient {
 
   queueAndRemoveSubscriptions(mutableBucketSelector) {
     const mutableBucket = mutableBucketSelector(this);
-    const defaultSubscriptionStartResolver = () => { };
+    const defaultSubscriptionStartResolver = () => {};
     const defaultSubscriptionStartRejector = () => new Error('Could not resume subscription');
     Object.keys(mutableBucket)
-      .map(id => ({
+      .map((id) => ({
         ...mutableBucket[id],
         id,
       }))
-      .forEach(({
-        id,
-        handler,
-        messageCreator,
-        mutableSubscriptionContainer,
-        subscriptionStartResolver,
-        subscriptionStartRejecter,
-        subscriptionEndRejecter,
-        subscriptionEndResolver,
-      }) => {
-        this.sendStartSubscriptionMessage(
-          messageCreator,
+      .forEach(
+        ({
+          id,
           handler,
+          messageCreator,
           mutableSubscriptionContainer,
-          subscriptionStartResolver || defaultSubscriptionStartResolver,
-          subscriptionStartRejecter || defaultSubscriptionStartRejector,
-          subscriptionEndResolver,
+          subscriptionStartResolver,
+          subscriptionStartRejecter,
           subscriptionEndRejecter,
-        );
-        delete mutableBucket[id];
-      });
+          subscriptionEndResolver,
+        }) => {
+          this.sendStartSubscriptionMessage(
+            messageCreator,
+            handler,
+            mutableSubscriptionContainer,
+            subscriptionStartResolver || defaultSubscriptionStartResolver,
+            subscriptionStartRejecter || defaultSubscriptionStartRejector,
+            subscriptionEndResolver,
+            subscriptionEndRejecter,
+          );
+          delete mutableBucket[id];
+        },
+      );
   }
 }
 

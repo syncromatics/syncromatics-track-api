@@ -1,12 +1,12 @@
 {
-	"extends": "airbnb-base",
-	"env": {
-		"browser": true,
-		"mocha": true
-	},
-	"rules": {
-		"valid-jsdoc": "error",
-		"require-jsdoc": "error",
-		"linebreak-style": "off"
-	}
+  "extends": ["airbnb-base", "prettier"],
+  "env": {
+    "browser": true,
+    "mocha": true
+  },
+  "rules": {
+    "valid-jsdoc": "error",
+    "require-jsdoc": "error",
+    "linebreak-style": "off"
+  }
 }

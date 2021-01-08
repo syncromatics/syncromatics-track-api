@@ -1,6 +1,5 @@
 import 'isomorphic-fetch';
-import { encode as btoa } from 'base-64';
-import JWT from 'jwt-client';
+import base64 from 'base-64';
 import Resource from './Resource';
 import Customer from './Customer';
 import ExternalApi from './ExternalApi';
@@ -38,7 +37,7 @@ class Track extends Resource {
     this.options = {
       autoRenew: true,
       autoRenewMinutesBeforeExpiration: 5,
-      onAutoRenew: () => { },
+      onAutoRenew: () => {},
       ...options,
       ...{
         token: undefined,
@@ -61,6 +60,41 @@ class Track extends Resource {
   }
 
   /**
+   * Parse JSON Web Token into its payload
+   * @param {string} token JSON Web Token to read and parse
+   * @returns {{token: string, header: Object, claim: Object, signature: string}} Parsed payload
+   */
+  parseToken(token = '') {
+    const prefix = Client.TokenPrefix;
+    if (prefix && token.indexOf(prefix) === 0) {
+      return this.parseToken(token.substring(prefix.length));
+    }
+
+    const [encodedHeader, encodedClaim, signature = ''] = token.split('.');
+    return {
+      token,
+      header: JSON.parse(base64.decode(encodedHeader)),
+      claim: JSON.parse(base64.decode(encodedClaim)),
+      signature,
+    };
+  }
+
+  /**
+   * Validates the JSON Web Token's expiration and not-before claims
+   * @param {JWT} jwt Parsed JSON Web Token payload
+   * @returns {boolean} Indicates whether the JWT is valid
+   */
+  static validateJwt({ claim }) {
+    if (!claim) return false;
+
+    const now = Date.now() / 1000;
+    const { exp, nbf } = claim;
+    if (exp && exp < now) return false;
+    if (nbf && nbf > now) return false;
+    return true;
+  }
+
+  /**
    * Authenticates and validates a token
    * @param {string} token JSON Web Token to authenticate and validate
    * @returns {Promise} If successful, the claim of the JWT payload (user object).
@@ -68,10 +102,10 @@ class Track extends Resource {
    */
   authenticateToken(token) {
     return Promise.resolve(token)
-      .then(JWT.read)
+      .then((t) => this.parseToken(t))
       .then((payload) => {
-        if (JWT.validate(payload)) {
-          JWT.keep(token);
+        if (Track.validateJwt(payload)) {
+          this.client.setJwt(payload);
           this.stopAutoRenew();
 
           if (this.options.autoRenew) {
@@ -80,14 +114,15 @@ class Track extends Resource {
             /* payload.claim.exp used to be milliseconds, but this was a mis-implementation
              * in the spec; this is rough logic to handle backwards compatibility.
              */
-            const expMs = (payload.claim.exp / 1000000000) > 1000
-              ? payload.claim.exp
-              : payload.claim.exp * 1000;
+            const expMs =
+              payload.claim.exp / 1000000000 > 1000 ? payload.claim.exp : payload.claim.exp * 1000;
 
             const ms = Math.max(expMs - msBeforeExp - new Date().getTime(), 0);
-            const onAutoRenew = this.options.onAutoRenew || (() => { });
-            this.autoRenewTimeout = setTimeout(() =>
-              this.renewAuthentication().then(onAutoRenew), ms);
+            const onAutoRenew = this.options.onAutoRenew || (() => {});
+            this.autoRenewTimeout = setTimeout(
+              () => this.renewAuthentication().then(onAutoRenew),
+              ms,
+            );
           }
 
           this.client.setAuthenticated(payload.claim);
@@ -95,7 +130,7 @@ class Track extends Resource {
           return payload.claim;
         }
 
-        JWT.forget();
+        this.client.setJwt(null);
         this.client.unsetAuthenticated();
         return Promise.reject(new Error('Invalid token or payload'));
       });
@@ -149,13 +184,15 @@ class Track extends Resource {
       };
     }
 
-    return this.client.post(uri, { headers })
-      .then(response => response.text())
-      .then(token => this.authenticateToken(token))
+    return this.client
+      .post(uri, { headers })
+      .then((response) => response.text())
+      .then((token) => this.authenticateToken(token))
       .catch((errorResponse) => {
         if (errorResponse instanceof ForbiddenResponse) {
-          return this.logOut()
-            .then(() => Promise.reject(new ForbiddenResponse(errorResponse.response, 'Invalid credentials')));
+          return this.logOut().then(() =>
+            Promise.reject(new ForbiddenResponse(errorResponse.response, 'Invalid credentials')),
+          );
         }
 
         return Promise.reject(errorResponse);
@@ -168,7 +205,7 @@ class Track extends Resource {
    */
   logOut() {
     this.stopAutoRenew();
-    JWT.forget();
+    this.client.setJwt(null);
     this.client.unsetAuthenticated();
     return Promise.resolve();
   }
@@ -181,7 +218,8 @@ class Track extends Resource {
    * @see logIn
    */
   renewAuthentication() {
-    if (JWT.get()) return this.logIn({ token: JWT.get() });
+    const { token } = this.client.getJwt();
+    if (token) return this.logIn({ token });
 
     return Promise.reject(new Error('Not logged in. Call logIn() first.'));
   }
@@ -193,12 +231,12 @@ class Track extends Resource {
    * @returns {Promise} List of customers contained within the token
    */
   customers() {
-    return this.client.authenticated
-      .then(user => Object.keys(user.cust)
-        .map(code => ({
-          code,
-          name: user.cust[code],
-        })));
+    return this.client.authenticated.then((user) =>
+      Object.keys(user.cust).map((code) => ({
+        code,
+        name: user.cust[code],
+      })),
+    );
   }
 
   /**

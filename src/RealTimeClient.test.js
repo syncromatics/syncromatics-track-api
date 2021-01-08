@@ -7,16 +7,20 @@ import * as messages from './subscriptions/messages';
 chai.should();
 chai.use(chaiAsPromised);
 
-
 describe('When creating a real time connection', () => {
   let server;
-  beforeEach(() => { server = mock.getServer(); });
+  beforeEach(() => {
+    server = mock.getServer();
+  });
   afterEach(() => server.closeConnection());
 
   it('should connect only after REST client authenticates', () => {
     let resolveAuthentication;
     const mockClient = {
-      authenticated: new Promise((resolve) => { resolveAuthentication = resolve; }),
+      authenticated: new Promise((resolve) => {
+        resolveAuthentication = resolve;
+      }),
+      getJwt: () => ({ token: 'fake' }),
     };
     let wasConnectionOpened = false;
     server.on('connection', () => {
@@ -28,12 +32,10 @@ describe('When creating a real time connection', () => {
     wasConnectionOpened.should.equal(false);
 
     resolveAuthentication();
-    return Promise.all([
-      mockClient.authenticated,
-      messagePromise,
-    ])
+    return Promise.all([mockClient.authenticated, messagePromise])
       .then(() => server.closeConnection(realTimeClient))
-      .then(() => wasConnectionOpened).should.eventually.become(true);
+      .then(() => wasConnectionOpened)
+      .should.eventually.become(true);
   });
 
   it('should create at most one connection', () => {
@@ -46,27 +48,29 @@ describe('When creating a real time connection', () => {
     const message1 = realTimeClient.sendMessage({ foo: 'bar' });
     const message2 = realTimeClient.sendMessage({ bar: 'baz' });
     const message3 = realTimeClient.sendMessage({ baz: 'foo' });
-    return Promise.all([
-      message1,
-      message2,
-      message3,
-    ])
+    return Promise.all([message1, message2, message3])
       .then(() => server.closeConnection(realTimeClient))
-      .then(() => numConnections).should.eventually.become(1);
+      .then(() => numConnections)
+      .should.eventually.become(1);
   });
 
   it('should queue messages to send while connecting', () => {
     let resolveAuthentication;
     let resolveGotAllMessages;
     const mockClient = {
-      authenticated: new Promise((resolve) => { resolveAuthentication = resolve; }),
+      authenticated: new Promise((resolve) => {
+        resolveAuthentication = resolve;
+      }),
+      getJwt: () => ({ token: 'fake' }),
     };
     let numMessagesReceived = 0;
 
     // no guarantee on when our webserver mock will fire its message, just that it will.
     // so let's create a promise of it and inspect later.
     // it's safe to wait for this because the test runner will time out if it never resolves.
-    const gotAllMessages = new Promise((resolve) => { resolveGotAllMessages = resolve; });
+    const gotAllMessages = new Promise((resolve) => {
+      resolveGotAllMessages = resolve;
+    });
     server.on('message', () => {
       numMessagesReceived += 1;
       // we are sending 3 messages, but there should be also 1 authentication control message.
@@ -82,13 +86,9 @@ describe('When creating a real time connection', () => {
 
     resolveAuthentication();
 
-    return Promise.all([
-      message1,
-      message2,
-      message3,
-      gotAllMessages,
-    ])
-      .then(() => server.closeConnection(realTimeClient));
+    return Promise.all([message1, message2, message3, gotAllMessages]).then(() =>
+      server.closeConnection(realTimeClient),
+    );
   });
 });
 
@@ -115,7 +115,9 @@ describe('When the real time connection is disconnected', () => {
   it('should reconnect and re-authenticate', () => {
     let numAuths = 0;
     let resolveGotAllAuths;
-    const gotAllAuths = new Promise((resolve) => { resolveGotAllAuths = resolve; });
+    const gotAllAuths = new Promise((resolve) => {
+      resolveGotAllAuths = resolve;
+    });
     let numMessages = 0;
     let resolveGotAllMessages;
     const gotAllMessages = new Promise((resolve) => {
@@ -137,17 +139,12 @@ describe('When the real time connection is disconnected', () => {
     };
 
     configureListener();
-    const message1 = realTimeClient.sendMessage({ type: 'TEST', id: 1 })
+    const message1 = realTimeClient
+      .sendMessage({ type: 'TEST', id: 1 })
       .then(reconnect)
       .then(configureListener);
-    const message2 = message1
-      .then(() => realTimeClient.sendMessage({ type: 'TEST', id: 2 }));
-    return Promise.all([
-      message1,
-      message2,
-      gotAllAuths,
-      gotAllMessages,
-    ]);
+    const message2 = message1.then(() => realTimeClient.sendMessage({ type: 'TEST', id: 2 }));
+    return Promise.all([message1, message2, gotAllAuths, gotAllMessages]);
   });
 
   it('should resubscribe to all subscriptions', () => {
@@ -181,7 +178,9 @@ describe('When the real time connection is disconnected', () => {
         two: '2',
         three: '3',
       },
-      (update) => { observedSubscriptionIds.push(update.subscription_id); },
+      (update) => {
+        observedSubscriptionIds.push(update.subscription_id);
+      },
     );
 
     let subscriptionEnder;
@@ -191,10 +190,8 @@ describe('When the real time connection is disconnected', () => {
       })
       .then(reconnect)
       .then(configureListener);
-    const endSubscription = gotAllStartRequests
-      .then(() => subscriptionEnder());
-    const multipleSubscriptions = endSubscription
-      .then(() => observedSubscriptionIds);
+    const endSubscription = gotAllStartRequests.then(() => subscriptionEnder());
+    const multipleSubscriptions = endSubscription.then(() => observedSubscriptionIds);
     return Promise.all([
       subscriptionStart,
       disruptConnection,
@@ -207,20 +204,19 @@ describe('When the real time connection is disconnected', () => {
 
   it('should fire disconnect and reconnect event handlers', () => {
     let resolveDisconnectEvent;
-    const disconnectEvent = new Promise((resolve) => { resolveDisconnectEvent = resolve; });
+    const disconnectEvent = new Promise((resolve) => {
+      resolveDisconnectEvent = resolve;
+    });
     let resolveReconnectEvent;
-    const reconnectEvent = new Promise((resolve) => { resolveReconnectEvent = resolve; });
+    const reconnectEvent = new Promise((resolve) => {
+      resolveReconnectEvent = resolve;
+    });
 
     realTimeClient.addEventListener('disconnect', resolveDisconnectEvent);
     realTimeClient.addEventListener('reconnect', resolveReconnectEvent);
 
-    const startAndRestart = realTimeClient.sendMessage({ type: 'TEST', id: 1 })
-      .then(reconnect);
+    const startAndRestart = realTimeClient.sendMessage({ type: 'TEST', id: 1 }).then(reconnect);
 
-    return Promise.all([
-      startAndRestart,
-      disconnectEvent,
-      reconnectEvent,
-    ]);
+    return Promise.all([startAndRestart, disconnectEvent, reconnectEvent]);
   });
 });
