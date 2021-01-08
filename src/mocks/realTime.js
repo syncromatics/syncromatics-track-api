@@ -22,6 +22,7 @@ const realTime = {
   },
   authenticatedClient: {
     authenticated: Promise.resolve(),
+    getJwt: () => ({ token: 'fake' }),
   },
   subscriptionIdCounter: 0,
 
@@ -116,11 +117,14 @@ const realTime = {
         realTime.subscriptionIdCounter += 1;
         const subscriptionId = realTime.subscriptionIdCounter;
 
-        server.emit('message', JSON.stringify({
-          type: messages.SUBSCRIPTION_START.SUCCESS,
-          request_id: request.request_id,
-          subscription_id: subscriptionId,
-        }));
+        server.emit(
+          'message',
+          JSON.stringify({
+            type: messages.SUBSCRIPTION_START.SUCCESS,
+            request_id: request.request_id,
+            subscription_id: subscriptionId,
+          }),
+        );
 
         let data;
         switch (request.entity) {
@@ -128,7 +132,7 @@ const realTime = {
             data = areas.list;
             break;
           case 'ASSIGNMENTS':
-            data = vehicles.list.map(v => v.assignment);
+            data = vehicles.list.map((v) => v.assignment);
             break;
           case 'CALL_STATES':
             data = callStates.list;
@@ -179,19 +183,25 @@ const realTime = {
             throw new Error(`Don't know what to emit for ${request.entity}`);
         }
 
-        server.emit('message', JSON.stringify({
-          type: messages.ENTITY.UPDATE,
-          subscription_id: subscriptionId,
-          data,
-        }));
+        server.emit(
+          'message',
+          JSON.stringify({
+            type: messages.ENTITY.UPDATE,
+            subscription_id: subscriptionId,
+            data,
+          }),
+        );
       });
 
       server.onTrackMessage(messages.SUBSCRIPTION_END.REQUEST, (request) => {
-        server.emit('message', JSON.stringify({
-          type: messages.SUBSCRIPTION_END.SUCCESS,
-          request_id: request.request_id,
-          subscription_id: request.subscription_id,
-        }));
+        server.emit(
+          'message',
+          JSON.stringify({
+            type: messages.SUBSCRIPTION_END.SUCCESS,
+            request_id: request.request_id,
+            subscription_id: request.subscription_id,
+          }),
+        );
       });
     });
     return server;

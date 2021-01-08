@@ -1,7 +1,6 @@
 import 'isomorphic-fetch';
 import url from 'url';
 import qs from 'qs';
-import JWT from 'jwt-client';
 import { mapResponse } from './responses';
 
 export const DEFAULT_TRACK_API_HOST = 'track-api.syncromatics.com';
@@ -22,9 +21,39 @@ class Client {
       baseUri: `https://${DEFAULT_TRACK_API_HOST}`,
       ...options,
     };
+    this.jwt = null;
 
     // Initialize authenticated promise
     this.unsetAuthenticated();
+  }
+
+  static get TokenPrefix() {
+    return 'Bearer ';
+  }
+
+  /**
+   * @typedef {Object} JWT
+   * @property {string} token The original encoded JSON Web Token
+   * @property {Object} header Information describing the encoding of the token
+   * @property {Object} claim Body of the token
+   * @property {string} signatures Cryptographic signature of the token
+   */
+  /**
+   * Gets the current JSON Web Token
+   * @returns {Object} token
+   * @returns {JWT} Current token if available
+   */
+  getJwt() {
+    return this.jwt || {};
+  }
+
+  /**
+   * Sets the current JSON Web Token
+   * @param {JWT} jwt New token to use as current
+   * @returns {void}
+   */
+  setJwt(jwt) {
+    this.jwt = jwt;
   }
 
   /**
@@ -71,12 +100,12 @@ class Client {
       ...rest,
     };
 
-    if (JWT.get() && !opts.headers.Authorization && !opts.headers['Api-Key']) {
-      opts.headers.Authorization = JWT.get();
+    const { token } = this.getJwt();
+    if (!opts.headers.Authorization && !opts.headers['Api-Key'] && token) {
+      opts.headers.Authorization = `${Client.TokenPrefix}${token}`;
     }
 
-    return fetch(this.resolve(uri), opts)
-      .then(mapResponse);
+    return fetch(this.resolve(uri), opts).then(mapResponse);
   }
 
   /**
@@ -167,7 +196,7 @@ class Client {
    * @param {string} [type=application/json] MIME type of Blob
    * @returns {Blob} Instance of Blob
    */
-  static toBlob(value, selector = x => JSON.stringify(x, null, 2), type = 'application/json') {
+  static toBlob(value, selector = (x) => JSON.stringify(x, null, 2), type = 'application/json') {
     return new Blob([selector(value)], { type });
   }
 }
