@@ -94,7 +94,10 @@ class Client {
     }
 
     const opts = {
-      headers: {},
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
       method,
       body,
       ...rest,
