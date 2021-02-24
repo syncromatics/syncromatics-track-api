@@ -27,6 +27,7 @@ describe('When successfully authenticating with the Track API client', () => {
     return Promise.all([
       promise.should.become(charlie.payload),
       promise.then(() => fetchMock.lastOptions().headers).should.become({
+        'Content-Type': 'application/json',
         Accept: 'text/plain',
         Authorization: 'Bearer whatever',
       }),
@@ -38,6 +39,7 @@ describe('When successfully authenticating with the Track API client', () => {
     return Promise.all([
       promise.should.become(charlie.payload),
       promise.then(() => fetchMock.lastOptions().headers).should.become({
+        'Content-Type': 'application/json',
         Accept: 'text/plain',
         'Api-Key': 'whatever',
       }),
@@ -49,6 +51,7 @@ describe('When successfully authenticating with the Track API client', () => {
     return Promise.all([
       promise.should.become(charlie.payload),
       promise.then(() => fetchMock.lastOptions().headers).should.become({
+        'Content-Type': 'application/json',
         Accept: 'text/plain',
         Authorization: 'Basic Y3NpbmdoQGV4YW1wbGUuY29tOndoYXRldmVy',
       }),
@@ -61,6 +64,7 @@ describe('When successfully authenticating with the Track API client', () => {
     return Promise.all([
       promise.should.become(charlie.payload),
       promise.then(() => fetchMock.lastOptions().headers).should.become({
+        'Content-Type': 'application/json',
         Accept: 'text/plain',
         Authorization: `Bearer ${charlie.token}`,
       }),
