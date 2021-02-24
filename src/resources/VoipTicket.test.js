@@ -31,7 +31,7 @@ describe('When instantiating a VoIP ticket based on an object', () => {
 
 describe('When fetching a VoIP ticket based on a customer', () => {
   const client = new Client();
-  beforeEach(() => mockVoipTickets.setUpSuccessfulMock(client));
+  beforeEach(() => mockVoipTickets.setUpSuccessfulMock(client, false));
   beforeEach(() => fetchMock.catch(503));
   afterEach(fetchMock.restore);
 
@@ -44,6 +44,21 @@ describe('When fetching a VoIP ticket based on a customer', () => {
   it('should set the expiration', () => promise.then(v => v.expiration).should.eventually.equal('2017-06-12T08:00:00-08:00'));
   it('should set the ticket', () => promise.then(v => v.ticket).should.eventually.equal('ticket'));
   it('should set the application key', () => promise.then(v => v.application_key).should.eventually.equal('application key'));
+  it('should not set the provision key', () => promise.then(v => v.provision_key).should.eventually.not.equal('provision key'));
   it('should set the href', () => promise.then(v => v.href).should.eventually.equal('/1/SYNC/voip_ticket'));
   it('should be hydrated', () => promise.then(v => v.hydrated).should.eventually.equal(true));
+});
+
+describe('When fetching a VoIP ticket based on a customer with provision key', () => {
+  const client = new Client();
+  beforeEach(() => mockVoipTickets.setUpSuccessfulMock(client, true));
+  beforeEach(() => fetchMock.catch(503));
+  afterEach(fetchMock.restore);
+
+  let promiseWithProvisionKey;
+  beforeEach(() => {
+    promiseWithProvisionKey = new VoipTicket(client, VoipTicket.makeHref('SYNC')).fetch('provision key');
+  });
+
+  it('should set the provision key', () => promiseWithProvisionKey.then(v => v.provision_key).should.eventually.equal('provision key'));
 });
