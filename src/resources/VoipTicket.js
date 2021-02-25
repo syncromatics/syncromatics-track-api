@@ -34,10 +34,13 @@ class VoipTicket extends Resource {
 
   /**
    * Generates a new voip ticket via the client
+   * @param {string} provisionKey A constant key on header to retrieve sinch secret
    * @returns {Promise} If successful, a hydrated instance of a fresh voip ticket
    */
-  fetch() {
-    return this.client.post(this.href)
+  fetch(provisionKey) {
+    return this.client.post(this.href, { headers: {
+      'provision_key': provisionKey}
+    })
       .then(response => response.json())
       .then(voipTicket => new VoipTicket(this.client, this, voipTicket));
   }

@@ -85,6 +85,7 @@ class Client {
   request(method, uri, options = {}) {
     let {
       body,
+      headers,
       // eslint-disable-next-line prefer-const
       ...rest
     } = options;
@@ -93,11 +94,14 @@ class Client {
       body = Client.toBlob(body);
     }
 
+    headers = {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      ...(headers || {}),
+    };
+
     const opts = {
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
+      headers,
       method,
       body,
       ...rest,
