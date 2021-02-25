@@ -94,12 +94,14 @@ class Client {
       body = Client.toBlob(body);
     }
 
+    headers = {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      ...(headers || {}),
+    };
+
     const opts = {
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        ...(headers || {}),
-      },
+      headers,
       method,
       body,
       ...rest,
