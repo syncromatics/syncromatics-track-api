@@ -23,6 +23,11 @@ describe('When creating a RealTimeContext', () => {
     result.realTimeClient.should.equal(realTimeClient);
   });
 
+  it('should reuse its RealTimeClient when creating an BikeRackSlotsRealTimeContext', () => {
+    const result = factory.bikeRackSlots();
+    result.realTimeClient.should.equal(realTimeClient);
+  });
+
   it('should reuse its RealTimeClient when creating an CallStatesRealTimeContext', () => {
     const result = factory.callStates();
     result.realTimeClient.should.equal(realTimeClient);
@@ -63,9 +68,11 @@ describe('When attaching disconnect and reconnect handlers', () => {
   const customerCode = 'SYNC';
 
   it('should attach disconnect handlers to the realTimeClient', () => {
-    const disconnectHandler = () => { };
+    const disconnectHandler = () => {};
     let verifyCallback;
-    const didVerifyCallback = new Promise((resolve) => { verifyCallback = resolve; });
+    const didVerifyCallback = new Promise((resolve) => {
+      verifyCallback = resolve;
+    });
     const realTimeClientMock = {
       addEventListener: (event, handler) => {
         if (event === 'disconnect' && handler === disconnectHandler) {
@@ -80,11 +87,13 @@ describe('When attaching disconnect and reconnect handlers', () => {
   });
 
   it('should remove disconnect handlers', () => {
-    const disconnectHandler = () => { };
+    const disconnectHandler = () => {};
     let verifyCallback;
-    const didVerifyCallback = new Promise((resolve) => { verifyCallback = resolve; });
+    const didVerifyCallback = new Promise((resolve) => {
+      verifyCallback = resolve;
+    });
     const realTimeClientMock = {
-      addEventListener: () => { },
+      addEventListener: () => {},
       removeEventListener: (event, handler) => {
         if (event === 'disconnect' && handler === disconnectHandler) {
           verifyCallback(true);
@@ -99,9 +108,11 @@ describe('When attaching disconnect and reconnect handlers', () => {
   });
 
   it('should fire reconnect handlers', () => {
-    const reconnectHandler = () => { };
+    const reconnectHandler = () => {};
     let verifyCallback;
-    const didVerifyCallback = new Promise((resolve) => { verifyCallback = resolve; });
+    const didVerifyCallback = new Promise((resolve) => {
+      verifyCallback = resolve;
+    });
     const realTimeClientMock = {
       addEventListener: (event, handler) => {
         if (event === 'reconnect' && handler === reconnectHandler) {
@@ -116,11 +127,13 @@ describe('When attaching disconnect and reconnect handlers', () => {
   });
 
   it('should remove reconnect handlers', () => {
-    const reconnectHandler = () => { };
+    const reconnectHandler = () => {};
     let verifyCallback;
-    const didVerifyCallback = new Promise((resolve) => { verifyCallback = resolve; });
+    const didVerifyCallback = new Promise((resolve) => {
+      verifyCallback = resolve;
+    });
     const realTimeClientMock = {
-      addEventListener: () => { },
+      addEventListener: () => {},
       removeEventListener: (event, handler) => {
         if (event === 'reconnect' && handler === reconnectHandler) {
           verifyCallback(true);

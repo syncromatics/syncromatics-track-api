@@ -1,5 +1,6 @@
 import AreasRealTimeContext from './AreasRealTimeContext';
 import AssignmentsRealTimeContext from './AssignmentsRealTimeContext';
+import BikeRackSlotsRealTimeContext from './BikeRackSlotsRealTimeContext';
 import CallStatesRealTimeContext from './CallStatesRealTimeContext';
 import DispatchMessagesRealTimeContext from './DispatchMessagesRealTimeContext';
 import DispatchMessageStatusRealTimeContext from './DispatchMessageStatusRealTimeContext';
@@ -78,6 +79,14 @@ class RealTimeContextFactory {
    */
   assignments() {
     return new AssignmentsRealTimeContext(this.realTimeClient, this.customerCode);
+  }
+
+  /**
+   * Creates a RealTimeContext for querying Bike Rack Slot updates.
+   * @returns {BikeRackSlotsRealTimeContext} The newly created context.
+   */
+  bikeRackSlots() {
+    return new BikeRackSlotsRealTimeContext(this.realTimeClient, this.customerCode);
   }
 
   /**
