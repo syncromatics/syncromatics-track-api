@@ -4,6 +4,7 @@ import Client from '../Client';
 
 export { default as agencies } from './agencies';
 export { default as areas } from './areas';
+export { default as assets } from './assets';
 export { default as blocks } from './blocks';
 export { default as calls } from './calls';
 export { default as callParticipants } from './callParticipants';
