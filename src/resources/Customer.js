@@ -3,6 +3,8 @@ import Resource from './Resource';
 import Agency from './Agency';
 import Area from './Area';
 import AreasContext from './AreasContext';
+import Asset from './Asset';
+import AssetsContext from './AssetsContext';
 import Assignment from './Assignment';
 import Block from './Block';
 import CustomerUsersContext from './CustomerUsersContext';
@@ -101,6 +103,26 @@ class Customer extends Resource {
    */
   areas() {
     return this.resource(AreasContext, this.code);
+  }
+
+  /**
+   * Gets an asset resource by id
+   * @param {Object} payload Identity of the asset or object representing a new call
+   * @returns {Asset} Asset resource
+   */
+  asset(payload) {
+    if (!isNaN(parseFloat(payload)) && isFinite(payload)) {
+      return this.resource(Asset, Asset.makeHref(this.code, payload));
+    }
+    return this.resource(Asset, { code: this.code, ...payload });
+  }
+
+  /**
+   * Gets a context for querying this customer's assets
+   * @returns {AssetsContext} Context for querying this customer's assets
+   */
+  assets() {
+    return this.resource(AssetsContext, this.code);
   }
 
   /**

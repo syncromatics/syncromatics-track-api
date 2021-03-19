@@ -7,6 +7,8 @@ import RealTimeClient from '../RealTimeClient';
 import Agency from './Agency';
 import Area from './Area';
 import AreasContext from './AreasContext';
+import Asset from './Asset';
+import AssetsContext from './AssetsContext';
 import Block from './Block';
 import Call from './Call';
 import CallParticipant from './CallParticipant';
@@ -55,6 +57,8 @@ describe('When getting resources related to a customer', () => {
   it('should allow the agency record to be retrieved', () => customer.agency().should.be.instanceOf(Agency));
   it('should allow an area to be retrieved', () => customer.area().should.be.instanceOf(Area));
   it('should allow a list of areas to be retrieved', () => customer.areas().should.be.instanceOf(AreasContext));
+  it('should allow an asset to be retrieved', () => customer.asset().should.be.instanceOf(Asset));
+  it('should allow a list of assets to be retrieved', () => customer.assets().should.be.instanceOf(AssetsContext));
   it('should allow an assignment to be retrieved', () => customer.assignment().should.be.instanceOf(Assignment));
   it('should allow a block to be retrieved', () => customer.block().should.be.instanceof(Block));
   it('should allow a call to be retrieved', () => customer.call().should.be.instanceOf(Call));
