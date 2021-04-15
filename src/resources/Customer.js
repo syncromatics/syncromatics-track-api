@@ -27,6 +27,7 @@ import DispatchMessageStatus from './DispatchMessageStatus';
 import Pattern from './Pattern';
 import PatternsContext from './PatternsContext';
 import ReportingTicket from './ReportingTicket';
+import RiderAppConfiguration from './RiderAppConfiguration';
 import Route from './Route';
 import RoutesContext from './RoutesContext';
 import Run from './Run';
@@ -294,6 +295,16 @@ class Customer extends Resource {
       return this.resource(Message, Message.makeHref(this.code, payload));
     }
     return this.resource(Message, { code: this.code, ...payload });
+  }
+
+  /**
+   * Gets a Rider App Configuration resource
+   * @param {Object} payload New properties with which to initialize the Rider App Configuration
+   * @returns {RiderAppConfiguration} RiderAppConfiguration resource
+   */
+  riderAppConfiguration(payload = {}) {
+    const href = RiderAppConfiguration.makeHref(this.code);
+    return this.resource(RiderAppConfiguration, { code: this.code, ...href, ...payload });
   }
 
   /**
