@@ -5,6 +5,10 @@ import Area from './Area';
 import AreasContext from './AreasContext';
 import Asset from './Asset';
 import AssetsContext from './AssetsContext';
+import AssignableRoute from './AssignableRoute';
+import AssignableRoutesContext from './AssignableRoutesContext';
+import AssignableStop from './AssignableStop';
+import AssignableStopsContext from './AssignableStopsContext';
 import Assignment from './Assignment';
 import Block from './Block';
 import CustomerUsersContext from './CustomerUsersContext';
@@ -124,6 +128,41 @@ class Customer extends Resource {
    */
   assets() {
     return this.resource(AssetsContext, this.code);
+  }
+
+  /**
+   * Gets an assignable route resource by id
+   * @param {Number} id Identity of the assignable route
+   * @returns {AssignableRoute} Assignable route resource
+   */
+  assignableRoute(id) {
+    return this.resource(AssignableRoute, AssignableRoute.makeHref(this.code, id));
+  }
+
+  /**
+   * Gets a context for querying this customer's assignable routes
+   * @returns {AssignableRoutesContext} Context for querying this customer's assignable routes
+   */
+  assignableRoutes() {
+    return this.resource(AssignableRoutesContext, this.code);
+  }
+
+  /**
+   * Gets an assignable stop resource by id
+   * @param {Number} id Identity of the assignable stop
+   * @returns {AssignableStop} Assignable stop resource
+   */
+  assignableStop(id) {
+    return this.resource(AssignableStop, AssignableStop.makeHref(this.code, id));
+  }
+
+  /**
+   * Gets a context for querying this customer's assignable stops
+   * @returns {AssignableStopsContext} Context for querying this customer's assignable stops
+   *
+   */
+  assignableStops() {
+    return this.resource(AssignableStopsContext, this.code);
   }
 
   /**
