@@ -20,6 +20,23 @@ class AssetsContext extends PagedContext {
   }
 
   /**
+   * Sets the desired asset type for this context.
+   * This is required.
+   * @example
+   * const assets = new AssetsContext(...);
+   * assets
+   *   .withAssetType('logo')
+   *   .getPage()
+   *   .then(page => ...)
+   * @param {string} assetType Type of asset to return.  Supported types are 'Logo' and 'GenericImageMedia'
+   * @returns {AssetsContext} Returns itself
+   */
+  withAssetType(assetType) {
+    this.params.asset_type = assetType;
+    return this;
+  }
+
+  /**
    * Gets the first page of results for this context
    * @returns {Promise} If successful, a page of Asset objects
    * @see Asset
