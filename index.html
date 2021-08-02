@@ -722,46 +722,6 @@
               
                 
                 <li><a
-                  href='#assignmentsrealtimecontext'
-                  class=" toggle-sibling">
-                  AssignmentsRealTimeContext
-                  <span class='icon'>▸</span>
-                </a>
-                
-                <div class='toggle-target display-none'>
-                  
-                  
-                    <ul class='list-reset py1-ul pl1'>
-                      <li class='h5'><span>Instance members</span></li>
-                      
-                      <li><a
-                        href='#assignmentsrealtimecontextconstructor'
-                        class='regular pre-open'>
-                        #constructor
-                      </a></li>
-                      
-                      <li><a
-                        href='#assignmentsrealtimecontextforvehicle'
-                        class='regular pre-open'>
-                        #forVehicle
-                      </a></li>
-                      
-                      <li><a
-                        href='#assignmentsrealtimecontextforvehicles'
-                        class='regular pre-open'>
-                        #forVehicles
-                      </a></li>
-                      
-                    </ul>
-                  
-                  
-                  
-                </div>
-                
-                </li>
-              
-                
-                <li><a
                   href='#realtimecontext'
                   class=" toggle-sibling">
                   RealTimeContext
@@ -807,6 +767,46 @@
                         href='#realtimecontexthandleevent'
                         class='regular pre-open'>
                         #handleEvent
+                      </a></li>
+                      
+                    </ul>
+                  
+                  
+                  
+                </div>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#assignmentsrealtimecontext'
+                  class=" toggle-sibling">
+                  AssignmentsRealTimeContext
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  
+                    <ul class='list-reset py1-ul pl1'>
+                      <li class='h5'><span>Instance members</span></li>
+                      
+                      <li><a
+                        href='#assignmentsrealtimecontextconstructor'
+                        class='regular pre-open'>
+                        #constructor
+                      </a></li>
+                      
+                      <li><a
+                        href='#assignmentsrealtimecontextforvehicle'
+                        class='regular pre-open'>
+                        #forVehicle
+                      </a></li>
+                      
+                      <li><a
+                        href='#assignmentsrealtimecontextforvehicles'
+                        class='regular pre-open'>
+                        #forVehicles
                       </a></li>
                       
                     </ul>
@@ -967,6 +967,18 @@
                         href='#dispatchmessagestatusrealtimecontextconstructor'
                         class='regular pre-open'>
                         #constructor
+                      </a></li>
+                      
+                      <li><a
+                        href='#dispatchmessagestatusrealtimecontextforuser'
+                        class='regular pre-open'>
+                        #forUser
+                      </a></li>
+                      
+                      <li><a
+                        href='#dispatchmessagestatusrealtimecontextforusers'
+                        class='regular pre-open'>
+                        #forUsers
                       </a></li>
                       
                     </ul>
@@ -11021,293 +11033,6 @@ Areas.
   
   <div class='clearfix'>
     
-    <h3 class='fl m0' id='assignmentsrealtimecontext'>
-      AssignmentsRealTimeContext
-    </h3>
-    
-    
-  </div>
-  
-
-  <p>A real time context that can be used to generate subscriptions to Assignment entities.</p>
-
-
-  <div class='pre p1 fill-light mt0'>new AssignmentsRealTimeContext(realTimeClient: any, customerCode: any)</div>
-  
-  
-    <p>
-      Extends
-      
-        <a href="#realtimecontext">RealTimeContext</a>
-      
-    </p>
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>realTimeClient</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>customerCode</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Instance Members</div>
-    <div class="clearfix">
-  
-    <div class='border-bottom' id='assignmentsrealtimecontextconstructor'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>constructor(realTimeClient, customerCode)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Creates a context that can subscribe to Assignment updates.</p>
-
-
-  <div class='pre p1 fill-light mt0'>constructor(realTimeClient: <a href="#realtimeclient">RealTimeClient</a>, customerCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>realTimeClient</span> <code class='quiet'>(<a href="#realtimeclient">RealTimeClient</a>)</code>
-	    Pre-configured instance of RealTimeClient.
-
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>customerCode</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    The customer code to query for updates.
-
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='assignmentsrealtimecontextforvehicle'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>forVehicle(vehicle)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Restrict subscriptions created by this context to a single vehicle.</p>
-
-
-  <div class='pre p1 fill-light mt0'>forVehicle(vehicle: (<a href="#resource">Resource</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)): <a href="#assignmentsrealtimecontext">AssignmentsRealTimeContext</a></div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>vehicle</span> <code class='quiet'>((<a href="#resource">Resource</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>))</code>
-	    Href or resource representation of a Vehicle.
-
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="#assignmentsrealtimecontext">AssignmentsRealTimeContext</a></code>:
-        Context with filter applied.
-
-      
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='assignmentsrealtimecontextforvehicles'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>forVehicles(vehicles)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Restrict subscriptions created by this context to a set of vehicles.</p>
-
-
-  <div class='pre p1 fill-light mt0'>forVehicles(vehicles: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;(<a href="#resource">Resource</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)>): <a href="#assignmentsrealtimecontext">AssignmentsRealTimeContext</a></div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>vehicles</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;(<a href="#resource">Resource</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)>)</code>
-	    Array of href or resource representations of
-Vehicles.
-
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="#assignmentsrealtimecontext">AssignmentsRealTimeContext</a></code>:
-        Context with filter applied.
-
-      
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-</div>
-
-  
-
-  
-</section>
-
-          
-        
-          
-            <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-  <div class='clearfix'>
-    
     <h3 class='fl m0' id='realtimecontext'>
       RealTimeContext
     </h3>
@@ -11728,6 +11453,293 @@ value of the resolved promise is a function that, when called, will end the subs
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code>void</code>:
         
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+</div>
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='assignmentsrealtimecontext'>
+      AssignmentsRealTimeContext
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>A real time context that can be used to generate subscriptions to Assignment entities.</p>
+
+
+  <div class='pre p1 fill-light mt0'>new AssignmentsRealTimeContext(realTimeClient: any, customerCode: any)</div>
+  
+  
+    <p>
+      Extends
+      
+        <a href="#realtimecontext">RealTimeContext</a>
+      
+    </p>
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>realTimeClient</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>customerCode</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Instance Members</div>
+    <div class="clearfix">
+  
+    <div class='border-bottom' id='assignmentsrealtimecontextconstructor'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>constructor(realTimeClient, customerCode)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Creates a context that can subscribe to Assignment updates.</p>
+
+
+  <div class='pre p1 fill-light mt0'>constructor(realTimeClient: <a href="#realtimeclient">RealTimeClient</a>, customerCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>realTimeClient</span> <code class='quiet'>(<a href="#realtimeclient">RealTimeClient</a>)</code>
+	    Pre-configured instance of RealTimeClient.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>customerCode</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    The customer code to query for updates.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='assignmentsrealtimecontextforvehicle'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>forVehicle(vehicle)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Restrict subscriptions created by this context to a single vehicle.</p>
+
+
+  <div class='pre p1 fill-light mt0'>forVehicle(vehicle: (<a href="#resource">Resource</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)): <a href="#assignmentsrealtimecontext">AssignmentsRealTimeContext</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>vehicle</span> <code class='quiet'>((<a href="#resource">Resource</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>))</code>
+	    Href or resource representation of a Vehicle.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="#assignmentsrealtimecontext">AssignmentsRealTimeContext</a></code>:
+        Context with filter applied.
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='assignmentsrealtimecontextforvehicles'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>forVehicles(vehicles)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Restrict subscriptions created by this context to a set of vehicles.</p>
+
+
+  <div class='pre p1 fill-light mt0'>forVehicles(vehicles: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;(<a href="#resource">Resource</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)>): <a href="#assignmentsrealtimecontext">AssignmentsRealTimeContext</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>vehicles</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;(<a href="#resource">Resource</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)>)</code>
+	    Array of href or resource representations of
+Vehicles.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="#assignmentsrealtimecontext">AssignmentsRealTimeContext</a></code>:
+        Context with filter applied.
 
       
     
@@ -12886,6 +12898,146 @@ subscriptions to Dispatch Message Status entities.</p>
 
   
 
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='dispatchmessagestatusrealtimecontextforuser'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>forUser(user)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Restrict subscriptions created by this context to a single user.
+Overwrites any existing user filter for this context.
+Cannot be called after subscription is started.</p>
+
+
+  <div class='pre p1 fill-light mt0'>forUser(user: (<a href="#resource">Resource</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)): <a href="#dispatchmessagesrealtimecontext">DispatchMessagesRealTimeContext</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>user</span> <code class='quiet'>((<a href="#resource">Resource</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>))</code>
+	    Href or resource representation of a User
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="#dispatchmessagesrealtimecontext">DispatchMessagesRealTimeContext</a></code>:
+        Context with filter applied.
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='dispatchmessagestatusrealtimecontextforusers'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>forUsers(users)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Restrict subscriptions created by this context to a set of users.
+Overwrites any existing user filter for this context.
+Cannot be called after subscription is started.</p>
+
+
+  <div class='pre p1 fill-light mt0'>forUsers(users: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;(<a href="#resource">Resource</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)>): <a href="#dispatchmessagesrealtimecontext">DispatchMessagesRealTimeContext</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>users</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;(<a href="#resource">Resource</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)>)</code>
+	    Array of href or resource representations of Users.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="#dispatchmessagesrealtimecontext">DispatchMessagesRealTimeContext</a></code>:
+        Context with filter applied.
+
+      
+    
   
 
   
