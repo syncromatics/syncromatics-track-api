@@ -87,7 +87,11 @@ class Driver extends Resource {
     const { client, hydrated, customerCode, ...body } = this;
     const { href } = Driver.makeHrefForNewDriver(this.customerCode);
     return this.client.post(href, { body })
-      .then(() => new Driver(this.client, { ...this }));
+      .then(response => response.headers.get('location'))
+      .then((href) => {
+        return new Driver(this.client, { ...this, href, id:1 })
+      });
+
   }
 }
 
