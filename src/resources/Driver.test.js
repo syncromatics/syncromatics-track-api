@@ -83,36 +83,27 @@ describe('When updating a driver for a customer', () => {
     .should.eventually.equal('Song'));
 });
 
-describe('When creating a driver', () => {
+describe('When creating a dispatch message', () => {
   const client = new Client();
 
-  beforeEach(() => mockDrivers.setUpSuccessfulMock(client));
+  beforeEach(() => mocks.setUpSuccessfulMock(client));
   beforeEach(() => fetchMock.catch(503));
   afterEach(fetchMock.restore);
 
   let promise;
   beforeEach(() => {
-    promise = new Driver(client, Driver.makeHrefForNewDriver('SYNC'))
-      .fetch()
-      .then((driver) => {
-        /* eslint-disable no-param-reassign */
-        driver.customer_driver_id = '001';
-        driver.first_name = 'TestFirstName';
-        driver.last_name = 'TestLastName';
-        /* eslint-enable no-param-reassign */
-        return driver.create();
-      })
-      .then(driver => driver);
+    promise = new Driver(client, { code: 'SYNC',
+      ...{
+        customer_driver_id: '001',
+        first_name: 'testFirstName',
+        last_name: 'testLastName',
+        enabled: true
+      },
+    }).create();
   });
 
   it('should resolve the promise', () => promise.should.be.fulfilled);
-  it('should set the href', () => promise.then(p => p.href).should.eventually.equal('/1/SYNC/drivers'));
-  it('should have created a new driver with non null driver id', () => promise.then(p => p.driver_id)
-    .should.not.be.null);
-  it('should have the expected customer driver id', () => promise.then(p => p.customer_driver_id)
-    .should.eventually.equal('001'));
-  it('should have the expected first name', () => promise.then(p => p.first_name)
-    .should.eventually.equal('TestFirstName'));
-  it('should have the expected last name', () => promise.then(p => p.last_name)
-    .should.eventually.equal('TestLastName'));
+  //it('should set the ID', () => promise.then(x => x.id).should.eventually.equal(3));
+  it('should set the href', () => promise.then(x => x.href).should.eventually.equal('/1/SYNC/drivers'));
+  it('should be enabled', () => promise.then(x => x.enabled).should.eventually.equal(true));
 });
