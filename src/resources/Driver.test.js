@@ -103,7 +103,8 @@ describe('When creating a new driver', () => {
   });
 
   it('should resolve the promise', () => promise.should.be.fulfilled);
-  //it('should set the ID', () => promise.then(x => x.id).should.eventually.equal(3));
-  it('should set the href', () => promise.then(x => x.href).should.eventually.equal('/1/SYNC/drivers'));
+  it('should set the ID', () => promise.then(v => v.id).should.eventually.equal(1));
+  it('should set the href', () => promise.then(x => x.href).should.eventually.equal('/1/SYNC/drivers/1'));
   it('should be enabled', () => promise.then(x => x.enabled).should.eventually.equal(true));
 });
+

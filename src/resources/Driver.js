@@ -82,16 +82,24 @@ class Driver extends Resource {
    * Create a driver via the client
    * @returns {Promise} If successful, returns instance of this driver
    */
-   create() {
+  //  create() {
+  //   // eslint-disable-next-line no-unused-vars
+  //   const { client, hydrated, customerCode, ...body } = this;
+  //   const { href } = Driver.makeHrefForNewDriver(this.customerCode);
+  //   return this.client.post(href, { body })
+  //     .then(() => new Driver(this.client, { ...this }));
+
+  // }
+
+  create() {
     // eslint-disable-next-line no-unused-vars
     const { client, hydrated, customerCode, ...body } = this;
-    const { href } = Driver.makeHrefForNewDriver(this.customerCode);
-    return this.client.post(href, { body })
+    return this.client.post(`/1/${customerCode}/drivers`, { body })
       .then(response => response.headers.get('location'))
       .then((href) => {
-        return new Driver(this.client, { ...this, href, id:1 });
+        const match = /\/\d+\/\S+\/drivers\/(\d+)/.exec(href);
+        return new Message(this.client, { ...this, href, id: parseFloat(match[1]) });
       });
-
   }
 }
 
