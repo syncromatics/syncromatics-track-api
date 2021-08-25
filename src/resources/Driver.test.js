@@ -100,7 +100,7 @@ describe('When creating a driver', () => {
         driver.first_name = 'TestFirstName';
         driver.last_name = 'TestLastName';
         /* eslint-enable no-param-reassign */
-        return driver.update();
+        return driver.create();
       })
       .then(driver => driver);
   });
@@ -108,7 +108,7 @@ describe('When creating a driver', () => {
   it('should resolve the promise', () => promise.should.be.fulfilled);
   it('should set the href', () => promise.then(p => p.href).should.eventually.equal('/1/SYNC/drivers'));
   it('should have created a new driver with non null driver id', () => promise.then(p => p.driver_id)
-    .should.eventually.not.be.null('001'));
+    .should.not.be.null);
   it('should have the expected customer driver id', () => promise.then(p => p.customer_driver_id)
     .should.eventually.equal('001'));
   it('should have the expected first name', () => promise.then(p => p.first_name)
