@@ -18,9 +18,10 @@ const drivers = {
     });
     const postResponse = () => new Response(undefined, {
       headers: {
-        Location: '/1/SYNC/drivers',
+        Location: '/1/SYNC/drivers/1',
       },
     });
+    
 
     fetchMock
       .get(client.resolve('/1/SYNC/drivers?page=1&per_page=10&sort='), listResponse)
