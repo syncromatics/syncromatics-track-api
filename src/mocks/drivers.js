@@ -27,7 +27,7 @@ const drivers = {
       .get(client.resolve('/1/SYNC/drivers?page=1&per_page=10&q=charlie&sort='), listResponse)
       .get(client.resolve('/1/SYNC/drivers/1'), singleResponse)
       .put(client.resolve('/1/SYNC/drivers/1'), putResponse)
-      .put(client.resolve('/1/SYNC/drivers'), postResponse);
+      .post(client.resolve('/1/SYNC/drivers'), postResponse);
   },
   getById: id => drivers.list.find(v => v.id === id),
   list: [{
