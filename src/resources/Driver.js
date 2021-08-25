@@ -89,7 +89,7 @@ class Driver extends Resource {
     return this.client.post(href, { body })
       .then(response => response.headers.get('location'))
       .then((href) => {
-        return new Driver(this.client, { ...this, href, id:1 })
+        return new Driver(this.client, { ...this, href, id:1 });
       });
 
   }
