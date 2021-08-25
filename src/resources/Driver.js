@@ -45,6 +45,18 @@ class Driver extends Resource {
   }
 
   /**
+   * Makes a href for a given customer code for creating new Driver
+   * @param {string} customerCode Customer code
+   * @returns {{href: string}} URI to create the driver
+   */
+   static makeHrefForNewDriver(customerCode) {
+    return {
+      href: `/1/${customerCode}/drivers`,
+      code: customerCode,
+    };
+  }
+
+  /**
    * Fetches the data for this driver via the client
    * @returns {Promise} If successful, a hydrated instance of this driver
    */
@@ -63,6 +75,18 @@ class Driver extends Resource {
     const { client, hydrated, customerCode, ...body } = this;
     const { href } = Driver.makeHref(this.customerCode, this.id);
     return this.client.put(href, { body })
+      .then(() => new Driver(this.client, { ...this }));
+  }
+
+  /**
+   * Create a driver via the client
+   * @returns {Promise} If successful, returns instance of this driver
+   */
+   create() {
+    // eslint-disable-next-line no-unused-vars
+    const { client, hydrated, customerCode, ...body } = this;
+    const { href } = Driver.makeHrefForNewDriver(this.customerCode);
+    return this.client.post(href, { body })
       .then(() => new Driver(this.client, { ...this }));
   }
 }
