@@ -98,7 +98,7 @@ class Driver extends Resource {
       .then(response => response.headers.get('location'))
       .then((href) => {
         const match = /\/\d+\/\S+\/drivers\/(\d+)/.exec(href);
-        return new Message(this.client, { ...this, href, id: parseFloat(match[1]) });
+        return new Driver(this.client, { ...this, href, id: parseFloat(match[1]) });
       });
   }
 }
