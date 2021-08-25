@@ -83,10 +83,10 @@ describe('When updating a driver for a customer', () => {
     .should.eventually.equal('Song'));
 });
 
-describe('When creating a dispatch message', () => {
+describe('When creating a new driver', () => {
   const client = new Client();
 
-  beforeEach(() => mocks.setUpSuccessfulMock(client));
+  beforeEach(() => mockDrivers.setUpSuccessfulMock(client));
   beforeEach(() => fetchMock.catch(503));
   afterEach(fetchMock.restore);
 
