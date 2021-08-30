@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
-const deafultHeartbeatIntervalMs = 15 * 1000;
-const deafultHeartbeatReadTimeoutMs = 45 * 1000;
+const defaultHeartbeatIntervalMs = 15 * 1000;
+const defaultHeartbeatReadTimeoutMs = 45 * 1000;
 
 const validCallStates = {
   None: 'None',
@@ -13,17 +13,17 @@ const isValidCallState = (callState, callHref) => {
     return false;
   }
 
-  return (callState === validCallStates.None)
-    || (typeof callHref === 'string' && callHref !== '');
+  return callState === validCallStates.None || (typeof callHref === 'string' && callHref !== '');
 };
 
 const getHeartbeat = (voipHeartbeatHandler) => {
   const now = new Date().toISOString();
-  const { customerCode, sessionId, callState, callHref } = voipHeartbeatHandler;
+  const { customerCode, sessionId, participantType, callState, callHref } = voipHeartbeatHandler;
   return {
     type: 'HEARTBEAT',
     at_time: now,
     session_id: sessionId,
+    participant_type: participantType,
     customer: customerCode,
     current_call_state: callState,
     current_call_href: callHref,
@@ -44,6 +44,8 @@ class VoipHeartbeatHandler {
    * Track API
    * @param {number} [options.heartbeatReadTimeoutMs] The time to wait for receiving a heartbeat
    * from Track API
+   * @param {string} [options.participantType] Indication of the type of participant that is
+   * reporting a heartbeat. Valid values are "User" (default) and "Supervisor"
    */
   constructor(realTimeClient, customerCode, options = {}) {
     this.realTimeClient = realTimeClient;
@@ -51,12 +53,13 @@ class VoipHeartbeatHandler {
 
     // uuidv4 is randomly generated.
     this.sessionId = uuidv4();
+    this.participantType = options.participantType || 'User';
     this.callState = validCallStates.None;
     this.callHref = '';
     this.handlers = {};
 
-    this.heartbeatIntervalMs = options.heartbeatIntervalMs || deafultHeartbeatIntervalMs;
-    this.heartbeatReadTimeoutMs = options.heartbeatReadTimeoutMs || deafultHeartbeatReadTimeoutMs;
+    this.heartbeatIntervalMs = options.heartbeatIntervalMs || defaultHeartbeatIntervalMs;
+    this.heartbeatReadTimeoutMs = options.heartbeatReadTimeoutMs || defaultHeartbeatReadTimeoutMs;
 
     this.setCallState = this.setCallState.bind(this);
     this.sendHeartbeat = this.sendHeartbeat.bind(this);
@@ -84,10 +87,7 @@ class VoipHeartbeatHandler {
       throw new Error('Invalid call state.');
     }
 
-    const {
-      callState: oldCallState,
-      callHref: oldCallHref,
-    } = this;
+    const { callState: oldCallState, callHref: oldCallHref } = this;
 
     this.callState = callState;
     this.callHref = callHref;
@@ -117,14 +117,8 @@ class VoipHeartbeatHandler {
     }
     this.heartbeatTimeoutInterval = setTimeout(this.onHeartbeatTimeout, heartbeatReadTimeoutMs);
 
-    const {
-      desired_call_state: desiredCallState,
-      desired_call_href: desiredCallHref,
-    } = heartbeat;
-    const {
-      previousDesiredCallState,
-      previousDesiredCallHref,
-    } = this;
+    const { desired_call_state: desiredCallState, desired_call_href: desiredCallHref } = heartbeat;
+    const { previousDesiredCallState, previousDesiredCallHref } = this;
 
     const hasDesiredCallStateChanged =
       desiredCallState !== previousDesiredCallState || desiredCallHref !== previousDesiredCallHref;
@@ -154,11 +148,9 @@ class VoipHeartbeatHandler {
     // actually sent.  wait until then until we queue up the next
     // heartbeat.
     const heartbeat = getHeartbeat(self);
-    self.realTimeClient
-      .sendMessage(heartbeat)
-      .then(() => {
-        self.heartbeatTimeout = setTimeout(self.sendHeartbeat, heartbeatIntervalMs);
-      });
+    self.realTimeClient.sendMessage(heartbeat).then(() => {
+      self.heartbeatTimeout = setTimeout(self.sendHeartbeat, heartbeatIntervalMs);
+    });
   }
 
   /**
