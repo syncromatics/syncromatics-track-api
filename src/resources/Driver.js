@@ -23,11 +23,11 @@ class Driver extends Resource {
    * @param {Client} client Instance of pre-configured client
    * @param {Array} rest Remaining arguments to use in assigning values to this instance
    */
-  constructor(client, ...rest) {
+  constructor(client, rest) {
     super(client);
-
-    const newProperties = Object.assign({}, ...rest);
-    const hydrated = !Object.keys(newProperties).every(k => k === 'href');
+    const { code, ...newProperties } = rest;
+    this.customerCode = code;
+    const hydrated = !Object.keys(newProperties).every(k => k === 'href' || k === 'customerCode');
     Object.assign(this, newProperties, { hydrated });
   }
 
@@ -40,6 +40,7 @@ class Driver extends Resource {
   static makeHref(customerCode, id) {
     return {
       href: `/1/${customerCode}/drivers/${id}`,
+      code: customerCode,
     };
   }
 
@@ -50,7 +51,19 @@ class Driver extends Resource {
   fetch() {
     return this.client.get(this.href)
       .then(response => response.json())
-      .then(driver => new Driver(this.client, this, driver));
+      .then(driver => new Driver(this.client, { ...this, ...driver }));
+  }
+
+  /**
+   * Updates data for a driver via the client
+   * @returns {Promise} If successful, returns instance of this driver
+   */
+  update() {
+    // eslint-disable-next-line no-unused-vars
+    const { client, hydrated, customerCode, ...body } = this;
+    const { href } = Driver.makeHref(this.customerCode, this.id);
+    return this.client.put(href, { body })
+      .then(() => new Driver(this.client, { ...this }));
   }
 }
 

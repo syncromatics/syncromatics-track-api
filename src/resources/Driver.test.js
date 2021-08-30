@@ -50,3 +50,35 @@ describe('When fetching a driver based on customer and ID', () => {
   it('should have the expected first name', () => promise.then(p => p.first_name).should.eventually.equal('Charlie'));
   it('should have the expected last name', () => promise.then(p => p.last_name).should.eventually.equal('Singh'));
 });
+
+describe('When updating a driver for a customer', () => {
+  const client = new Client();
+
+  beforeEach(() => mockDrivers.setUpSuccessfulMock(client));
+  beforeEach(() => fetchMock.catch(503));
+  afterEach(fetchMock.restore);
+
+  let promise;
+  beforeEach(() => {
+    promise = new Driver(client, Driver.makeHref('SYNC', 1))
+      .fetch()
+      .then((driver) => {
+        /* eslint-disable no-param-reassign */
+        driver.customer_driver_id = '0002';
+        driver.first_name = 'Charlotte';
+        driver.last_name = 'Song';
+        /* eslint-enable no-param-reassign */
+        return driver.update();
+      })
+      .then(driver => driver);
+  });
+
+  it('should resolve the promise', () => promise.should.be.fulfilled);
+  it('should set the href', () => promise.then(p => p.href).should.eventually.equal('/1/SYNC/drivers/1'));
+  it('should have the expected customer driver id', () => promise.then(p => p.customer_driver_id)
+    .should.eventually.equal('0002'));
+  it('should have the expected first name', () => promise.then(p => p.first_name)
+    .should.eventually.equal('Charlotte'));
+  it('should have the expected last name', () => promise.then(p => p.last_name)
+    .should.eventually.equal('Song'));
+});
