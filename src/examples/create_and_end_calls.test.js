@@ -41,7 +41,7 @@ describe('When creating a call', () => {
   it('should create a call', () => {
     api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
 
-    const callPromise = api.customer('SYNC').call({ initiating_user: '/1/users/1' })
+    const callPromise = api.customer('SYNC').call({ initiating_user: { href: '/1/users/1' } })
       .create()
       .then(call => call); // Do things with call
 
@@ -80,7 +80,7 @@ describe('When adding a participant to a call', () => {
     api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
 
     const callId = 2;
-    const newParticipant = { type: 'user', user: '/1/SYNC/users/1' };
+    const newParticipant = { type: 'user', user: { href: '/1/SYNC/users/1' }};
     const participantPromise = api.customer('SYNC').callParticipant(callId, newParticipant)
       .create()
       .then(participant => participant);

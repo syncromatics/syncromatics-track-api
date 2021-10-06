@@ -52,7 +52,7 @@ describe('When adding a call participant', () => {
 
   let promise;
   beforeEach(() => {
-    promise = new CallParticipant(client, { code: 'SYNC', callId: 2, user: '/1/SYNC/users/1' }).create();
+    promise = new CallParticipant(client, { code: 'SYNC', callId: 2, user: { href: '/1/SYNC/users/1' } }).create();
   });
 
   it('should resolve the promise', () => promise.should.be.fulfilled);
@@ -69,7 +69,7 @@ describe('When updating a call participant', () => {
 
   let promise;
   beforeEach(() => {
-    promise = new CallParticipant(client, { code: 'SYNC', callId: 2, user: '/1/SYNC/users/1' })
+    promise = new CallParticipant(client, { code: 'SYNC', callId: 2, user: { href: '/1/SYNC/users/1' } })
       .create()
       .then(participant => participant.end()
         .then(() => participant));

@@ -93,10 +93,11 @@ describe('When sending and receiving heartbeats', () => {
     const stateChangePromise = new Promise((resolver) => { stateChangeResolver = resolver; });
 
     subject
-      .onDesiredCallStateChange((callState, callHref) => {
+      .onDesiredCallStateChange((callState, callHref, isMuted) => {
         stateChangeResolver({
           callState,
           callHref,
+          isMuted,
         });
       })
       .startHeartbeat();
