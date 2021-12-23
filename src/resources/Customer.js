@@ -200,7 +200,7 @@ class Customer extends Resource {
   /**
    * Gets a call log resource by id
    * @param {Number} id Identity of the call log
-   * @returns {Area} Call log resource
+   * @returns {CallLog} Call log resource
    */
   callLog(id) {
     return this.resource(CallLog, CallLog.makeHref(this.code, id));

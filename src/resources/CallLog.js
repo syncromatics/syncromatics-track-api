@@ -24,8 +24,8 @@ class CallLog extends Resource {
   /**
    * Makes a href for a given customer code and ID
    * @param {string} customerCode Customer code
-   * @param {Number} id Call ID
-   * @returns {string} URI to instance of call log
+   * @param {number} id Call log ID
+   * @returns {{href: string, code: string}} URI to instance of call log
    */
   static makeHref(customerCode, id) {
     return {

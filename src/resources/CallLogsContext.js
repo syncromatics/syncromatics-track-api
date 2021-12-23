@@ -37,11 +37,20 @@ class CallLogsContext extends PagedContext {
 
   /**
    * Gets the first page of results for this context
-   * @returns {Promise} If successful, a page of CallLog objects
+   * @returns {Promise} If successful, a page of Call Log objects
    * @see CallLog
    */
   getPage() {
     return this.page(CallLog, `/1/${this.code}/calls_historical`);
+  }
+
+  /**
+   * Fetches the data for customer call logs via the client
+   * @returns {Promise} If successful, hydrated instances of call logs
+   */
+  fetch() {
+    return this.client.get(`/1/${this.code}/calls_historical`)
+        .then(response => response.json())
   }
 }
 
