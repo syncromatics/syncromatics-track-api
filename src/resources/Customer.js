@@ -13,9 +13,7 @@ import Assignment from './Assignment';
 import Block from './Block';
 import CustomerUsersContext from './CustomerUsersContext';
 import Call from './Call';
-import CallLog from './CallLog';
 import CallParticipant from './CallParticipant';
-import CallRecordingUrl from './CallRecordingUrl';
 import DispatchMessage from './DispatchMessage';
 import DispatchMessagesContext from './DispatchMessagesContext';
 import DispatchMessageBatch from './DispatchMessageBatch';
@@ -54,6 +52,8 @@ import TwitterUsername from './TwitterUsername';
 import Vehicle from './Vehicle';
 import VehiclesContext from './VehiclesContext';
 import VoipTicket from './VoipTicket';
+import CallLogsContext from "./CallLogsContext";
+import CallLog from "./CallLog";
 
 /**
  * Customer resource
@@ -195,6 +195,23 @@ class Customer extends Resource {
       return this.resource(Call, Call.makeHref(this.code, payload));
     }
     return this.resource(Call, { code: this.code, ...payload });
+  }
+
+  /**
+   * Gets a call log resource by id
+   * @param {Number} id Identity of the call log
+   * @returns {Area} Call log resource
+   */
+  callLog(id) {
+    return this.resource(CallLog, CallLog.makeHref(this.code, id));
+  }
+
+  /**
+   * Gets a context for querying this customer's call logs
+   * @returns {CallLogsContext} Context for querying this customer's call logs
+   */
+  callLogs() {
+    return this.resource(CallLogsContext, this.code);
   }
 
   /**
