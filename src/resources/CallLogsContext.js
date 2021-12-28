@@ -43,15 +43,6 @@ class CallLogsContext extends PagedContext {
   getPage() {
     return this.page(CallLog, `/1/${this.code}/calls_historical`);
   }
-
-  /**
-   * Fetches the data for customer call logs via the client
-   * @returns {Promise} If successful, hydrated instances of call logs
-   */
-  fetch() {
-    return this.client.get(`/1/${this.code}/calls_historical`)
-        .then(response => response.json())
-  }
 }
 
 export default CallLogsContext;
