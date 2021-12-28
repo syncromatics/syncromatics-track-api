@@ -37,7 +37,7 @@ class CallLogsContext extends PagedContext {
 
   /**
    * Gets the first page of results for this context
-   * @returns {Promise} If successful, a page of Call Log objects
+   * @returns {Promise} If successful, a page of CallLog objects
    * @see CallLog
    */
   getPage() {
