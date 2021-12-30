@@ -2,7 +2,7 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import fetchMock from 'fetch-mock';
 import Track from '../index';
-import {charlie, callLogs as mockCallLogs} from '../mocks';
+import {charlie} from '../mocks';
 import callRecordingUrls from "../mocks/callRecordingUrls";
 
 chai.should();

@@ -11,6 +11,7 @@ const callRecordingUrls = {
   },
   list: [{
     href: '/1/SYNC/calls/33/recording',
+    url: 'https://fake-s3-bucket-link'
   }],
 };
 

@@ -11,11 +11,12 @@ class CallRecordingUrl extends Resource {
    * @param {Client} client Instance of pre-configured client
    * @param {Object} rest The object to use in assigning values to this instance
    */
-  constructor(client, rest) {
+  constructor(client, ...rest) {
     super(client);
-    const { code, ...newProperties } = rest;
-    this.customerCode = code;
-    const hydrated = !Object.keys(newProperties).every(k => k === 'href' || k === 'customerCode');
+
+    const newProperties = Object.assign({}, ...rest);
+    const hydrated = !Object.keys(newProperties).every(k => k === 'href');
+
     Object.assign(this, newProperties, {
       hydrated,
     });
@@ -30,7 +31,6 @@ class CallRecordingUrl extends Resource {
   static makeHref(customerCode, id) {
     return {
       href: `/1/${customerCode}/calls/${id}/recording`,
-      code: customerCode,
     };
   }
 
@@ -40,8 +40,8 @@ class CallRecordingUrl extends Resource {
    */
   fetch() {
     return this.client.get(this.href)
-      .then(response => response.json())
-      .then(url => new CallRecordingUrl(this.client, { ...this, ...url }));
+        .then(response => response.json())
+        .then(url => new CallRecordingUrl(this.client, this, url));
   }
 }
 
