@@ -36,6 +36,38 @@ class CallLogsContext extends PagedContext {
   }
 
   /**
+   * Sets the start date to search for call logs
+   * @example
+   * const callLogs = new CallLogsContext(...);
+   * callLogs
+   *   .sinceDate('2018-01-31')
+   *   .getPage()
+   *   .then(page => ...);
+   * @param {string} date Parsable string representing the date
+   * @returns {DispatchMessagesContext} Returns itself
+   */
+  fromDate(date) {
+    this.params.from = date;
+    return this;
+  }
+
+  /**
+   * Sets the end date to search for call logs
+   * @example
+   * const callLogs = new CallLogsContext(...);
+   * callLogs
+   *   .endDate('2018-01-31')
+   *   .getPage()
+   *   .then(page => ...);
+   * @param {string} date Parsable string representing the date
+   * @returns {DispatchMessagesContext} Returns itself
+   */
+  toDate(date) {
+    this.params.from = date;
+    return this;
+  }
+
+  /**
    * Gets the first page of results for this context
    * @returns {Promise} If successful, a page of CallLog objects
    * @see CallLog
