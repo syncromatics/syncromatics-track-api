@@ -40,7 +40,7 @@ class CallLogsContext extends PagedContext {
    * @example
    * const callLogs = new CallLogsContext(...);
    * callLogs
-   *   .sinceDate('2018-01-31')
+   *   .fromDate('2018-01-31')
    *   .getPage()
    *   .then(page => ...);
    * @param {string} date Parsable string representing the date
@@ -56,14 +56,14 @@ class CallLogsContext extends PagedContext {
    * @example
    * const callLogs = new CallLogsContext(...);
    * callLogs
-   *   .endDate('2018-01-31')
+   *   .toDate('2018-01-31')
    *   .getPage()
    *   .then(page => ...);
    * @param {string} date Parsable string representing the date
    * @returns {DispatchMessagesContext} Returns itself
    */
   toDate(date) {
-    this.params.from = date;
+    this.params.to = date;
     return this;
   }
 
