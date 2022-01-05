@@ -54,7 +54,6 @@ import VehiclesContext from './VehiclesContext';
 import VoipTicket from './VoipTicket';
 import CallLogsContext from "./CallLogsContext";
 import CallLog from "./CallLog";
-import CallRecordingUrl from "./CallRecordingUrl";
 
 /**
  * Customer resource
@@ -213,15 +212,6 @@ class Customer extends Resource {
    */
   callLogs() {
     return this.resource(CallLogsContext, this.code);
-  }
-
-  /**
-   * Gets a callRecordingUrl resource by id
-   * @param {Number} id Identity of the call recording
-   * @returns {CallRecordingUrl} CallRecordingUrl resource
-   */
-  callRecordingUrl(id) {
-    return this.resource(CallRecordingUrl, CallRecordingUrl.makeHref(this.code, id));
   }
 
   /**
