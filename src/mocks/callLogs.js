@@ -23,7 +23,6 @@ const callLogs = {
         started: new Date().toISOString(),
         callDuration: '00:01:01.000',
         isAllActiveUsers: false,
-        voipRecordingUrl: '/1/SYNC/calls/33/recording'
     }],
 };
 
