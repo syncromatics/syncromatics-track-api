@@ -196,6 +196,7 @@ class RealTimeClient {
    */
   onConnectionOpened() {
     if (this.connection.readyState !== WEBSOCKET_READY_STATES.OPEN) {
+      // eslint-disable-next-line no-console
       console.error(
         `onConnectionOpened fired but WS Connection is ${this.connection.readyState}. Restarting connection.`,
       );
