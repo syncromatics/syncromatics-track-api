@@ -117,19 +117,26 @@ class VoipHeartbeatHandler {
     }
     this.heartbeatTimeoutInterval = setTimeout(this.onHeartbeatTimeout, heartbeatReadTimeoutMs);
 
-    const { desired_call_state: desiredCallState, desired_call_href: desiredCallHref } = heartbeat;
-    const { previousDesiredCallState, previousDesiredCallHref } = this;
+    const {
+      desired_call_state: desiredCallState,
+      desired_call_href: desiredCallHref,
+      is_muted: isMuted = false,
+    } = heartbeat;
+    const { previousDesiredCallState, previousDesiredCallHref, previousIsMuted = false} = this;
 
     const hasDesiredCallStateChanged =
-      desiredCallState !== previousDesiredCallState || desiredCallHref !== previousDesiredCallHref;
+      desiredCallState !== previousDesiredCallState
+      || desiredCallHref !== previousDesiredCallHref
+      || isMuted !== previousIsMuted;
 
     if (hasDesiredCallStateChanged) {
       this.previousDesiredCallState = desiredCallState;
       this.previousDesiredCallHref = desiredCallHref;
+      this.previousIsMuted = isMuted;
 
       const { onDesiredCallStateChange: onChange } = this.handlers;
       if (typeof onChange === 'function') {
-        onChange(desiredCallState, desiredCallHref);
+        onChange(desiredCallState, desiredCallHref, isMuted);
       }
     }
   }
@@ -155,8 +162,9 @@ class VoipHeartbeatHandler {
 
   /**
    * Registers a handler function to be called when the call state changes.
-   * Handler will be called with the desired call state and call href.
-   * @param {function} handler - function(callState, callHref)
+   * Handler will be called with the desired call state, call href, and
+   * whether the connection should be muted.
+   * @param {function} handler - function(callState, callHref, isMuted)
    * @returns {VoipHeartbeatHandler} This VoipHeartbeatHandler
    */
   onDesiredCallStateChange(handler) {

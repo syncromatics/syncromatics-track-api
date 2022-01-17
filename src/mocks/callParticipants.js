@@ -31,7 +31,7 @@ const callParticipants = {
       connection_requested: new Date().toISOString(),
       connection_established: undefined,
       connection_terminated: undefined,
-      user: '/1/SYNC/users/1',
+      user: { href: '/1/SYNC/users/1' },
     },
     {
       href: '/1/SYNC/calls/2/participants/4',
@@ -42,7 +42,7 @@ const callParticipants = {
       connection_requested: new Date().toISOString(),
       connection_established: undefined,
       connection_terminated: undefined,
-      vehicle: '/1/SYNC/vehicles/1',
+      vehicle: { href: '/1/SYNC/vehicles/1' },
     },
   ],
 };

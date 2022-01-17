@@ -25,7 +25,7 @@ const calls = {
     id: 3,
     started: new Date().toISOString(),
     ended: undefined,
-    initiating_user: '/1/users/1',
+    initiating_user: { href: '/1/users/1' },
     participants: [
       {
         href: '/1/SYNC/calls/3/participants/1',
@@ -35,7 +35,7 @@ const calls = {
         connection_requested: new Date().toISOString(),
         connection_established: undefined,
         connection_terminated: undefined,
-        user: '/1/SYNC/users/1',
+        user: { href: '/1/SYNC/users/1' },
       },
       {
         href: '/1/SYNC/calls/3/participants/2',
@@ -45,7 +45,7 @@ const calls = {
         connection_requested: new Date().toISOString(),
         connection_established: undefined,
         connection_terminated: undefined,
-        vehicle: '/1/SYNC/vehicles/1',
+        vehicle: { href: '/1/SYNC/vehicles/1' },
       },
     ],
   }],

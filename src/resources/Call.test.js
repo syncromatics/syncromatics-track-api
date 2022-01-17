@@ -52,7 +52,7 @@ describe('When creating a call', () => {
 
   let promise;
   beforeEach(() => {
-    promise = new Call(client, { code: 'SYNC', initiating_user: '/1/users/1' }).create();
+    promise = new Call(client, { code: 'SYNC', initiating_user: { href: '/1/users/1' } }).create();
   });
 
   it('should resolve the promise', () => promise.should.be.fulfilled);
@@ -69,7 +69,7 @@ describe('When updating a call', () => {
 
   let promise;
   beforeEach(() => {
-    promise = new Call(client, { code: 'SYNC', initiating_user: '/1/users/1' })
+    promise = new Call(client, { code: 'SYNC', initiating_user: { href: '/1/users/1' } })
       .create()
       .then(call => call.end()
         .then(() => call));
