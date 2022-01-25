@@ -1,15 +1,15 @@
 import 'isomorphic-fetch';
 import PagedContext from './PagedContext';
-import CallLog from './CallLog';
+import VoipCallRecord from './VoipCallRecord';
 
 /**
- * Call log querying context
+ * Voip call record querying context
  *
- * This is used to query the list of call logs for a customer
+ * This is used to query the list of voip call records for a customer
  */
-class CallLogsContext extends PagedContext {
+class VoipCallRecordsContext extends PagedContext {
   /**
-   * Creates a new call logs context
+   * Creates a new voip call records context
    * @param {Client} client Instance of pre-configured client
    * @param {string} customerCode  Customer code
    * @param {object} params Object of querystring parameters to append to the URL
@@ -22,13 +22,13 @@ class CallLogsContext extends PagedContext {
   /**
    * Sets the query term for the context
    * @example
-   * const callLogs = new CallLogsContext(...);
-   * call logs
+   * const voipCallRecords = new VoipCallRecordsContext(...);
+   * voip call records
    *   .withQuery('blue')
    *   .getPage()
    *   .then(page => ...);
    * @param {string} term Query term to search for
-   * @returns {CallLogsContext} Returns itself
+   * @returns {VoipCallRecordsContext} Returns itself
    */
   withQuery(term) {
     this.params.q = term;
@@ -36,10 +36,10 @@ class CallLogsContext extends PagedContext {
   }
 
   /**
-   * Sets the start date to search for call logs
+   * Sets the start date to search for voip call records
    * @example
-   * const callLogs = new CallLogsContext(...);
-   * callLogs
+   * const voipCallRecords = new VoipCallRecordsContext(...);
+   * voipCallRecords
    *   .fromDate('2018-01-31')
    *   .getPage()
    *   .then(page => ...);
@@ -52,10 +52,10 @@ class CallLogsContext extends PagedContext {
   }
 
   /**
-   * Sets the end date to search for call logs
+   * Sets the end date to search for voip call records
    * @example
-   * const callLogs = new CallLogsContext(...);
-   * callLogs
+   * const voipCallRecords = new VoipCallRecordsContext(...);
+   * voipCallRecords
    *   .toDate('2018-01-31')
    *   .getPage()
    *   .then(page => ...);
@@ -69,12 +69,12 @@ class CallLogsContext extends PagedContext {
 
   /**
    * Gets the first page of results for this context
-   * @returns {Promise} If successful, a page of CallLog objects
-   * @see CallLog
+   * @returns {Promise} If successful, a page of VoipCallRecord objects
+   * @see VoipCallRecord
    */
   getPage() {
-    return this.page(CallLog, `/1/${this.code}/calls_historical`);
+    return this.page(VoipCallRecord, `/1/${this.code}/calls_historical`);
   }
 }
 
-export default CallLogsContext;
+export default VoipCallRecordsContext;

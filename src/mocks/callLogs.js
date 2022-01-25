@@ -2,21 +2,21 @@
 import fetchMock from 'fetch-mock';
 import Client from '../Client';
 
-const callLogs = {
+const voipCallRecords = {
     setUpSuccessfulMock: (client) => {
         const listResponse = () => new Response(
-            Client.toBlob(callLogs.list), {
+            Client.toBlob(voipCallRecords.list), {
                 headers: {
                     Link: '</1/SYNC/calls_historical?page=1&per_page=10&sort=>; rel="next", </1/SYNC/calls_historical?page=1&per_page=10&sort=>; rel="last"',
                 },
             });
-        const singleResponse = () => new Response(Client.toBlob(callLogs.getById(33)));
+        const singleResponse = () => new Response(Client.toBlob(voipCallRecords.getById(33)));
 
         fetchMock
             .get(client.resolve('/1/SYNC/calls_historical?page=1&per_page=10&sort='), listResponse)
             .get(client.resolve('/1/SYNC/calls_historical/33'), singleResponse);
     },
-    getById: conferenceId => callLogs.list.find(v => v.conferenceId === conferenceId),
+    getById: conferenceId => voipCallRecords.list.find(v => v.conferenceId === conferenceId),
     list: [{
         href: '/1/SYNC/calls_historical/33',
         conferenceId: 33,
@@ -26,4 +26,4 @@ const callLogs = {
     }],
 };
 
-export default callLogs;
+export default voipCallRecords;

@@ -149,7 +149,7 @@ describe('When unauthenticating with the Track API client', () => {
       .then(() => api.renewAuthentication());
     return Promise.all([
       promise.should.be.rejected,
-      promise.catch(err => err.message).should.become('Not logged in. Call logIn() first.'),
+      promise.catch(err => err.message).should.become('Not logged in. Voip call recordIn() first.'),
     ]).should.be.fulfilled;
   });
 

@@ -221,7 +221,7 @@ class Track extends Resource {
     const { token } = this.client.getJwt();
     if (token) return this.logIn({ token });
 
-    return Promise.reject(new Error('Not logged in. Call logIn() first.'));
+    return Promise.reject(new Error('Not logged in.'));
   }
 
   /**
