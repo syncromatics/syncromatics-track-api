@@ -52,6 +52,8 @@ import TwitterUsername from './TwitterUsername';
 import Vehicle from './Vehicle';
 import VehiclesContext from './VehiclesContext';
 import VoipTicket from './VoipTicket';
+import VoipCallRecordsContext from "./VoipCallRecordsContext";
+import VoipCallRecord from "./VoipCallRecord";
 
 /**
  * Customer resource
@@ -193,6 +195,23 @@ class Customer extends Resource {
       return this.resource(Call, Call.makeHref(this.code, payload));
     }
     return this.resource(Call, { code: this.code, ...payload });
+  }
+
+  /**
+   * Gets a voip call record resource by id
+   * @param {Number} id Identity of the voip call record
+   * @returns {VoipCallRecord} Voip call record resource
+   */
+  voipCallRecord(id) {
+    return this.resource(VoipCallRecord, VoipCallRecord.makeHref(this.code, id));
+  }
+
+  /**
+   * Gets a context for querying this customer's voip call records
+   * @returns {VoipCallRecordsContext} Context for querying this customer's voip call records
+   */
+  voipCallRecords() {
+    return this.resource(VoipCallRecordsContext, this.code);
   }
 
   /**

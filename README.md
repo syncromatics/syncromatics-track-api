@@ -24,7 +24,7 @@ api.customer('SYNC').vehicles()
 ```
 
 You can also log in with a username and password or a previously-generated JWT token.  See the
-[logIn documentation][login-docs] for more detail.
+[logIn documentation][login-docs] for details.
 
 ## Documentation
 

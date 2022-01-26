@@ -9,6 +9,7 @@ export { default as assignableRoutes } from './assignableRoutes';
 export { default as assignableStops } from './assignableStops';
 export { default as blocks } from './blocks';
 export { default as calls } from './calls';
+export { default as voipCallRecords } from './voipCallRecords';
 export { default as callParticipants } from './callParticipants';
 export { default as dispatchMessages } from './dispatchMessages';
 export { default as dispatchMessageBatches } from './dispatchMessageBatches';
