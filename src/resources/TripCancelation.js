@@ -1,11 +1,11 @@
 import Resource from './Resource';
 
 /**
- * Sign resource
+ * TripCancelation resource
  */
 class TripCancelation extends Resource {
   /**
-   * Creates new TripCancelations
+   * Creates new TripCancelation
    *
    * Will populate itself with the values given to it after the client parameter
    * @example <caption>Assigning Trip Cancelation data</caption>
@@ -17,9 +17,9 @@ class TripCancelation extends Resource {
    *   tripId: 2,
    *   uncancel: true,
    * }];
-   * const sign = new TripCancelation(client, newTCsData);
+   * const tripCancelation = new TripCancelation(client, newTCsData);
    *
-   * sign.hydrated == true;
+   * tripCancelation.hydrated == true;
    * @param {Client} client Instance of pre-configured client
    * @param {Array} rest Remaining arguments to use in assigning values to this instance, consisting of tripId (number) & uncancel (boolean) values
    */
@@ -35,35 +35,13 @@ class TripCancelation extends Resource {
   }
 
   /**
-   * Fetches the data for this sign via the client
-   * @returns {Promise} If successful, a hydrated instance of this sign
+   * Fetches the data for this trip cancelation via the client
+   * @returns {Promise} If successful, a hydrated instance of this trip cancelation
    */
   fetch() {
     return this.client.get(this.href)
       .then(response => response.json())
-      .then(sign => new Sign(this.client, this, sign));
-  }
-
-  /**
-   * Updates data for a sign via the client.
-   * Note: only updates approach_announcements_enabled and approach_announcements_seconds.
-   * @returns {Promise} if successful returns instance of this sign
-   */
-  update() {
-    return this.client.patch(this.href, {
-      body: [
-        {
-          op: 'replace',
-          path: '/approach_announcements_enabled',
-          value: this.approach_announcements_enabled,
-        },
-        {
-          op: 'replace',
-          path: '/approach_announcements_seconds',
-          value: this.approach_announcements_seconds,
-        },
-      ],
-    });
+      .then(tripCancelation => new TripCancelation(this.client, this, tripCancelation));
   }
 }
 
