@@ -11,15 +11,17 @@ class TripCancelation extends Resource {
    * @example <caption>Assigning Trip Cancelation data</caption>
    * const client = new Client();
    * const newTCsData = [{
-   *   tripId: 1,
+   *   href: '/1/SYNC/serviceadjustments/cancelation/1
+   *   tripId: 333,
    *   uncancel: false,
    * },{
-   *   tripId: 2,
+   *   href: '/1/SYNC/serviceadjustments/cancelation/2
+   *   tripId: 333,
    *   uncancel: true,
    * }];
    * const tripCancelation = new TripCancelation(client, newTCsData);
-   *
    * tripCancelation.hydrated == true;
+   *
    * @param {Client} client Instance of pre-configured client
    * @param {Array} rest Remaining arguments to use in assigning values to this instance, consisting of tripId (number) & uncancel (boolean) values
    */
@@ -27,11 +29,23 @@ class TripCancelation extends Resource {
     super(client);
 
     const newProperties = Object.assign({}, ...rest);
-    const hydrated = !Object.keys(newProperties).every(k => k === 'href');
+    const hydrated = !Object.keys(newProperties).every(k => k === 'href' || k === 'code');
 
     Object.assign(this, newProperties, {
       hydrated,
     });
+  }
+
+  /**
+   * Makes a href for a given customer code and cancelation id
+   * @param {string} customerCode Customer code
+   * @param {number} id Cancelation ID
+   * @returns {{href: string}} URI to instance of trip cancelation
+   */
+  static makeHref(customerCode, id) {
+    return {
+      href: `/1/${customerCode}/serviceadjustments/cancelation/${id}`,
+    };
   }
 
   /**
@@ -40,8 +54,8 @@ class TripCancelation extends Resource {
    */
   fetch() {
     return this.client.get(this.href)
-      .then(response => response.json())
-      .then(tripCancelation => new TripCancelation(this.client, this, tripCancelation));
+        .then(response => response.json())
+        .then(tripCancelation => new TripCancelation(this.client, this, tripCancelation));
   }
 }
 
