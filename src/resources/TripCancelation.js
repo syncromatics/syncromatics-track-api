@@ -45,4 +45,4 @@ class TripCancelation extends Resource {
   }
 }
 
-export default Sign;
+export default TripCancelation;
