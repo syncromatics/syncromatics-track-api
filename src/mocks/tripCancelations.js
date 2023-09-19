@@ -15,16 +15,13 @@ const tripCancelations = {
       .get(client.resolve('/1/SYNC/serviceadjustments/cancelations'), listResponse)
   },
   list: [{
-    href: '/1/SYNC/signs/1',
-    id: 1,
-    name: 'The first sign',
-    enabled: true,
-    current_health: {
-      last_check_in: '2017-01-01T00:00:00.000-0700',
-      hardware_health: 'HardwareError',
-      hardware_error_info: 'Exception thrown',
-      rssi: -34,
-    },
+    href: '/1/SYNC/serviceadjustments/cancelation/1',
+    tripId: 333,
+    uncancel: false,
+  },{
+    href: '/1/SYNC/serviceadjustments/cancelation/2',
+    tripId: 444,
+    uncancel: true,
   }],
 };
 

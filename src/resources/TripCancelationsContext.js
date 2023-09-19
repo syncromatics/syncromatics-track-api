@@ -11,7 +11,7 @@ import TripCancelation from './TripCancelation';
  */
 class TripCancelationsContext extends PagedContext {
   /**
-   * Creates a new sign context
+   * Creates a new trip cancelations context
    * @param {Client} client Instance of pre-configured client
    * @param {string} customerCode Customer code
    */
@@ -21,7 +21,7 @@ class TripCancelationsContext extends PagedContext {
   }
 
   /**
-   * Gets all results for this context
+   * Gets the first page of results for this context
    * @returns {Promise} If successful, a list of TripCancelation objects
    * @see TripCancelation
    */
