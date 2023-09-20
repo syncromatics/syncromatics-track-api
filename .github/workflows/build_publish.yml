@@ -2,7 +2,7 @@ name: Build and Publish CI
 
 on:
   push:
-    branches: [ master, feature/en-9472-sew-together-front-and-back ]
+    branches: [ master ]
 
 jobs:
   build:
