@@ -2,7 +2,7 @@ name: Build and Publish CI
 
 on:
   push:
-    branches: [ master,feature/cancel-service-action-card-combined-branch ]
+    branches: [ master, feature/en-9472-sew-together-front-and-back ]
 
 jobs:
   build:
