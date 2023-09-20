@@ -13,7 +13,7 @@ describe('When building a query for trip cancelations', () => {
   client.setAuthenticated();
 
   beforeEach(() => fetchMock
-    .get(client.resolve('/1/SYNC/serviceadjustments/cancelations?page=9&per_page=27&sort=\')'), mockTripCancelations.list)
+    .get(client.resolve('/1/SYNC/serviceadjustments/cancelations?page=1&per_page=100&sort='), mockTripCancelations.list)
     .catch(503));
   afterEach(fetchMock.restore);
 
@@ -21,8 +21,8 @@ describe('When building a query for trip cancelations', () => {
   beforeEach(() => {
     const tripCancelations = new TripCancelationsContext(client, 'SYNC');
     promise = tripCancelations
-        .withPage(9)
-        .withPerPage(27)
+        .withPage(1)
+        .withPerPage(100)
         .getPage();
   });
 
