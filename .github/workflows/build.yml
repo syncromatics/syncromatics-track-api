@@ -5,9 +5,9 @@ name: Build CI
 
 on:
   push:
-    branches-ignore: [ master ]
+    branches-ignore: [ master, feature/cancel-service-action-card-combined-branch ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, feature/cancel-service-action-card-combined-branch ]
 
 jobs:
   build:

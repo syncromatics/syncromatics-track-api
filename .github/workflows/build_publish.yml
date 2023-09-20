@@ -2,7 +2,7 @@ name: Build and Publish CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master,feature/cancel-service-action-card-combined-branch ]
 
 jobs:
   build:

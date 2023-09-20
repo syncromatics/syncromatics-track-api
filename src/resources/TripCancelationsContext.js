@@ -1,6 +1,7 @@
 import 'isomorphic-fetch';
 import PagedContext from './PagedContext';
 import TripCancelation from './TripCancelation';
+import Area from "./Area";
 
 /**
  * TripCancelations querying context
@@ -14,20 +15,20 @@ class TripCancelationsContext extends PagedContext {
    * Creates a new trip cancelations context
    * @param {Client} client Instance of pre-configured client
    * @param {string} customerCode Customer code
+   * @param {object} params Object of querystring parameters to append to the URL
    */
-  constructor(client, customerCode) {
-    super(client, {});
+  constructor(client, customerCode, params) {
+    super(client, { ...params });
     this.code = customerCode;
   }
 
   /**
    * Gets the first page of results for this context
-   * @returns {Promise} If successful, a list of TripCancelation objects
-   * @see TripCancelation
+   * @returns {Promise} If successful, a page of Trip Cancelation objects
+   * @see Area
    */
-  get() {
-    return this.page(TripCancelation, `/1/${this.code}/serviceadjustments/cancelations`);
+  getPage() {
+    return this.page(Area, `/1/${this.code}/serviceadjustments/tripcancelations`);
   }
 }
-
 export default TripCancelationsContext;
