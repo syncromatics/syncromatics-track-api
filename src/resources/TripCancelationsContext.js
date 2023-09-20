@@ -1,6 +1,5 @@
 import 'isomorphic-fetch';
 import PagedContext from './PagedContext';
-import TripCancelation from './TripCancelation';
 import Area from "./Area";
 
 /**
