@@ -18,7 +18,7 @@ const api = new Track();
 api.logIn({ apiKey: 'my API key' });
 
 api.customer('SYNC').vehicles()
-  .withQuery('01234')
+  .withQuery('012345')
   .getPage()
   .then(vehicles => /* work with vehicles */);
 ```
