@@ -28,7 +28,7 @@ class TripCancelationsContext extends PagedContext {
    * @see Area
    */
   getPage() {
-    return this.page(Area, `/1/${this.code}/serviceadjustments/tripcancelations`);
+    return this.page(Area, `/1/${this.code}/serviceadjustments/cancelations`);
   }
 }
 export default TripCancelationsContext;
