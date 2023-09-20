@@ -5,9 +5,9 @@ name: Build CI
 
 on:
   push:
-    branches-ignore: [ master, feature/en-9472-sew-together-front-and-back  ]
+    branches-ignore: [ master ]
   pull_request:
-    branches: [ master, feature/en-9472-sew-together-front-and-back  ]
+    branches: [ master ]
 
 jobs:
   build:
