@@ -7,12 +7,12 @@ const tripCancelations = {
     const listResponse = () => new Response(
       Client.toBlob(tripCancelations.list), {
         headers: {
-          Link: '</1/SYNC/serviceadjustments/cancelations>; rel="next", </1/SYNC/serviceadjustments/cancelations>; rel="last"',
+          Link: '</1/SYNC/serviceadjustments/cancelations?page=1&per_page=100&sort=>; rel="next", </1/SYNC/areas?page=1&per_page=100&sort=>; rel="last"'
         },
       });
 
     fetchMock
-      .get(client.resolve('/1/SYNC/serviceadjustments/cancelations'), listResponse)
+      .get(client.resolve('/1/SYNC/serviceadjustments/cancelations?page=1&per_page=100&sort='), listResponse)
   },
   list: [{
     href: '/1/SYNC/serviceadjustments/cancelation/1',

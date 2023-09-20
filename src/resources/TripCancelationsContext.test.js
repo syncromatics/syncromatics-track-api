@@ -13,14 +13,17 @@ describe('When building a query for trip cancelations', () => {
   client.setAuthenticated();
 
   beforeEach(() => fetchMock
-    .get(client.resolve('/1/SYNC/serviceadjustments/cancelations'), mockTripCancelations.list)
+    .get(client.resolve('/1/SYNC/serviceadjustments/cancelations?page=9&per_page=27&sort=\')'), mockTripCancelations.list)
     .catch(503));
   afterEach(fetchMock.restore);
 
   let promise;
   beforeEach(() => {
     const tripCancelations = new TripCancelationsContext(client, 'SYNC');
-    promise = tripCancelations.get();
+    promise = tripCancelations
+        .withPage(9)
+        .withPerPage(27)
+        .getPage();
   });
 
   it('should make the expected request', () => promise.should.be.fulfilled);
