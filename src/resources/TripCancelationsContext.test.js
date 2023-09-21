@@ -28,3 +28,26 @@ describe('When building a query for trip cancelations', () => {
 
   it('should make the expected request', () => promise.should.be.fulfilled);
 });
+
+describe('When building a new trip cancelation', () => {
+  const client = new Client();
+  client.setAuthenticated();
+
+  const newCancelations = [
+    { tripId: mockTripCancelations.list[0].tripId, uncancel: mockTripCancelations.list[0].uncancel, },
+    { tripId: mockTripCancelations.list[1].tripId, uncancel: mockTripCancelations.list[1].uncancel, },
+  ];
+
+  beforeEach(() => fetchMock
+    .post(client.resolve('/1/SYNC/serviceadjustments/cancelations'), mockTripCancelations.list)
+    .catch(503));
+  afterEach(fetchMock.restore);
+
+  let promise;
+  beforeEach(() => {
+    const tripCancelations = new TripCancelationsContext(client, 'SYNC');
+    promise = tripCancelations.create(newCancelations);
+  });
+
+  it('should make the expected request', () => promise.should.be.fulfilled);
+});

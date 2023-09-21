@@ -5,25 +5,10 @@ import Resource from './Resource';
  */
 class TripCancelation extends Resource {
   /**
-   * Creates new TripCancelation
-   *
-   * Will populate itself with the values given to it after the client parameter
-   * @example <caption>Assigning Trip Cancelation data</caption>
-   * const client = new Client();
-   * const newTCsData = [{
-   *   href: '/1/SYNC/serviceadjustments/cancelation/1
-   *   tripId: 333,
-   *   uncancel: false,
-   * },{
-   *   href: '/1/SYNC/serviceadjustments/cancelation/2
-   *   tripId: 333,
-   *   uncancel: true,
-   * }];
-   * const tripCancelation = new TripCancelation(client, newTCsData);
-   * tripCancelation.hydrated == true;
-   *
    * @param {Client} client Instance of pre-configured client
    * @param {Array} rest Remaining arguments to use in assigning values to this instance, consisting of tripId (number) & uncancel (boolean) values
+   * 
+   * Current fetch/creation is done at the batch-level within TripCancelationsContext
    */
   constructor(client, ...rest) {
     super(client);

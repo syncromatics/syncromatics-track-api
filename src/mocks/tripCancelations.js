@@ -23,11 +23,11 @@ const tripCancelations = {
             .get(client.resolve('/1/SYNC/serviceadjustments/cancelations?page=1&per_page=10&sort='), listResponseNext)
     },
     list: [{
-        href: '/1/SYNC/serviceadjustments/cancelation/1',
+        id: 1,
         tripId: 333,
         uncancel: false,
     }, {
-        href: '/1/SYNC/serviceadjustments/cancelation/2',
+        id: 2,
         tripId: 444,
         uncancel: true,
     }],
