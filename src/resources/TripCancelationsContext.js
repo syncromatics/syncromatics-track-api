@@ -27,7 +27,19 @@ class TripCancelationsContext extends PagedContext {
    * @see Area
    */
   getPage() {
-    return this.page(Area, `/1/${this.code}/serviceadjustments/cancelations`);
+    return this.page(Area, this.getBatchHref());
+  }
+
+  getBatchHref() {
+    return `/1/${this.code}/serviceadjustments/cancelations`;
+  }
+
+  create(cancelations) {
+    // eslint-disable-next-line no-unused-vars
+    const { client, hydrated, customerCode, ...body } = this;
+    body.cancelations = cancelations;
+    return this.client.post(this.getBatchHref(), { body })
+      .then(response => response.headers.get('location'));
   }
 }
 export default TripCancelationsContext;
