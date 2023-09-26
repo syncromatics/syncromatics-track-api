@@ -1,6 +1,6 @@
 import 'isomorphic-fetch';
 import PagedContext from './PagedContext';
-import Area from "./Area";
+import TripCancelation from "./TripCancelation";
 
 /**
  * TripCancelations querying context
@@ -24,10 +24,10 @@ class TripCancelationsContext extends PagedContext {
   /**
    * Gets the first page of results for this context
    * @returns {Promise} If successful, a page of Trip Cancelation objects
-   * @see Area
+   * @see TripCancelation
    */
   getPage() {
-    return this.page(Area, this.getBatchHref());
+    return this.page(TripCancelation, this.getBatchHref());
   }
 
   getBatchHref() {
