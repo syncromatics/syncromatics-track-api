@@ -46,7 +46,6 @@ import StopsContext from './StopsContext';
 import Tag from './Tag';
 import TagsContext from './TagsContext';
 import Trip from './Trip';
-import TripCancelationsContext from './TripCancelationsContext';
 import TwitterOAuth from './TwitterOAuth';
 import TwitterOAuthRequest from './TwitterOAuthRequest';
 import TwitterUsername from './TwitterUsername';
@@ -513,10 +512,6 @@ class Customer extends Resource {
    */
   trip(id) {
     return this.resource(Trip, Trip.makeHref(this.code, id));
-  }
-
-  tripCancelations() {
-    return this.resource(TripCancelationsContext, this.code);
   }
   
   /**

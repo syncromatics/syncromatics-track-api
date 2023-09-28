@@ -2,7 +2,7 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import fetchMock from 'fetch-mock';
 import Track from '../index';
-import { charlie, dispatchMessageBatches as mocks } from '../mocks';
+import { charlie, tripCancelationBatches as mocks } from '../mocks';
 
 chai.should();
 chai.use(chaiAsPromised);
@@ -18,7 +18,7 @@ describe('When retrieving trip cancelations by customer', () => {
   it('should get trip cancelations batch', () => {
     api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
     
-    const tripCancelationBatchPromise = api.customer('SYNC').tripCancelationBatch("SYNC")
+    const tripCancelationBatchPromise = api.customer('SYNC').tripCancelationBatch()
       .fetch()
       .then(msg => msg); // Do things with message
 
@@ -26,7 +26,7 @@ describe('When retrieving trip cancelations by customer', () => {
   });
 });
 
-describe('When creating trip cancelations batch', () => {
+describe('When creating trip cancelations', () => {
   const api = new Track({ autoRenew: false });
 
   beforeEach(() => charlie.setUpSuccessfulMock(api.client));
@@ -40,22 +40,10 @@ describe('When creating trip cancelations batch', () => {
     const tripCancelationBatchPromise = api.customer('SYNC').tripCancelationBatch({
       trip_cancelations: [
         {
-          vehicle: { href: '/1/SYNC/vehicles/1' },
-          driver: { href: '/1/SYNC/drivers/1' },
-          message_direction: 'FromDispatch',
-          pattern: { href: '/1/SYNC/patterns/1' },
-          dispatch_user: { href: '/1/users/1' },
           customerId: 1,
-          message: 'Radio chatter',
         },
         {
-          vehicle: { href: '/1/SYNC/vehicles/2' },
-          driver: { href: '/1/SYNC/drivers/1' },
-          message_direction: 'FromDispatch',
-          pattern: { href: '/1/SYNC/patterns/1' },
-          dispatch_user: { href: '/1/users/1' },
           customerId: 1,
-          message: 'Radio chatter',
         },
       ],
     })

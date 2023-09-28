@@ -6,7 +6,7 @@ import Resource from './Resource';
 class TripCancelation extends Resource {
   /**
    * @param {Client} client Instance of pre-configured client
-   * @param {Array} rest Remaining arguments to use in assigning values to this instance, consisting of tripId (number) & uncancel (boolean) values
+   * @param {Array} rest Remaining arguments to use in assigning values to this instance
    */
   constructor(client, ...rest) {
     super(client);
