@@ -13,7 +13,7 @@ const tripCancelationBatches = {
 
     fetchMock
       .get(client.resolve('/1/SYNC/serviceadjustments/cancelations/batches/90892e24-5279-4066-b109-a112925edb89'), singleResponse)
-      .post(client.resolve('/1/SYNC/serviceadjustments/cancelations/batches'), postResponse);
+      .post(client.resolve('/1/SYNC/serviceadjustments/cancelations'), postResponse);
   },
   getById: id => tripCancelationBatches.list.find(v => v.id === id),
   list: [{
