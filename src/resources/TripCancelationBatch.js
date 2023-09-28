@@ -25,7 +25,7 @@ class TripCancelationBatch extends Resource {
         super(client);
         const {code, ...newProperties} = rest;
         this.customerCode = code;
-        const hydrated = !Object.keys(newProperties).every(k => k === 'href' || k === 'code');
+        const hydrated = !Object.keys(newProperties).every(k => k === 'href' || k === 'customerCode');
         const references = {
             trip_cancelations: newProperties.trip_cancelations
                 && newProperties.trip_cancelations.map(m => new TripCancelation(this.client, m)),
@@ -66,7 +66,7 @@ class TripCancelationBatch extends Resource {
      */
     create() {
         const {client, hydrated, customerCode, ...body} = this;
-        return this.client.post(`/1/${customerCode}/serviceadjustments/cancelations`, {body})
+        return this.client.post(`/1/${customerCode}/serviceadjustments/cancelations/batches`, {body})
             .then(response => response.headers.get('location'))
             .then((href) => {
                 const match = /\/\d+\/\S+\/serviceadjustments\/cancelations\/batches\/(\S+)/.exec(href);
