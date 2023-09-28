@@ -17,7 +17,7 @@ const tripCancelationBatches = {
   },
   list: [{
     href: '/1/SYNC/serviceadjustments/cancelations',
-    trip_cancelations: [
+    cancelations: [
       { href: '/1/SYNC/serviceadjustments/cancelation/1' },
       { href: '/1/SYNC/serviceadjustments/cancelation/2' },
     ],

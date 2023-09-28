@@ -13,8 +13,8 @@ class TripCancelationBatch extends Resource {
         this.customerCode = code;
         const hydrated = !Object.keys(newProperties).every(k => k === 'href' || k === 'customerCode');
         const references = {
-            trip_cancelations: newProperties.trip_cancelations
-                && newProperties.trip_cancelations.map(m => new TripCancelation(this.client, m)),
+            cancelations: newProperties.cancelations
+                && newProperties.cancelations.map(m => new TripCancelation(this.client, m)),
         };
         Object.assign(this, newProperties, {
             hydrated,

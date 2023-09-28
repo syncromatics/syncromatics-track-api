@@ -38,7 +38,7 @@ describe('When creating trip cancelations', () => {
     api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
 
     const tripCancelationBatchPromise = api.customer('SYNC').tripCancelationBatch({
-      trip_cancelations: [
+      cancelations: [
         {
           customerId: 1,
         },
