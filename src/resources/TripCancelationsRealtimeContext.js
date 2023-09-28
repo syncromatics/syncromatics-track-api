@@ -29,7 +29,7 @@ class TripCancelationsRealTimeContext extends RealTimeContext {
 
     /**
      * Restrict subscriptions created by this context to a set of customers.
-     * @param {Array.<Resource|string>} vehicles Array of href or resource representations of
+     * @param {Array.<Resource|string>} customers Array of href or resource representations of
      * Customers.
      * @returns {TripCancelationsRealTimeContext} Context with filter applied.
      */
