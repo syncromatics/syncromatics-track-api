@@ -4,7 +4,6 @@ import fetchMock from 'fetch-mock';
 import Client from '../Client';
 import TripCancelationBatch from './TripCancelationBatch';
 import { tripCancelationBatches as mocks } from '../mocks';
-import TripCancelations from "../mocks/tripCancelations";
 
 chai.should();
 chai.use(chaiAsPromised);
