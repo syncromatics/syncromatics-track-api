@@ -52,6 +52,7 @@ import VoipTicket from './VoipTicket';
 import Assignment from './Assignment';
 // import TripCancelation from "./TripCancelation";
 import TripCancelationsContext from "./TripCancelationsContext";
+import TripCancelationBatch from "./TripCancelationBatch";
 
 chai.should();
 chai.use(chaiAsPromised);
@@ -102,6 +103,7 @@ describe('When getting resources related to a customer', () => {
   it('should allow a tag to be retrieved', () => customer.tag().should.be.instanceof(Tag));
   it('should allow a trip to be retrieved', () => customer.trip().should.be.instanceof(Trip));
   it("should allow trip cancelations to be retrieved", () => customer.tripCancelations().should.be.instanceof(TripCancelationsContext));
+  it("should allow trip cancelations batch to be retrieved", () => customer.tripCancelationBatch().should.be.instanceof(TripCancelationBatch));
   it('should allow a twitter oauth token to be created', () => customer.twitterOAuth().should.be.instanceof(TwitterOAuth));
   it('should allow a twitter oauth request token to be created', () => customer.twitterOAuthRequest().should.be.instanceof(TwitterOAuthRequest));
   it('should allow a twitter username to be retrieved', () => customer.twitterUsername().should.be.instanceof(TwitterUsername));
