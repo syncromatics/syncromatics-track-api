@@ -3,19 +3,19 @@ import TripCancelation from "./TripCancelation";
 
 class TripCancelationBatch extends Resource {
     /**
-     * Creates a new trip cancelation batch
+     * Creates a new trip cancelations object for fetching/saving trip cancelations
      *
      * Will populate itself with the values given to it after the client parameter
-     * @example <caption>Assigning partial tripCancelationBatch data to a new instance</caption>
+     * @example <caption>Assigning partial tripCancelations data to a new instance</caption>
      * const client = new Client();
      * const partialData = {
-     *   href: '/1/SYNC/serviceadjustments/cancelations/batches/90892e24-5279-4066-b109-a112925edb89',
+     *   href: '/1/SYNC/serviceadjustments/cancelations',
      *   trip_cancelations: [
      *     { href: '/1/SYNC/serviceadjustments/cancelations/1'' },
      *     { href: '/1/SYNC/serviceadjustments/cancelations/2'' }
      *   ]
      * };
-     * const tripCancelationBatch = new TripCancelationBatch(client, partialData);
+     * const tripCancelations = new TripCancelations(client, partialData);
      *
      * tripCancelationBatch.hydrated == true
      * @param {Client} client Instance of pre-configured client
@@ -40,18 +40,17 @@ class TripCancelationBatch extends Resource {
     /**
      * Makes a href for a given customer code and ID
      * @param {string} customerCode  Alphanumeric code of the customer
-     * @param {string} id ID of the trip cancelation batch
      * @returns {object} href object containing URL for the instance
      */
-    static makeHref(customerCode, id) {
+    static makeHref(customerCode) {
         return {
-            href: `/1/${customerCode}/serviceadjustments/cancelations/batches/${id}`,
+            href: `/1/${customerCode}/serviceadjustments/cancelations`,
             code: customerCode,
         };
     }
 
     /**
-     * Fetches the data for this trip cancelation batch via the client
+     * Fetches current trip cancelation data for customer
      * @returns {Promise} If successful, a hydrated instance of this trip cancelation batch
      */
     fetch() {
@@ -61,17 +60,16 @@ class TripCancelationBatch extends Resource {
     }
 
     /**
-     * Creates a new trip cancelation batch via the client
+     * Creates new trip cancelations for customer
      * @returns {Promise} If successful, a hydrated instance of this trip cancelation batch with id
      */
     create() {
         const {client, hydrated, customerCode, ...body} = this;
-        return this.client.post(`/1/${customerCode}/serviceadjustments/cancelations/batches`, {body})
+        return this.client.post(`/1/${this.customerCode}/serviceadjustments/cancelations`, {body})
             .then(response => response.headers.get('location'))
             .then((href) => {
-                const match = /\/\d+\/\S+\/serviceadjustments\/cancelations\/batches\/(\S+)/.exec(href);
                 console.log("response from create: " + href);
-                return new TripCancelationBatch(this.client, {...this, href, id: match[1]});
+                return new TripCancelationBatch(this.client, [{...this, href}]);
             });
     }
 }

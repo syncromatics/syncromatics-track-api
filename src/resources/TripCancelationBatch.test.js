@@ -9,24 +9,14 @@ import TripCancelations from "../mocks/tripCancelations";
 chai.should();
 chai.use(chaiAsPromised);
 
-describe('When instantiating a trip cancelation batch based on customer and ID', () => {
+describe('When instantiating trip cancelations based on customer', () => {
   const client = new Client();
-  const batch = new TripCancelationBatch(client, TripCancelationBatch.makeHref('SYNC', '90892e24-5279-4066-b109-a112925edb89'));
-  it('should set the href', () => batch.href.should.equal('/1/SYNC/serviceadjustments/cancelations/batches/90892e24-5279-4066-b109-a112925edb89'));
+  const batch = new TripCancelationBatch(client, TripCancelationBatch.makeHref('SYNC'));
+  it('should set the href', () => batch.href.should.equal('/1/SYNC/serviceadjustments/cancelations'));
   it('should not be hydrated', () => batch.hydrated.should.equal(false));
 });
 
-describe('When instantiating a trip cancelation batch based on an object', () => {
-  const client = new Client();
-  const batch = new TripCancelationBatch(client, mocks.getById('90892e24-5279-4066-b109-a112925edb89'));
-
-  it('should set the ID', () => batch.id.should.equal('90892e24-5279-4066-b109-a112925edb89'));
-  it('should set the href', () => batch.href.should.equal('/1/SYNC/serviceadjustments/cancelations/batches/90892e24-5279-4066-b109-a112925edb89'));
-  it('should set the trip cancelations', () => batch.trip_cancelations.length.should.equal(2));
-  it('should be hydrated', () => batch.hydrated.should.equal(true));
-});
-
-describe('When fetching a trip cancelation batch based on customer and ID', () => {
+describe('When fetching trip cancelations based on customer', () => {
   const client = new Client();
 
   beforeEach(() => mocks.setUpSuccessfulMock(client));
@@ -35,17 +25,16 @@ describe('When fetching a trip cancelation batch based on customer and ID', () =
 
   let promise;
   beforeEach(() => {
-    promise = new TripCancelationBatch(client, TripCancelationBatch.makeHref('SYNC', '90892e24-5279-4066-b109-a112925edb89')).fetch();
+    promise = new TripCancelationBatch(client, TripCancelationBatch.makeHref('SYNC')).fetch();
   });
 
   it('should resolve the promise', () => promise.should.be.fulfilled);
-  it('should set the ID', () => promise.then(x => x.id).should.eventually.equal('90892e24-5279-4066-b109-a112925edb89'));
-  it('should set the href', () => promise.then(x => x.href).should.eventually.equal('/1/SYNC/serviceadjustments/cancelations/batches/90892e24-5279-4066-b109-a112925edb89'));
+  it('should set the href', () => promise.then(x => x.href).should.eventually.equal('/1/SYNC/serviceadjustments/cancelations'));
   it('should set the trip cancelations', () => promise.then(x => x.trip_cancelations.length).should.eventually.equal(2));
   it('should be hydrated', () => promise.then(x => x.hydrated).should.eventually.equal(true));
 });
 
-describe('When creating a trip cancelation batch', () => {
+describe('When creating trip cancelations for a customer', () => {
   const client = new Client();
 
   beforeEach(() => mocks.setUpSuccessfulMock(client));
@@ -65,8 +54,7 @@ describe('When creating a trip cancelation batch', () => {
   });
 
   it('should resolve the promise', () => promise.should.be.fulfilled);
-  it('should set the ID', () => promise.then(x => x.id).should.eventually.equal('90892e24-5279-4066-b109-a112925edb89'));
-  it('should set the href', () => promise.then(x => x.href).should.eventually.equal('/1/SYNC/serviceadjustments/cancelations/batches/90892e24-5279-4066-b109-a112925edb89'));
+  it('should set the href', () => promise.then(x => x.href).should.eventually.equal('/1/SYNC/serviceadjustments/cancelations'));
   it('should set the message', () => promise.then(x => x.trip_cancelations.length).should.eventually.equal(2));
   it('should be hydrated', () => promise.then(x => x.hydrated).should.eventually.equal(true));
 });

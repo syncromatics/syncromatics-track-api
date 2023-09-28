@@ -514,23 +514,17 @@ class Customer extends Resource {
   trip(id) {
     return this.resource(Trip, Trip.makeHref(this.code, id));
   }
-  
-  /**
-   * Get TripCancelations for this customer / serviceDate (calculated based on Customer timezone and the current time within track-api)
-   * @param {Number} id Identity of the trip
-   * @returns {TripCancelationsContext} For querying TripCancelations for this Customer
-   */
+
   tripCancelations() {
     return this.resource(TripCancelationsContext, this.code);
   }
-
+  
   /**
    * Gets a trip cancelation batch resource
-   * @param {string} id Alphanumeric ID of the dispatch message batch
    * @return {TripCancelationBatch} Trip Cancelation Batch resource
    */
-  tripCancelationBatch(id) {
-    return this.resource(TripCancelationBatch.makeHref(this.code, id));
+  tripCancelationBatch() {
+    return this.resource(TripCancelationBatch, TripCancelationBatch.makeHref(this.code));
   }
 
   /**
