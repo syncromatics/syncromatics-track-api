@@ -526,10 +526,11 @@ class Customer extends Resource {
 
   /**
    * Gets a trip cancelation batch resource
-   * @return {DispatchMessageBatch} Trip Cancelation Batch resource
+   * @param {string} id Alphanumeric ID of the dispatch message batch
+   * @return {TripCancelationBatch} Trip Cancelation Batch resource
    */
-  tripCancelationBatch() {
-    return this.resource(TripCancelationBatch, this.code);
+  tripCancelationBatch(id) {
+    return this.resource(TripCancelationBatch.makeHref(this.code, id));
   }
 
   /**
