@@ -64,10 +64,9 @@ class TripCancelationBatch extends Resource {
      * Creates a new trip cancelation batch via the client
      * @returns {Promise} If successful, a hydrated instance of this trip cancelation batch with id
      */
-    create(cancelations) {
+    create() {
         const {client, hydrated, customerCode, ...body} = this;
-        body.cancelations = cancelations;
-        return this.client.post(`/1/${this.customerCode}/serviceadjustments/cancelations`, {body})
+        return this.client.post(`/1/${customerCode}/serviceadjustments/cancelations`, {body})
             .then(response => response.headers.get('location'))
             .then((href) => {
                 const match = /\/\d+\/\S+\/serviceadjustments\/cancelations\/batches\/(\S+)/.exec(href);
