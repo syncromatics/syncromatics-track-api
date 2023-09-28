@@ -29,7 +29,7 @@ describe('When fetching trip cancelations based on customer', () => {
 
   it('should resolve the promise', () => promise.should.be.fulfilled);
   it('should set the href', () => promise.then(x => x.href).should.eventually.equal('/1/SYNC/serviceadjustments/cancelations'));
-  it('should set the trip cancelations', () => promise.then(x => x.trip_cancelations.length).should.eventually.equal(2));
+  it('should set the trip cancelations', () => promise.then(x => x.cancelations.length).should.eventually.equal(2));
   it('should be hydrated', () => promise.then(x => x.hydrated).should.eventually.equal(true));
 });
 
@@ -44,7 +44,7 @@ describe('When creating trip cancelations for a customer', () => {
   beforeEach(() => {
     promise = new TripCancelationBatch(client, { code: 'SYNC',
       ...{
-        trip_cancelations: [
+        cancelations: [
           { href: '/1/SYNC/serviceadjustments/cancelations/1' },
           { href: '/1/SYNC/serviceadjustments/cancelations/2' },
         ],
@@ -54,6 +54,6 @@ describe('When creating trip cancelations for a customer', () => {
 
   it('should resolve the promise', () => promise.should.be.fulfilled);
   it('should set the href', () => promise.then(x => x.href).should.eventually.equal('/1/SYNC/serviceadjustments/cancelations'));
-  it('should set the message', () => promise.then(x => x.trip_cancelations.length).should.eventually.equal(2));
+  it('should set the message', () => promise.then(x => x.cancelations.length).should.eventually.equal(2));
   it('should be hydrated', () => promise.then(x => x.hydrated).should.eventually.equal(true));
 });
