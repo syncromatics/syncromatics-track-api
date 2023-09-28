@@ -41,7 +41,7 @@ class TripCancelationBatch extends Resource {
     fetch() {
         return this.client.get(this.href)
             .then(response => response.json())
-            .then(batch => new TripCancelationBatch(this.client, {...this, ...batch}));
+            .then(cancelations => new TripCancelationBatch(this.client, {...this, ...cancelations}));
     }
 
     /**
@@ -51,10 +51,12 @@ class TripCancelationBatch extends Resource {
     create() {
         const {client, hydrated, customerCode, ...body} = this;
         return this.client.post(`/1/${this.customerCode}/serviceadjustments/cancelations`, {body})
-            .then(response => response.headers.get('location'))
-            .then((href) => {
+            // .then(response => response.headers.get('location'))
+            .then((response) => {
+                const href = response.headers.get('location')
+                const cancelations = response.json();
                 console.log("response from create: " + href);
-                return new TripCancelationBatch(this.client, {...this, href});
+                return new TripCancelationBatch(this.client, {...this, href, ...cancelations});
             });
     }
 }

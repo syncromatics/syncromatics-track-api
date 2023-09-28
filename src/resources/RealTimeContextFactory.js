@@ -1,7 +1,6 @@
 import AreasRealTimeContext from './AreasRealTimeContext';
 import AssignmentsRealTimeContext from './AssignmentsRealTimeContext';
 import BikeRackSlotsRealTimeContext from './BikeRackSlotsRealTimeContext';
-import TripCancelationsRealtimeContext from './TripCancelationsRealtimeContext';
 import CallStatesRealTimeContext from './CallStatesRealTimeContext';
 import DispatchMessagesRealTimeContext from './DispatchMessagesRealTimeContext';
 import DispatchMessageStatusRealTimeContext from './DispatchMessageStatusRealTimeContext';

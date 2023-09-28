@@ -1,6 +1,5 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
-import BikeRackSlotsRealTimeContext from './BikeRackSlotsRealTimeContext';
 import RealTimeClient from '../RealTimeClient';
 import { realTime as mock } from '../mocks';
 import TripCancelationsRealTimeContext from "./TripCancelationsRealtimeContext";
