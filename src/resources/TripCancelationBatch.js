@@ -41,21 +41,18 @@ class TripCancelationBatch extends Resource {
     fetch() {
         return this.client.get(this.href)
             .then(response => response.json())
-            .then(batch => new TripCancelationBatch(this.client, {...this, ...batch}));
+            .then(cancelations => new TripCancelationBatch(this.client, {...this, ...cancelations}));
     }
 
     /**
      * Create new cancelations for customer
-     * @returns {Promise} If successful, a hydrated instance of this trip cancelation batch with id
+     * @returns {Promise} If successful, a hydrated instance of this trip cancelation batch
      */
     create() {
         const {client, hydrated, customerCode, ...body} = this;
         return this.client.post(`/1/${this.customerCode}/serviceadjustments/cancelations`, {body})
-            .then(response => response.headers.get('location'))
-            .then((href) => {
-                console.log("response from create: " + href);
-                return new TripCancelationBatch(this.client, {...this, href});
-            });
+            .then(response => response.json())
+            .then(cancelations => new TripCancelationBatch(this.client, {...this, ...cancelations}));
     }
 }
 
