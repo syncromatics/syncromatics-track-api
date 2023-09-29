@@ -5,7 +5,7 @@ import Client from '../Client';
 const tripCancelationBatches = {
   setUpSuccessfulMock: (client) => {
     const getResponse = () => new Response(Client.toBlob(tripCancelationBatches.list[0]));
-    const postResponse = () => new Response(Client.toBlob(tripCancelationBatches.list[0]), {
+    const postResponse = () => new Response(undefined, {
       headers: {
         Location: '/1/SYNC/serviceadjustments/cancelations',
       },
