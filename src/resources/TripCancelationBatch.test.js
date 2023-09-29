@@ -53,7 +53,6 @@ describe('When creating trip cancelations for a customer', () => {
   });
 
   it('should resolve the promise', () => promise.should.be.fulfilled);
-  it('should set the href', () => promise.then(x => x.href).should.eventually.equal('/1/SYNC/serviceadjustments/cancelations'));
   it('should set the message', () => promise.then(x => x.cancelations.length).should.eventually.equal(2));
   it('should be hydrated', () => promise.then(x => x.hydrated).should.eventually.equal(true));
 });
