@@ -1,6 +1,6 @@
 {
   "name": "syncromatics-track-api",
-  "version": "0.0.14-development",
+  "version": "0.0.15-development",
   "description": "Library to interact with the Syncromatics Track API",
   "main": "dist/index.js",
   "scripts": {
