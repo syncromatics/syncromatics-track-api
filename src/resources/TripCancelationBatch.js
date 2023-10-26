@@ -12,10 +12,8 @@ class TripCancelationBatch extends Resource {
         const {code, ...newProperties} = rest;
         this.customerCode = code;
         const hydrated = !Object.keys(newProperties).every(k => k === 'href' || k === 'customerCode');
-        const references = {
-            cancelations: newProperties.cancelations
-                && newProperties.cancelations.map(m => new TripCancelation(this.client, m)),
-        };
+        const references = newProperties
+                && newProperties.map(m => new TripCancelation(this.client, m));
         Object.assign(this, newProperties, {
             hydrated,
             ...references,

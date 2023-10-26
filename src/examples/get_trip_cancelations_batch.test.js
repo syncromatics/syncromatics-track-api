@@ -37,16 +37,14 @@ describe('When creating trip cancelations', () => {
   it('should save trip cancelations batch', () => {
     api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
 
-    const tripCancelationBatchPromise = api.customer('SYNC').tripCancelationBatch({
-      cancelations: [
+    const tripCancelationBatchPromise = api.customer('SYNC').tripCancelationBatch([
         {
           customerId: 1,
         },
         {
           customerId: 1,
         },
-      ],
-    })
+      ])
       .create()
       .then(msg => msg); // Do things with msg
 
