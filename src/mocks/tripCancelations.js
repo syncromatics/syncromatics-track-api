@@ -2,6 +2,7 @@
 import fetchMock from 'fetch-mock';
 import Client from '../Client';
 
+//todo: remove
 const tripCancelations = {
     setUpSuccessfulMock: (client) => {
         const listResponsePaged = () => new Response(
@@ -17,6 +18,7 @@ const tripCancelations = {
                 },
             });
 
+        //todo: remove
         fetchMock
             .get(client.resolve('/1/SYNC/serviceadjustments/cancelations?page=1&per_page=100&sort='), listResponsePaged)
         fetchMock

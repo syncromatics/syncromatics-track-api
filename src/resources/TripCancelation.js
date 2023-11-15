@@ -27,7 +27,7 @@ class TripCancelation extends Resource {
    */
   static makeHref(customerCode, id) {
     return {
-      href: `/1/${customerCode}/serviceadjustments/cancelation/${id}`,
+      href: `/1/${customerCode}/serviceadjustments/tripcancelation/${id}`,
     };
   }
 

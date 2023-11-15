@@ -8,13 +8,13 @@ const tripCancelationBatches = {
     const createResponse = () => new Response(Client.toBlob(tripCancelationBatches.response));
 
     fetchMock
-      .get(client.resolve('/1/SYNC/serviceadjustments/cancelations'), fetchResponse)
-      .post(client.resolve('/1/SYNC/serviceadjustments/cancelations'), createResponse);
+      .get(client.resolve('/1/SYNC/serviceadjustments/tripcancelations'), fetchResponse)
+      .post(client.resolve('/1/SYNC/serviceadjustments/tripcancelations'), createResponse);
   },
   response: {
     cancelations: [
-      { href: '/1/SYNC/serviceadjustments/cancelations/1' },
-      { href: '/1/SYNC/serviceadjustments/cancelations/2' },
+      { href: '/1/SYNC/serviceadjustments/tripcancelations/1' },
+      { href: '/1/SYNC/serviceadjustments/tripcancelations/2' },
     ],
   },
 };
