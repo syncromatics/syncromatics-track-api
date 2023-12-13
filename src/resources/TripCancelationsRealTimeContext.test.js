@@ -1,6 +1,5 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
-import BikeRackSlotsRealTimeContext from './BikeRackSlotsRealTimeContext';
 import RealTimeClient from '../RealTimeClient';
 import { realTime as mock } from '../mocks';
 import TripCancelationsRealTimeContext from "./TripCancelationsRealtimeContext";
@@ -8,7 +7,7 @@ import TripCancelationsRealTimeContext from "./TripCancelationsRealtimeContext";
 chai.should();
 chai.use(chaiAsPromised);
 
-describe('When creating a subscription for Trip Cancelations', () => {
+describe('When creating a subscription for TripCancelations', () => {
   const entity = 'TRIP_CANCELATIONS';
   const customerCode = 'SYNC';
 
@@ -38,8 +37,7 @@ describe('When creating a subscription for Trip Cancelations', () => {
     const options = { closeConnection: true, realTimeClient };
     return server.verifySubscription(entity, options).should.eventually.become(expectedFilters);
   });
-
-
+  
   it('should handle entity updates', () => {
     const server = mock.getServer();
     const realTimeClient = new RealTimeClient(mock.authenticatedClient, mock.options);

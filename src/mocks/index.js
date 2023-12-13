@@ -30,7 +30,6 @@ export { default as runs } from './runs';
 export { default as servicePackages } from './servicePackages';
 export { default as services } from './services';
 export { default as signs } from './signs';
-export { default as tripCancelations } from './tripCancelations';
 export { default as stops } from './stops';
 export { default as tags } from './tags';
 export { default as trips } from './trips';

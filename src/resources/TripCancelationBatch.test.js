@@ -44,10 +44,24 @@ describe('When creating trip cancelations for a customer', () => {
   beforeEach(() => {
     promise = new TripCancelationBatch(client, { code: 'SYNC',
       ...{
-        cancelations: [
-          { href: '/1/SYNC/serviceadjustments/tripcancelations/1' },
-          { href: '/1/SYNC/serviceadjustments/tripcancelations/2' },
-        ],
+        cancelations: [{
+          id: 1710,
+          tripId: 4498693,
+          customerId: 1,
+          serviceDateTime: "2023-12-12T00:00:00",
+          createDateTime: "2023-12-12T15:28:47.2885755-08:00",
+          uncancel: false,
+          userId: 3313
+        },
+          {
+            id: 1711,
+            tripId: 4498691,
+            customerId: 1,
+            serviceDateTime: "2023-12-12T00:00:00",
+            createDateTime: "2023-12-12T15:28:47.2931379-08:00",
+            uncancel: false,
+            userId: 3313
+          }],
       },
     }).create();
   });
