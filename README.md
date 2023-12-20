@@ -31,6 +31,11 @@ You can also log in with a username and password or a previously-generated JWT t
 Generated documentation is available on the [project page][project-page].  You can also find example
 usages in the [src/examples directory][src-examples].
 
+## Development
+
+Versioning:  `npm version [0.0.xx-development]`
+Publishing: `npm publish`
+
 ## Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for our guide to contributing and code of conduct.
