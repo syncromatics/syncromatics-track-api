@@ -28,6 +28,11 @@ describe('When creating a RealTimeContext', () => {
     result.realTimeClient.should.equal(realTimeClient);
   });
 
+  it('should reuse its RealTimeClient when creating an TripCancelationsRealtimeContext', () => {
+    const result = factory.tripCancelations();
+    result.realTimeClient.should.equal(realTimeClient);
+  });
+
   it('should reuse its RealTimeClient when creating an CallStatesRealTimeContext', () => {
     const result = factory.callStates();
     result.realTimeClient.should.equal(realTimeClient);

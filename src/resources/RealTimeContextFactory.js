@@ -14,6 +14,7 @@ import EnplugHealthsRealTimeContext from './EnplugHealthsRealTimeContext';
 import IncidentsRealTimeContext from './IncidentsRealTimeContext';
 import VehiclesRealTimeContext from './VehiclesRealTimeContext';
 import VoipHeartbeatHandler from './VoipHeartbeatHandler';
+import TripCancelationsRealTimeContext from "./TripCancelationsRealtimeContext";
 
 /**
  * A factory for creating entity-specific Real Time Contexts for a given Real Time Client.
@@ -87,6 +88,14 @@ class RealTimeContextFactory {
    */
   bikeRackSlots() {
     return new BikeRackSlotsRealTimeContext(this.realTimeClient, this.customerCode);
+  }
+
+  /**
+   * Creates a RealTimeContext for querying Trip Cancelation updates.
+   * @returns {TripCancelationsRealTimeContext} The newly created context.
+   */
+  tripCancelations() {
+    return new TripCancelationsRealTimeContext(this.realTimeClient, this.customerCode);
   }
 
   /**

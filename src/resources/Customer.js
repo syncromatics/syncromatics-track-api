@@ -54,6 +54,7 @@ import VehiclesContext from './VehiclesContext';
 import VoipTicket from './VoipTicket';
 import VoipCallRecordsContext from "./VoipCallRecordsContext";
 import VoipCallRecord from "./VoipCallRecord";
+import TripCancelationBatch from "./TripCancelationBatch";
 
 /**
  * Customer resource
@@ -253,7 +254,7 @@ class Customer extends Resource {
   dispatchMessageBatch(id) {
     return this.resource(DispatchMessageBatch, DispatchMessageBatch.makeHref(this.code, id));
   }
-
+  
   /**
    * Gets a dispatch message status resource
       * @returns {DispatchMessageStatus} Dispatch Message Status resource
@@ -511,6 +512,14 @@ class Customer extends Resource {
    */
   trip(id) {
     return this.resource(Trip, Trip.makeHref(this.code, id));
+  }
+  
+  /**
+   * Gets a trip cancelation batch resource
+   * @return {TripCancelationBatch} Trip Cancelation Batch resource
+   */
+  tripCancelationBatch() {
+    return this.resource(TripCancelationBatch, TripCancelationBatch.makeHref(this.code));
   }
 
   /**

@@ -14,6 +14,7 @@ import stopArrivals from './stopArrivals';
 import stops from './stops';
 import vehicleArrivals from './vehicleArrivals';
 import vehicles from './vehicles';
+import tripCancelationBatches from "./tripCancelationBatches";
 
 const realTimeUri = 'ws://localhost:8083/1/realtime';
 const realTime = {
@@ -137,6 +138,9 @@ const realTime = {
             break;
           case 'BIKE_RACK_SLOTS':
             data = bikeRackSlots.list;
+            break;
+          case 'TRIP_CANCELATIONS':
+            data = tripCancelationBatches.response.cancelations;
             break;
           case 'CALL_STATES':
             data = callStates.list;
