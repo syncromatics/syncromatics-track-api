@@ -23,18 +23,8 @@ class TripCancelationsRealTimeContext extends RealTimeContext {
      * @returns {TripCancelationsRealTimeContext} Context with filter applied.
      */
     forCustomer(customer) {
-        return this.forCustomers([customer]);
-    }
-
-    /**
-     * Restrict subscriptions created by this context to a set of customers.
-     * @param {Array.<Resource|string>} customers Array of href or resource representations of
-     * Customers.
-     * @returns {TripCancelationsRealTimeContext} Context with filter applied.
-     */
-    forCustomers(customers) {
         this.assertSubscriptionNotStarted();
-        this.filters.customers = customers.map(RealTimeContext.resolveHref);
+        this.filters.customers = [customer].map(RealTimeContext.resolveHref);
         return this;
     }
 }

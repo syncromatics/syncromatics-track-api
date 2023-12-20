@@ -23,20 +23,6 @@ describe('When creating a subscription for TripCancelations', () => {
     const options = { closeConnection: true, realTimeClient };
     return server.verifySubscription(entity, options).should.eventually.become(expectedFilters);
   });
-
-  it('can add filters for multiple customers', () => {
-    const server = mock.getServer();
-    const realTimeClient = new RealTimeClient(mock.authenticatedClient, mock.options);
-    const subject = new TripCancelationsRealTimeContext(realTimeClient, customerCode);
-
-    const customerHrefs = ['SYNC', 'TEST', 'DEMO'];
-    const expectedFilters = { customers: customerHrefs };
-
-    subject.forCustomers(customerHrefs).on('update', () => {});
-
-    const options = { closeConnection: true, realTimeClient };
-    return server.verifySubscription(entity, options).should.eventually.become(expectedFilters);
-  });
   
   it('should handle entity updates', () => {
     const server = mock.getServer();

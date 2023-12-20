@@ -15,16 +15,17 @@ const tripCancelationBatches = {
     },
     getById: id => tripCancelationBatches.response.cancelations.find(v => v.id === id),
     response: {
-        cancelations: [{
-            href: "/1/SYNC/serviceadjustments/tripcancelation/1",
-            id: 1,
-            tripId: 4498693,
-            customerId: 1,
-            serviceDateTime: "2023-12-12T00:00:00",
-            createDateTime: "2023-12-12T15:28:47.2885755-08:00",
-            uncancel: false,
-            userId: 3313
-        },
+        cancelations:
+            [{
+                href: "/1/SYNC/serviceadjustments/tripcancelation/1",
+                id: 1,
+                tripId: 4498693,
+                customerId: 1,
+                serviceDateTime: "2023-12-12T00:00:00",
+                createDateTime: "2023-12-12T15:28:47.2885755-08:00",
+                uncancel: false,
+                userId: 3313
+            },
             {
                 href: "/1/SYNC/serviceadjustments/tripcancelation/2",
                 id: 2,
