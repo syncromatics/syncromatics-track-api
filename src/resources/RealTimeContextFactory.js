@@ -15,7 +15,7 @@ import IncidentsRealTimeContext from './IncidentsRealTimeContext';
 import VehiclesRealTimeContext from './VehiclesRealTimeContext';
 import VoipHeartbeatHandler from './VoipHeartbeatHandler';
 import TripCancelationsRealTimeContext from "./TripCancelationsRealtimeContext";
-import DetoursRealTimeContext from './DetourRealtimeContext';
+import DetoursRealTimeContext from './DetoursRealtimeContext';
 
 /**
  * A factory for creating entity-specific Real Time Contexts for a given Real Time Client.
