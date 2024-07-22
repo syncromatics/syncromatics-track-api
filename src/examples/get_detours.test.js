@@ -47,6 +47,25 @@ describe('When creating a detour by customer', () => {
       endDateTime: new Date('2023-01-15T17:00:00Z'),
     });
 
-    return detoursPromise; // List of detours that includes newly created detour
+    return detoursPromise; 
   })
+});
+
+describe('When deactivating a detour by customer', () => {
+  const api = new Track({ autoRenew: false });
+
+  beforeEach(() => charlie.setUpSuccessfulMock(api.client));
+  beforeEach(() => mockDetours.setUpSuccessfulMock(api.client));
+  beforeEach(() => fetchMock.catch(503));
+  afterEach(fetchMock.restore);
+
+  it('should deactivate a detour', async () => {
+    api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
+
+    const detourId = 2;
+    const detoursPromise = api.customer('SYNC').detours()
+      .deactivate(detourId);
+
+    return detoursPromise;
+  });
 });

@@ -8,8 +8,11 @@ const detours = {
 
         fetchMock
             .get(client.resolve('/1/SYNC/serviceadjustments/detours'), singleResponse)
-            .post(client.resolve('/1/SYNC/serviceadjustments/detours'), (newDetour) => new Response(Client.toBlob([...detours.list, newDetour])));
-
+            .post(client.resolve('/1/SYNC/serviceadjustments/detours'), (newDetour) => new Response(Client.toBlob([...detours.list, newDetour])))
+            .delete(client.resolve(`/1/SYNC/serviceadjustments/detours/2`), {
+              status: 200,
+              body: Client.toBlob(detours.list.filter(detour => detour.detour_id !== 2))
+            });
     },
     list: [
         {
