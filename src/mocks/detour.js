@@ -8,7 +8,7 @@ const detours = {
 
         fetchMock
             .get(client.resolve('/1/SYNC/serviceadjustments/detours'), singleResponse)
-            .post(client.resolve('/1/SYNC/serviceadjustments/detours'), () => new Response(Client.toBlob(detours.list)));
+            .post(client.resolve('/1/SYNC/serviceadjustments/detours'), (newDetour) => new Response(Client.toBlob([...detours.list, newDetour])));
 
     },
     list: [
@@ -17,7 +17,7 @@ const detours = {
             customer_id: 123,
             pattern_id: 456,
             detour_pattern_id: 789,
-            title: 'New Detour',
+            title: 'A Detour',
             should_match_scheduled_stops: true,
             creator_user_id: 101,
             created_date_time: new Date().toISOString(),

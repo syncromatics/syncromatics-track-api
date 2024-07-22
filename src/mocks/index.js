@@ -14,7 +14,7 @@ export { default as callParticipants } from './callParticipants';
 export { default as dispatchMessages } from './dispatchMessages';
 export { default as dispatchMessageBatches } from './dispatchMessageBatches';
 export { default as tripCancelationBatches } from './tripCancelationBatches';
-export { default as detours} from './detours';
+export { default as detours} from './detour';
 export { default as dispatchMessageStatus } from './dispatchMessageStatus';
 export { default as drivers } from './drivers';
 export { default as externalApis } from './externalApis';

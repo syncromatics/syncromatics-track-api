@@ -3,7 +3,7 @@ import Resource from './Resource';
 /**
  * Detour resource
  */
-class Detours extends Resource {
+class Detour extends Resource {
   /**
    * @param {Client} client Instance of pre-configured client
    * @param {Array} rest Remaining arguments to use in assigning values to this instance
@@ -38,7 +38,7 @@ class Detours extends Resource {
   fetch() {
     return this.client.get(this.href)
       .then(response => response.json())
-      .then(detour => new Detours(this.client, this, detour));
+      .then(detours => new Detour(this.client, this, detours));
   }
 
   /**
@@ -66,8 +66,8 @@ class Detours extends Resource {
 
     return this.client.post(this.href, requestBody)
       .then(response => response.json())
-      .then(detour => new Detours(this.client, detour));
+      .then(detours => new Detour(this.client, detours));
   }
 }
 
-export default Detours;
+export default Detour;
