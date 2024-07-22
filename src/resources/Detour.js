@@ -55,18 +55,12 @@ class Detour extends Resource {
    * @returns {Promise<Detour>} A promise that resolves to a hydrated instance of the Detour class, representing the newly created detour.
    */
   async create(data) {
-    const requestBody = {
-      patternId: data.patternId,
-      detourPatternId: data.detourPatternId,
-      title: data.title,
-      shouldMatchScheduledStops: data.shouldMatchScheduledStops,
-      startDateTime: data.startDateTime.toISOString(),
-      endDateTime: data.endDateTime.toISOString(),
-    };
-
-    return this.client.post(this.href, requestBody)
+    const body = data;
+    
+    const { client } = this;
+    return this.client.post(this.href, { body })
       .then(response => response.json())
-      .then(detours => new Detour(this.client, detours));
+      .then(detours => new Detour(client, detours));
   }
 }
 
