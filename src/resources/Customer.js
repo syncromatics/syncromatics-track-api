@@ -55,6 +55,7 @@ import VoipTicket from './VoipTicket';
 import VoipCallRecordsContext from "./VoipCallRecordsContext";
 import VoipCallRecord from "./VoipCallRecord";
 import TripCancelationBatch from "./TripCancelationBatch";
+import Detour from './Detour';
 
 /**
  * Customer resource
@@ -520,6 +521,14 @@ class Customer extends Resource {
    */
   tripCancelationBatch() {
     return this.resource(TripCancelationBatch, TripCancelationBatch.makeHref(this.code));
+  }
+
+  /**
+   * Gets a detour resource
+   * @returns {Detour} Detour resource
+   */
+  detours() {
+    return this.resource(Detour, Detour.makeHref(this.code));
   }
 
   /**
