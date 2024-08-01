@@ -63,6 +63,19 @@ class Incident extends Resource {
     return this.client.post(`${this.href}/dispose`, { body: dispositionType });
   }
 
+
+  /**
+   * Dispose an incident and all other uncleared incidents from the same vehicle.
+   * Additionally disposed-of incidents will include a note pointing back to the original emergency incident.
+   * Additionally disposed-of incidents will be marked the same as the original emergency incident's disposition type.
+   * @param {number|string} dispositionType Disposition of incident FalseAlarm or Cleared 
+   * @returns {Promise} If successful, indicates if the incident and all other uncleared incidents have been disposed
+   */
+  disposeAllIncidentsFromVehicle(dispositionType) {
+    return this.client.post(`${this.href}/disposeAllFromVehicle`, { body: dispositionType });
+
+  }
+
   /**
    * @deprecated use dispose() instead
    * Dispose an incident
