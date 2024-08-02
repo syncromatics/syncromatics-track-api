@@ -55,24 +55,17 @@ class Incident extends Resource {
   }
 
   /**
-   * Dispose an incident
+   * Dispose an incident or multiple incidents
    * @param {number|string} dispositionType Disposition of incident FalseAlarm or Cleared
-   * @returns {Promise} If successful, indicates if the incident has been disposed
+   * @param {string|string[]} incidentIds Single incident ID or array of incident IDs
+   * @returns {Promise} If successful, indicates if the incident(s) has been disposed
    */
-  dispose(dispositionType) {
+  dispose(dispositionType, incidentIds) {
+    if (Array.isArray(incidentIds)) {
+      return this.client.post(`/1/${this.customerCode}/incidents/dispose`, { body: { incidentIds, dispositionType } });
+    }
+    
     return this.client.post(`${this.href}/dispose`, { body: dispositionType });
-  }
-
-
-  /**
-   * Dispose an incident and all other uncleared incidents from the same vehicle.
-   * Additionally disposed-of incidents will include a note pointing back to the original emergency incident.
-   * Additionally disposed-of incidents will be marked the same as the original emergency incident's disposition type.
-   * @param {number|string} dispositionType Disposition of incident FalseAlarm or Cleared 
-   * @returns {Promise} If successful, indicates if the incident and all other uncleared incidents have been disposed
-   */
-  disposeAllIncidentsFromVehicle(dispositionType) {
-    return this.client.post(`${this.href}/disposeAllFromVehicle`, { body: dispositionType });
 
   }
 
