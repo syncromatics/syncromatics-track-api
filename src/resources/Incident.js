@@ -57,7 +57,7 @@ class Incident extends Resource {
   /**
    * Dispose an incident or multiple incidents
    * @param {number|string} dispositionType Disposition of incident FalseAlarm or Cleared
-   * @param {string|string[]} incidentIds Single incident ID or array of incident IDs
+   * @param {string|string[]} incidentIds Single incident ID or an array of incident IDs
    * @returns {Promise} If successful, indicates if the incident(s) has been disposed
    */
   dispose(dispositionType, incidentIds) {
