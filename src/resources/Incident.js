@@ -57,14 +57,14 @@ class Incident extends Resource {
   /**
    * Dispose an incident or multiple incidents
    * @param {number|string} dispositionType Disposition of incident FalseAlarm or Cleared
-   * @param {string|string[]} incidentIds Single incident ID or an array of incident IDs
+   * @param {string[]} [incidentIds] Optional array of *additional* incident IDs to dispose
    * @returns {Promise} If successful, indicates if the incident(s) has been disposed
    */
   dispose(dispositionType, incidentIds) {
-    if (Array.isArray(incidentIds)) {
+    if (Array.isArray(incidentIds) && incidentIds.length > 0) {
       return this.client.post(`${this.href}/disposeMultiple`, { body: { incidentIds, dispositionType } });
     }
-    
+
     return this.client.post(`${this.href}/dispose`, { body: dispositionType });
 
   }
