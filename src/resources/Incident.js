@@ -62,7 +62,7 @@ class Incident extends Resource {
    */
   dispose(dispositionType, incidentIds) {
     if (Array.isArray(incidentIds)) {
-      return this.client.post(`/1/${this.customerCode}/incidents/dispose`, { body: { incidentIds, dispositionType } });
+      return this.client.post(`${this.href}/disposeMultiple`, { body: { incidentIds, dispositionType } });
     }
     
     return this.client.post(`${this.href}/dispose`, { body: dispositionType });

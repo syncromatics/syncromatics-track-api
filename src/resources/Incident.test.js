@@ -77,7 +77,9 @@ describe('When disposing multiple incidents', () => {
   afterEach(fetchMock.restore);
   let promise;
   beforeEach(() => {
-    promise = new Incident(client, Incident.makeHref('SYNC', 1)).dispose('Cleared', [1, 2, 3]);
+    const primaryIncidentId = 1;
+    const additionalToDismissWithPrimary = [2, 3];
+    promise = new Incident(client, Incident.makeHref('SYNC', primaryIncidentId)).dispose('Cleared', additionalToDismissWithPrimary);
   });
 
   it('should resolve the promise', () => promise.should.be.fulfilled);
