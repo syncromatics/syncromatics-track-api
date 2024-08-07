@@ -9,7 +9,8 @@ const incidents = {
     fetchMock
       .post(client.resolve('/1/SYNC/incidents/1/claim'), singleResponse)
       .post(client.resolve('/1/SYNC/incidents/1/notes'), singleResponse)
-      .post(client.resolve('/1/SYNC/incidents/1/dispose'), singleResponse);
+      .post(client.resolve('/1/SYNC/incidents/1/dispose'), singleResponse)
+      .post(client.resolve('/1/SYNC/incidents/1/disposeMultiple'), singleResponse);
   },
   getById: id => incidents.list.find(v => v.id === id),
   list: [{

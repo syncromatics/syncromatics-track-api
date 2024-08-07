@@ -69,3 +69,18 @@ describe('When disposing an incident', () => {
     return promise.should.be.fulfilled;
   });
 });
+
+describe('When disposing multiple incidents', () => {
+  const client = new Client();
+  beforeEach(() => mockIncidents.setUpSuccessfulMock(client));
+  beforeEach(() => fetchMock.catch(503));
+  afterEach(fetchMock.restore);
+  let promise;
+  beforeEach(() => {
+    const primaryIncidentId = 1;
+    const additionalToDismissWithPrimary = [2, 3];
+    promise = new Incident(client, Incident.makeHref('SYNC', primaryIncidentId)).dispose('Cleared', additionalToDismissWithPrimary);
+  });
+
+  it('should resolve the promise', () => promise.should.be.fulfilled);
+});
