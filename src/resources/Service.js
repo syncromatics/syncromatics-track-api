@@ -3,7 +3,6 @@ import Block from './Block';
 import Run from './Run';
 import Trip from './Trip';
 
-
 /**
  * Service resource
  */
@@ -31,11 +30,11 @@ class Service extends Resource {
     super(client);
 
     const newProperties = Object.assign({}, ...rest);
-    const hydrated = !Object.keys(newProperties).every(k => k === 'href');
+    const hydrated = !Object.keys(newProperties).every((k) => k === 'href');
     const references = {
-      blocks: newProperties.blocks && newProperties.blocks.map(b => new Block(this.client, b)),
-      runs: newProperties.runs && newProperties.runs.map(r => new Run(this.client, r)),
-      trips: newProperties.trips && newProperties.trips.map(t => new Trip(this.client, t)),
+      blocks: newProperties.blocks && newProperties.blocks.map((b) => new Block(this.client, b)),
+      runs: newProperties.runs && newProperties.runs.map((r) => new Run(this.client, r)),
+      trips: newProperties.trips && newProperties.trips.map((t) => new Trip(this.client, t)),
     };
 
     Object.assign(this, newProperties, {
@@ -48,11 +47,12 @@ class Service extends Resource {
    * Makes a href for a given customer code and ID
    * @param {string} customerCode Customer code
    * @param {Number} id Service ID
+   * @param {Boolean} [includeDetours=false] Include detours in the response (optional)
    * @returns {{href: string}} URI to instance of Service
    */
-  static makeHref(customerCode, id) {
+  static makeHref(customerCode, id, includeDetours = false) {
     return {
-      href: `/1/${customerCode}/services/${id}`,
+      href: `/1/${customerCode}/services/${id}?includeDetours=${includeDetours}`,
     };
   }
 
@@ -61,9 +61,10 @@ class Service extends Resource {
    * @returns {Promise} If successful, a hydrated instance of this Service
    */
   fetch() {
-    return this.client.get(this.href)
-      .then(response => response.json())
-      .then(service => new Service(this.client, this, service));
+    return this.client
+      .get(this.href)
+      .then((response) => response.json())
+      .then((service) => new Service(this.client, this, service));
   }
 }
 
