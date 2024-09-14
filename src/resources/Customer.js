@@ -438,11 +438,10 @@ class Customer extends Resource {
   /**
    * Gets a Service resource by ID
    * @param {Number} id Identity of the service
-   * @param {Boolean} includeDetours Package trips reflect active detours instead of the regular service
    * @returns {Service} Service resource
    */
-  service(id, includeDetours = false) {
-    return this.resource(Service, Service.makeHref(this.code, id, includeDetours));
+  service(id) {
+    return this.resource(Service, Service.makeHref(this.code, id));
   }
 
   /**
