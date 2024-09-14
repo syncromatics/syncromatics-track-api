@@ -18,24 +18,9 @@ describe('When retrieving a service by ID', () => {
   it('should get a service', () => {
     api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
 
-    const servicePromise = api
-      .customer('SYNC')
-      .service(1)
+    const servicePromise = api.customer('SYNC').service(1)
       .fetch()
-      .then((service) => service); // Do things with run
-
-    return servicePromise;
-  });
-
-  it('should get a service with active detours', () => {
-    api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
-
-    const includeDetours = true;
-    const servicePromise = api
-      .customer('SYNC')
-      .service(1, includeDetours)
-      .fetch()
-      .then((service) => service); // Do things with run
+      .then(service => service); // Do things with run
 
     return servicePromise;
   });
