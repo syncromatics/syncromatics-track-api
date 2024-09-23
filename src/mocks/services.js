@@ -4,9 +4,11 @@ import Client from '../Client';
 
 const services = {
   setUpSuccessfulMock: (client) => {
-    const singleResponse = () => new Response(Client.toBlob(services.getById(1)));
+    const singleDefaultResponse = () => new Response(Client.toBlob(services.getById(1)));
     fetchMock
-      .get(client.resolve('/1/SYNC/services/1'), singleResponse);
+        .get(client.resolve('/1/SYNC/services/1'), singleDefaultResponse)
+        .get(client.resolve('/1/SYNC/services/1?includeDetours=false'), singleDefaultResponse)
+        .get(client.resolve('/1/SYNC/services/1?includeDetours=true'), singleDefaultResponse);
   },
   getById: id => services.list.find(s => s.id === id),
   list: [
