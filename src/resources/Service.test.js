@@ -12,7 +12,7 @@ describe('When instantiating a service based on customer and ID', () => {
   const client = new Client();
   const service = new Service(client, Service.makeHref('SYNC', 1));
 
-  it('should set the href', () => service.href.should.equal('/1/SYNC/services/1'));
+  it('should set the href', () => service.href.should.equal('/1/SYNC/services/1?includeDetours=false'));
   it('should not be hydrated', () => service.hydrated.should.equal(false));
 });
 
