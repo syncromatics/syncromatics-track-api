@@ -104,4 +104,34 @@ describe('When retrieving a pattern by ID', () => {
 
     return patternsPromise;
   });
+
+  it('should get a pattern with expanded stops', () => {
+    api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
+
+    const patternsPromise = api.customer('SYNC').pattern(1, { expandStops: true })
+      .fetch()
+      .then(pattern => pattern); // Do things with pattern
+
+    return patternsPromise;
+  });
+
+  it('should get a pattern with expanded route', () => {
+    api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
+
+    const patternsPromise = api.customer('SYNC').pattern(1, { expandRoute: true })
+      .fetch()
+      .then(pattern => pattern); // Do things with pattern
+
+    return patternsPromise;
+  });
+
+  it('should get a pattern with expanded stops and route', () => {
+    api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
+
+    const patternsPromise = api.customer('SYNC').pattern(1, { expandStops: true, expandRoute: true })
+      .fetch()
+      .then(pattern => pattern); // Do things with pattern
+
+    return patternsPromise;
+  });
 });
