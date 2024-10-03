@@ -29,7 +29,10 @@ const patterns = {
       .get(client.resolve('/1/SYNC/patterns?page=1&per_page=10&enabled_for_operations=true&as_of=2018-03-05T00%3A00%3A00.000Z&sort='), listResponse)
       .get(client.resolve('/1/SYNC/patterns?page=1&per_page=10&expand=stops&sort='), listResponseWithStops)
       .get(client.resolve('/1/SYNC/patterns?page=1&per_page=10&expand=stops&enabled_for_operations=true&as_of=2018-03-05T00%3A00%3A00.000Z&sort='), listResponseWithStops)
-      .get(client.resolve('/1/SYNC/patterns/1'), singleResponse);
+      .get(client.resolve('/1/SYNC/patterns/1'), singleResponse)
+      .get(client.resolve('/1/SYNC/patterns/1?expand=stops'), singleResponse)
+      .get(client.resolve('/1/SYNC/patterns/1?expand=route'), singleResponse)
+      .get(client.resolve('/1/SYNC/patterns/1?expand=stops,route'), singleResponse);
   },
   getById: id => patterns.list
     .map(p => ({ ...p,

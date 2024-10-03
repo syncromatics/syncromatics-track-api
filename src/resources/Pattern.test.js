@@ -46,3 +46,25 @@ describe('When fetching a pattern based on customer and ID', () => {
   it('should have six stops', () => promise.then(p => p.stops.length).should.eventually.equal(6));
   it('should have the expected route', () => promise.then(p => p.route.href).should.eventually.equal('/1/SYNC/routes/1'));
 });
+
+describe('When fetching a pattern with expanded options that is based on customer and ID', () => {
+  it('should generate href with expand stops', () => {
+    const href = Pattern.makeHref('SYNC', 1, { expandStops: true }).href;
+    href.should.equal('/1/SYNC/patterns/1?expand=stops');
+  });
+
+  it('should generate href with expand route', () => {
+    const href = Pattern.makeHref('SYNC', 1, { expandRoute: true }).href;
+    href.should.equal('/1/SYNC/patterns/1?expand=route');
+  });
+
+  it('should generate href with expand stops and route', () => {
+    const href = Pattern.makeHref('SYNC', 1, { expandStops: true, expandRoute: true }).href;
+    href.should.equal('/1/SYNC/patterns/1?expand=stops,route');
+  });
+
+  it('should generate href without expand options', () => {
+    const href = Pattern.makeHref('SYNC', 1).href;
+    href.should.equal('/1/SYNC/patterns/1');
+  });
+});

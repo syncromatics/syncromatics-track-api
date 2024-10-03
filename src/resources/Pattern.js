@@ -40,11 +40,19 @@ class Pattern extends Resource {
    * Makes a href for a given customer code and ID
    * @param {string} customerCode Customer code
    * @param {Number} id Pattern ID
+   * @param {Object} [options] Options for expanding the pattern
+   * @param {boolean} [options.expandStops] Expand stops
+   * @param {boolean} [options.expandRoute] Expand route
    * @returns {string} URI to instance of pattern
    */
-  static makeHref(customerCode, id) {
+  static makeHref(customerCode, id, options) {
+    const { expandStops, expandRoute} = options || {};
+    const expanded = [
+      expandStops && 'stops',
+      expandRoute && 'route',
+    ].filter(Boolean).join(',');
     return {
-      href: `/1/${customerCode}/patterns/${id}`,
+      href: `/1/${customerCode}/patterns/${id}${expanded ? `?expand=${expanded}` : ''}`,
     };
   }
 
