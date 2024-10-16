@@ -16,17 +16,19 @@ const stops = {
         Location: '/1/SYNC/stops/1',
       },
     });
+    const nearbyResponse = () => new Response(Client.toBlob(stops.list));
     const putResponse = () => new Response(undefined, {
       headers: {
         Location: '/1/SYNC/stops/1',
       },
     });
-
+   
     fetchMock
-      .get(client.resolve('/1/SYNC/stops?page=1&per_page=10&q=1st&sort='), listResponse)
-      .get(client.resolve('/1/SYNC/stops/1'), singleResponse)
-      .post(client.resolve('/1/SYNC/stops'), postResponse)
-      .put(client.resolve('/1/SYNC/stops/1'), putResponse);
+        .get(client.resolve('/1/SYNC/stops?page=1&per_page=10&q=1st&sort='), listResponse)
+        .get(client.resolve('/1/SYNC/stops/1'), singleResponse)
+        .post(client.resolve('/1/SYNC/stops'), postResponse)
+        .get(client.resolve('/1/SYNC/stops/nearby?latitude=40.7128&longitude=-74.006&distanceRadius=200'), nearbyResponse)
+        .put(client.resolve('/1/SYNC/stops/1'), putResponse);
   },
   getById: id => stops.list.find(v => v.id === id),
   list: [{
