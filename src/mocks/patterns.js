@@ -13,6 +13,29 @@ const patterns = {
           Link: '</1/SYNC/patterns?page=1&per_page=10&q=blue&sort=>; rel="next", </1/SYNC/patterns?page=1&per_page=10&q=blue&sort=>; rel="last"',
         },
       });
+    const createDetourPatternResponse = () => new Response(Client.toBlob({
+      "insertedPatternId": 26261,
+      "insertedLocationIds": [
+        1694854
+      ],
+      "insertedStopIds": [
+        10292888,
+        10292889
+      ],
+      "insertedStopSetStopIds": [
+        10709273,
+        10709274,
+        10709275
+      ],
+      "existingStopIds": [
+        9329875
+      ]
+    }), {
+          headers: {
+            Link: '/1/SYNC/patterns/detour"',
+          },
+        });
+    
     const listResponseWithStops = () => new Response(
       Client.toBlob(patterns.list.map(pattern => ({
         ...pattern,
@@ -25,14 +48,15 @@ const patterns = {
     const singleResponse = () => new Response(Client.toBlob(patterns.getById(1)));
 
     fetchMock
-      .get(client.resolve('/1/SYNC/patterns?page=1&per_page=10&q=blue&sort='), listResponse)
-      .get(client.resolve('/1/SYNC/patterns?page=1&per_page=10&enabled_for_operations=true&as_of=2018-03-05T00%3A00%3A00.000Z&sort='), listResponse)
-      .get(client.resolve('/1/SYNC/patterns?page=1&per_page=10&expand=stops&sort='), listResponseWithStops)
-      .get(client.resolve('/1/SYNC/patterns?page=1&per_page=10&expand=stops&enabled_for_operations=true&as_of=2018-03-05T00%3A00%3A00.000Z&sort='), listResponseWithStops)
-      .get(client.resolve('/1/SYNC/patterns/1'), singleResponse)
-      .get(client.resolve('/1/SYNC/patterns/1?expand=stops'), singleResponse)
-      .get(client.resolve('/1/SYNC/patterns/1?expand=route'), singleResponse)
-      .get(client.resolve('/1/SYNC/patterns/1?expand=stops,route'), singleResponse);
+        .get(client.resolve('/1/SYNC/patterns?page=1&per_page=10&q=blue&sort='), listResponse)
+        .get(client.resolve('/1/SYNC/patterns?page=1&per_page=10&enabled_for_operations=true&as_of=2018-03-05T00%3A00%3A00.000Z&sort='), listResponse)
+        .get(client.resolve('/1/SYNC/patterns?page=1&per_page=10&expand=stops&sort='), listResponseWithStops)
+        .get(client.resolve('/1/SYNC/patterns?page=1&per_page=10&expand=stops&enabled_for_operations=true&as_of=2018-03-05T00%3A00%3A00.000Z&sort='), listResponseWithStops)
+        .get(client.resolve('/1/SYNC/patterns/1'), singleResponse)
+        .get(client.resolve('/1/SYNC/patterns/1?expand=stops'), singleResponse)
+        .get(client.resolve('/1/SYNC/patterns/1?expand=route'), singleResponse)
+        .get(client.resolve('/1/SYNC/patterns/1?expand=stops,route'), singleResponse)
+        .post(client.resolve('/1/SYNC/patterns/detour'), createDetourPatternResponse);
   },
   getById: id => patterns.list
     .map(p => ({ ...p,
