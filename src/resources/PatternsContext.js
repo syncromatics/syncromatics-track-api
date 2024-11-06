@@ -99,7 +99,7 @@ class PatternsContext extends PagedContext {
 
   /**
    * Creates a new detour pattern along with child elements, if applicable (stops, waypoints, etc.)
-   * @param {Object} createDetourPattern The pattern and stop data to be sent in the request body
+   * @param {Object} patternPayload The pattern and stop data to be sent in the request body
    * @returns {Promise} If successful, the created Pattern object
    */
   createDetourPattern(patternPayload) {
