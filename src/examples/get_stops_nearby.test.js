@@ -19,10 +19,10 @@ describe('When retrieving nearby stops', () => {
 
     const latitude = 40.7128;
     const longitude = -74.0060;
-    const distanceRadius = 200; // in meters
+    const distanceMeters = 200;
 
     const stopsNearbyPromise = api.customer('SYNC').stops()
-        .getNearby(latitude, longitude, distanceRadius)
+        .getNearby(latitude, longitude, distanceMeters)
         .then(stops => stops); // Do things with list of stops
 
     return stopsNearbyPromise;

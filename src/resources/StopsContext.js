@@ -44,8 +44,8 @@ class StopsContext extends PagedContext {
     return this.page(Stop, `/1/${this.code}/stops`);
   }
 
-  getNearby(latitude, longitude, distanceRadius) {
-    const url = `/1/${this.code}/stops/nearby?latitude=${latitude}&longitude=${longitude}&distance=${distanceRadius}`;
+  getNearby(latitude, longitude, distanceMeters) {
+    const url = `/1/${this.code}/stops?latitude=${latitude}&longitude=${longitude}&distanceMeters=${distanceMeters}`;
     return this.client.get(url)
         .then(response => response.json())
         .then(data => data.map(item => new Stop(this.client, item)));
