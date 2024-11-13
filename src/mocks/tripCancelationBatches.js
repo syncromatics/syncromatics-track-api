@@ -9,15 +9,15 @@ const tripCancelationBatches = {
         const fetchByIdResponse = () => new Response(Client.toBlob(tripCancelationBatches.response.cancelations[0]));
 
         fetchMock
-            .get(client.resolve('/1/SYNC/serviceadjustments/tripcancelations'), fetchResponse)
-            .post(client.resolve('/1/SYNC/serviceadjustments/tripcancelations'), createResponse)
-            .get(client.resolve('/1/SYNC/serviceadjustments/tripcancelation/1'), fetchByIdResponse)
+            .get(client.resolve('/2/SYNC/serviceadjustments/tripcancelations'), fetchResponse)
+            .post(client.resolve('/2/SYNC/serviceadjustments/tripcancelations'), createResponse)
+            .get(client.resolve('/2/SYNC/serviceadjustments/tripcancelation/1'), fetchByIdResponse)
     },
     getById: id => tripCancelationBatches.response.cancelations.find(v => v.id === id),
     response: {
         cancelations:
             [{
-                href: "/1/SYNC/serviceadjustments/tripcancelation/1",
+                href: "/2/SYNC/serviceadjustments/tripcancelation/1",
                 id: 1,
                 tripId: 4498693,
                 customerId: 1,
@@ -27,7 +27,7 @@ const tripCancelationBatches = {
                 userId: 3313
             },
             {
-                href: "/1/SYNC/serviceadjustments/tripcancelation/2",
+                href: "/2/SYNC/serviceadjustments/tripcancelation/2",
                 id: 2,
                 tripId: 4498691,
                 customerId: 1,
