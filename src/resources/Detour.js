@@ -27,7 +27,7 @@ class Detour extends Resource {
    */
   static makeHref(customerCode) {
     return {
-      href: `/1/${customerCode}/serviceadjustments/detours`,
+      href: `/2/${customerCode}/serviceadjustments/detours`,
     };
   }
 
