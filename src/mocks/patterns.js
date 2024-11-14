@@ -14,27 +14,7 @@ const patterns = {
         },
       });
     const createDetourPatternResponse = () => new Response(Client.toBlob({
-      "insertedPatternId": 26261,
-      "insertedLocationIds": [
-        1694854
-      ],
-      "insertedStopIds": [
-        10292888,
-        10292889
-      ],
-      "insertedStopSetStopIds": [
-        10709273,
-        10709274,
-        10709275
-      ],
-      "existingStopIds": [
-        9329875
-      ]
-    }), {
-          headers: {
-            Link: '/1/SYNC/patterns/detour"',
-          },
-        });
+      "href": "/1/{customerCode}/patterns/1"}));
     
     const listResponseWithStops = () => new Response(
       Client.toBlob(patterns.list.map(pattern => ({
