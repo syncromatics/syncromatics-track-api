@@ -27,7 +27,7 @@ const stops = {
         .get(client.resolve('/1/SYNC/stops?page=1&per_page=10&q=1st&sort='), listResponse)
         .get(client.resolve('/1/SYNC/stops/1'), singleResponse)
         .post(client.resolve('/1/SYNC/stops'), postResponse)
-        .get(client.resolve('/1/SYNC/stops/nearby?latitude=40.7128&longitude=-74.006&distance=200'), nearbyResponse)
+        .get(client.resolve('/1/SYNC/stops?latitude=40.7128&longitude=-74.006&distanceMeters=200'), nearbyResponse)
         .put(client.resolve('/1/SYNC/stops/1'), putResponse);
   },
   getById: id => stops.list.find(v => v.id === id),
