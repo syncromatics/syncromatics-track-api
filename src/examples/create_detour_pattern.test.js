@@ -27,7 +27,7 @@ describe('When creating a new detour pattern', () => {
           "latitude": 34.052235,
           "longitude": -118.243683,
           "name": "Stop 1 - Downtown",
-          "isStop": true, //set to true
+          "isStop": true,
           "wheelchairBoarding": true,
           "order": 0
         },
