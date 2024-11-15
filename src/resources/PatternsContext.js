@@ -109,7 +109,7 @@ class PatternsContext extends PagedContext {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(patternPayload),
+      body: patternPayload,
     })
         .then(response => response.json())
         .then(data => new Pattern(this.client, data));
