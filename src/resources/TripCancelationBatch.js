@@ -29,7 +29,7 @@ class TripCancelationBatch extends Resource {
      */
     static makeHref(customerCode) {
         return {
-            href: `/1/${customerCode}/serviceadjustments/tripcancelations`,
+            href: `/2/${customerCode}/serviceadjustments/tripcancelations`,
             code: customerCode,
         };
     }
@@ -50,7 +50,7 @@ class TripCancelationBatch extends Resource {
      */
     create() {
         const {client, hydrated, customerCode, ...body} = this;
-        return this.client.post(`/1/${this.customerCode}/serviceadjustments/tripcancelations`, {body})
+        return this.client.post(`/2/${this.customerCode}/serviceadjustments/tripcancelations`, {body})
             .then(response => response.json())
             .then(cancelations => new TripCancelationBatch(this.client, {...this, ...cancelations}));
     }

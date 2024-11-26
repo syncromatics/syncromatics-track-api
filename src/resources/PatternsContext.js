@@ -98,6 +98,24 @@ class PatternsContext extends PagedContext {
   }
 
   /**
+   * Creates a new detour pattern along with child elements, if applicable (stops, waypoints, etc.)
+   * @param {Object} patternPayload The pattern and stop data to be sent in the request body
+   * @returns {Promise} If successful, the created Pattern object
+   */
+  createDetourPattern(patternPayload) {
+    const url = `/1/${this.code}/patterns/detour`;
+    return this.client.post(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: patternPayload,
+    })
+        .then(response => response.json())
+        .then(data => new Pattern(this.client, data));
+  }
+
+  /**
    * Gets the first page of results for this context
    * @returns {Promise} If successful, a page of Pattern objects
    * @see Pattern
@@ -106,5 +124,6 @@ class PatternsContext extends PagedContext {
     return this.page(Pattern, `/1/${this.code}/patterns`);
   }
 }
+
 
 export default PatternsContext;

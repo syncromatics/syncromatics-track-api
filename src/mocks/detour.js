@@ -7,9 +7,9 @@ const detours = {
         const singleResponse = () => new Response(Client.toBlob(detours.response));
 
         fetchMock
-            .get(client.resolve('/1/SYNC/serviceadjustments/detours'), singleResponse)
-            .post(client.resolve('/1/SYNC/serviceadjustments/detours'), () => singleResponse())
-            .delete(client.resolve(`/1/SYNC/serviceadjustments/detours/2`), () => singleResponse())
+            .get(client.resolve('/2/SYNC/serviceadjustments/detours'), singleResponse)
+            .post(client.resolve('/2/SYNC/serviceadjustments/detours'), () => singleResponse())
+            .delete(client.resolve(`/2/SYNC/serviceadjustments/detours/2`), () => singleResponse())
     },
     response: {
         client: {
