@@ -98,7 +98,7 @@ class PatternsContext extends PagedContext {
   }
 
   getPatternForSyncRouteEditor(patternId) {
-    const url = `/1/SYNC/patterns/editor/${patternId}`;
+    const url = `/1/${this.code}/patterns/editor/${patternId}`;
     return this.client.get(url)
         .then(response => response.json())
         .then(data => new Pattern(this.client, data));
