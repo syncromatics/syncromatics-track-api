@@ -21,13 +21,28 @@ class Detour extends Resource {
 
   /**
    * Fetches historical detours for a given customer.
-   * @param {Client} client Instance of pre-configured client
-   * @param {string} customerCode - The customer code.
+   * @param {Date} [startDate] - Optional start date to filter detours from (the date any applicable detours started)
+   * @param {Date} [endDate] - Optional end date to filter detours to (the date any applicable detours started)
    * @returns {Promise<Array<Detour>>} A promise that resolves to an array of historical detours.
    */
-  static async getHistoricalDetours(client, customerCode) {
-    const endpoint = `/2/${customerCode}/serviceadjustments/detours/historical`;
-    return this.client.get(endpoint)
+  async getHistoricalDetours(startDate, endDate) {
+    const customerCode = this.href.split('/')[2]; // Extract customer code from href
+    let endpoint = `/2/${customerCode}/serviceadjustments/detours/historical`;
+    
+    const params = [];
+    if (startDate instanceof Date) {
+      params.push(`startDate=${encodeURIComponent(startDate.toISOString())}`);
+    }
+    if (endDate instanceof Date) {
+      params.push(`endDate=${encodeURIComponent(endDate.toISOString())}`);
+    }
+
+    if (params.length > 0) {
+      endpoint += `?${params.join('&')}`;
+    }
+
+    const { client } = this;
+    return client.get(endpoint)
       .then(response => response.json())
       .then(detours => detours.map(detour => new Detour(client, detour)));
   }
