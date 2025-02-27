@@ -20,6 +20,19 @@ class Detour extends Resource {
   }
 
   /**
+   * Fetches historical detours for a given customer.
+   * @param {Client} client Instance of pre-configured client
+   * @param {string} customerCode - The customer code.
+   * @returns {Promise<Array<Detour>>} A promise that resolves to an array of historical detours.
+   */
+  static async getHistoricalDetours(client, customerCode) {
+    const endpoint = `/2/${customerCode}/serviceadjustments/detours/historical`;
+    return this.client.get(endpoint)
+      .then(response => response.json())
+      .then(detours => detours.map(detour => new Detour(client, detour)));
+  }
+
+  /**
    * Makes a href for a given customer code and detour id
    * @param {string} customerCode Customer code
    * @param {number} id Detour ID
@@ -43,7 +56,7 @@ class Detour extends Resource {
 
   /**
    * Create a new detour for a customer via the client.
-   * 
+   *
    * @param {Object} data - The data object for creating a new detour.
    * @param {number} data.patternId - The ID of the pattern associated with this detour.
    * @param {number} data.detourPatternId - The ID of the detour pattern.
