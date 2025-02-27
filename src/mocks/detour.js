@@ -12,6 +12,9 @@ const detours = {
             .get(client.resolve('/2/SYNC/serviceadjustments/detours/historical'), historicalResponse)
             .get(client.resolve('/2/SYNC/serviceadjustments/detours/historical?startDate=2024-01-01T00:00:00.000Z'), historicalResponse)
             .get(client.resolve('/2/SYNC/serviceadjustments/detours/historical?startDate=2024-01-01T00:00:00.000Z&endDate=2024-02-01T00:00:00.000Z'), historicalResponse)
+            .get(client.resolve('/2/SYNC/serviceadjustments/detours/historical?includeDeactivated=true'), historicalResponse)
+            .get(client.resolve('/2/SYNC/serviceadjustments/detours/historical?startDate=2024-01-01T00:00:00.000Z&includeDeactivated=true'), historicalResponse)
+            .get(client.resolve('/2/SYNC/serviceadjustments/detours/historical?startDate=2024-01-01T00:00:00.000Z&endDate=2024-02-01T00:00:00.000Z&includeDeactivated=true'), historicalResponse)
             .post(client.resolve('/2/SYNC/serviceadjustments/detours'), () => singleResponse())
             .delete(client.resolve(`/2/SYNC/serviceadjustments/detours/2`), () => singleResponse())
     },
