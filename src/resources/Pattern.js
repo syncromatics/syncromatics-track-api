@@ -26,14 +26,21 @@ class Pattern extends Resource {
 
     const newProperties = Object.assign({}, ...rest);
     const hydrated = !Object.keys(newProperties).every(k => k === 'href');
-    const references = {
-      route: newProperties.route && new Route(this.client, newProperties.route),
-    };
+
+    const references = {};
+    if (newProperties.route) {
+      references.route = new Route(this.client, newProperties.route);
+    }
 
     Object.assign(this, newProperties, {
       hydrated,
       ...references,
     });
+
+    // Ensure 'route' is completely removed if it's null or empty
+    if (!this.route) {
+      delete this.route;
+    }
   }
 
   /**

@@ -97,6 +97,13 @@ class PatternsContext extends PagedContext {
     return this;
   }
 
+  getPatternForSyncRouteEditor(patternId) {
+    const url = `/1/${this.code}/patterns/editor/${patternId}`;
+    return this.client.get(url)
+        .then(response => response.json())
+        .then(data => new Pattern(this.client, data));
+  }
+
   /**
    * Creates a new detour pattern along with child elements, if applicable (stops, waypoints, etc.)
    * @param {Object} patternPayload The pattern and stop data to be sent in the request body

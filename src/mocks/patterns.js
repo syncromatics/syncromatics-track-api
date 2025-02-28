@@ -13,6 +13,77 @@ const patterns = {
           Link: '</1/SYNC/patterns?page=1&per_page=10&q=blue&sort=>; rel="next", </1/SYNC/patterns?page=1&per_page=10&q=blue&sort=>; rel="last"',
         },
       });
+
+
+    const getPatternForSyncRouteEditorResponse = () => new Response(Client.toBlob(
+      {
+        "patternId": 1,
+        "customerId": 1,
+        "name": "Playa Short Loop South",
+        "shortName": "Playa Short Loop South",
+        "length": 5.0,
+        "color": "#2BFF4F",
+        "textColor": "#171717",
+        "isPublic": true,
+        "enabledForOperations": true,
+        "encodedPolyline": "ssfnEbtzqUqCdByAiEIaBc@aCk@yAxAmAp@AdEI`EdAu@~E^tAyBtAq@d@",
+        "description": "Playa Short Loop South",
+        "controlPoints": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "stops": [
+          {
+            "stopId": 4102770,
+            "stopOrder": 0,
+            "waypointOrder": 0,
+            "isTimepoint": true,
+            "distanceAlongLine": 0.0
+          },
+          {
+            "stopId": 4102771,
+            "stopOrder": 1,
+            "waypointOrder": 3,
+            "isTimepoint": true,
+            "distanceAlongLine": 245.5316588466202
+          },
+          {
+            "stopId": 4102772,
+            "stopOrder": 2,
+            "waypointOrder": 6,
+            "isTimepoint": true,
+            "distanceAlongLine": 418.48256470210265
+          },
+          {
+            "stopId": 4102774,
+            "stopOrder": 3,
+            "waypointOrder": 8,
+            "isTimepoint": true,
+            "distanceAlongLine": 556.4922568924719
+          },
+          {
+            "stopId": 4102773,
+            "stopOrder": 4,
+            "waypointOrder": 10,
+            "isTimepoint": true,
+            "distanceAlongLine": 776.9836166999818
+          }
+        ]
+      }
+    ));
+
     const createDetourPatternResponse = () => new Response(Client.toBlob({
       "href": "/1/{customerCode}/patterns/1"}));
     
@@ -36,6 +107,7 @@ const patterns = {
         .get(client.resolve('/1/SYNC/patterns/1?expand=stops'), singleResponse)
         .get(client.resolve('/1/SYNC/patterns/1?expand=route'), singleResponse)
         .get(client.resolve('/1/SYNC/patterns/1?expand=stops,route'), singleResponse)
+        .get(client.resolve('/1/SYNC/patterns/editor/1'), getPatternForSyncRouteEditorResponse())
         .post(client.resolve('/1/SYNC/patterns/detour'), createDetourPatternResponse);
   },
   getById: id => patterns.list
