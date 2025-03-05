@@ -25,9 +25,10 @@ class Detour extends Resource {
    * @param {Date} [withStartUntil] - Optional end date to filter detours to (the date any applicable detours started)
    * @param {boolean} [includeDeactivated=false] - Optional flag to include deactivated detours in the response
    * @param {boolean} [expandDetails=false] - Optional flag to include expanded details in the response
+   * @param {number} [count] - Optional number of detours to return. Null or zero will return all applicable detours
    * @returns {Promise<Array<Detour>>} A promise that resolves to an array of historical detours.
    */
-  async getHistoricalDetours(withStartFrom, withStartUntil, includeDeactivated, expandDetails) {
+  async getHistoricalDetours(withStartFrom, withStartUntil, includeDeactivated, expandDetails,count) {
     const customerCode = this.href.split('/')[2]; // Extract customer code from href
     let endpoint = `/2/${customerCode}/serviceadjustments/detours/historical`;
     
@@ -43,6 +44,9 @@ class Detour extends Resource {
     }
     if (expandDetails) {
       params.push('expandDetails=true');
+    }
+    if(count && count > 0){
+      params.push(`count=${count}`);
     }
     if (params.length > 0) {
       endpoint += `?${params.join('&')}`;
