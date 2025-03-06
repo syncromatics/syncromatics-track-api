@@ -21,23 +21,23 @@ class Detour extends Resource {
 
   /**
    * Fetches historical detours for a given customer.
-   * @param {Date} [withStartFrom] - Optional start date to filter detours from (the date any applicable detours started)
-   * @param {Date} [withStartUntil] - Optional end date to filter detours to (the date any applicable detours started)
+   * @param {Date} [from] - Optional timeframe in which to search for detours
+   * @param {Date} [until] - Optional timeframe in which to search for detours
    * @param {boolean} [includeDeactivated=false] - Optional flag to include deactivated detours in the response
    * @param {boolean} [expandDetails=false] - Optional flag to include expanded details in the response
    * @param {number} [count] - Optional number of detours to return. Null or zero will return all applicable detours
    * @returns {Promise<Array<Detour>>} A promise that resolves to an array of historical detours.
    */
-  async getHistoricalDetours(withStartFrom, withStartUntil, includeDeactivated, expandDetails,count) {
+  async getHistoricalDetours(from, until, includeDeactivated, expandDetails,count) {
     const customerCode = this.href.split('/')[2]; // Extract customer code from href
     let endpoint = `/2/${customerCode}/serviceadjustments/detours/historical`;
     
     const params = [];
-    if (withStartFrom instanceof Date) {
-      params.push(`startDate=${encodeURIComponent(withStartFrom.toISOString())}`);
+    if (from instanceof Date) {
+      params.push(`from=${encodeURIComponent(from.toISOString())}`);
     }
-    if (withStartUntil instanceof Date) {
-      params.push(`endDate=${encodeURIComponent(withStartUntil.toISOString())}`);
+    if (until instanceof Date) {
+      params.push(`until=${encodeURIComponent(until.toISOString())}`);
     }
     if (includeDeactivated) {
       params.push('includeDeactivated=true');
