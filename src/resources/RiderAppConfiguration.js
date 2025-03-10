@@ -12,7 +12,6 @@ class RiderAppConfiguration extends Resource {
    */
   constructor(client, ...rest) {
     super(client);
-
     const newProperties = Object.assign({}, ...rest);
     const hydrated = !Object.keys(newProperties).every(k => k === 'href' || k === 'code');
 
