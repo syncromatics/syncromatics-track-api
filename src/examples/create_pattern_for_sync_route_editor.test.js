@@ -25,7 +25,6 @@ describe('When getting a pattern for use in the Sync route editor', () => {
         .getPatternForSyncRouteEditor(1)
         .then(getPatternResponse => {
           getPatternResponse.should.be.an('object');
-          // todo: flesh this out after payload shape is confirmed
         });
     return getPatternForSyncRouteEditorPromise;
   });
