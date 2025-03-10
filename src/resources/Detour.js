@@ -10,8 +10,8 @@ class Detour extends Resource {
    */
   constructor(client, ...rest) {
     super(client);
-
-    const newProperties = Object.assign({}, ...rest);
+    const { code, ...newProperties } = rest;
+    this.customerCode = code;
     const hydrated = !Object.keys(newProperties).every(k => k === 'href' || k === 'code');
 
     Object.assign(this, newProperties, {
@@ -20,7 +20,7 @@ class Detour extends Resource {
   }
 
   /**
-   * Fetches historical detours for a given customer.
+   * Fetches historical detours for a given customer (active during specified timeframe).
    * @param {Date} [from] - Optional timeframe in which to search for detours
    * @param {Date} [until] - Optional timeframe in which to search for detours
    * @param {boolean} [includeDeactivated=false] - Optional flag to include deactivated detours in the response
@@ -29,9 +29,9 @@ class Detour extends Resource {
    * @returns {Promise<Array<Detour>>} A promise that resolves to an array of historical detours.
    */
   async getHistoricalDetours(from, until, includeDeactivated, expandDetails,count) {
-    const customerCode = this.href.split('/')[2]; // Extract customer code from href
+    const { customerCode, client } = this;
+
     let endpoint = `/2/${customerCode}/serviceadjustments/detours/historical`;
-    
     const params = [];
     if (from instanceof Date) {
       params.push(`from=${encodeURIComponent(from.toISOString())}`);
@@ -52,7 +52,6 @@ class Detour extends Resource {
       endpoint += `?${params.join('&')}`;
     }
 
-    const { client } = this;
     return client.get(endpoint)
       .then(response => response.json())
       .then(detours => detours.map(detour => new Detour(client, detour)));
