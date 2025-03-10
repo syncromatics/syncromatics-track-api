@@ -14,6 +14,57 @@ import RolesContext from './RolesContext';
 chai.should();
 chai.use(chaiAsPromised);
 
+describe('When unsuccessfully authenticating with the Track API client', () => {
+  const api = new Track();
+  beforeEach(() => {
+    fetchMock
+      .post(api.client.resolve('/1/login'), () => new Response(Client.toBlob('', s => s, 'text/plain'), { status: 403 }))
+      .post(api.client.resolve('/1/login/renew'), () => new Response(Client.toBlob('', s => s, 'text/plain'), { status: 403 }))
+      .catch(503);
+  });
+  afterEach(fetchMock.restore);
+
+  it('should fail to log in with a token', () => {
+    const promise = api.logIn({ token: 'whatever' });
+    return Promise.all([
+      promise.should.be.rejected,
+      promise.catch(err => ({
+        isCorrectType: err instanceof ForbiddenResponse,
+        message: err.message,
+      })).should.become({
+        isCorrectType: true,
+        message: 'Invalid credentials',
+      }),
+    ]).should.be.fulfilled;
+  });
+
+  it('should fail to manually renew authentication', () => {
+    const promise = api.logIn({ username: charlie.payload.sub, password: 'whatever' })
+      .catch()
+      .then(() => api.renewAuthentication());
+    return Promise.all([
+      promise.should.be.rejected,
+      promise.catch(err => ({
+        isCorrectType: err instanceof ForbiddenResponse,
+        message: err.message,
+      })).should.become({
+        isCorrectType: true,
+        message: 'Invalid credentials',
+      }),
+    ]).should.be.fulfilled;
+  });
+
+  it('should not auto renew authentication', async () => {
+
+    const promise = api.logIn({ username: charlie.payload.sub, password: 'whatever' });
+
+    return Promise.all([
+      promise.should.be.rejected,
+      promise.catch(() => resolveAt(() => fetchMock.calls().matched.length, 1000)).should.eventually.equal(1),
+    ]).should.be.fulfilled;
+  });
+});
+
 describe('When successfully authenticating with the Track API client', () => {
   let api;
 
@@ -89,76 +140,6 @@ describe('When successfully authenticating with the Track API client', () => {
     ]).should.be.fulfilled;
   });
 });
-
-describe('When unsuccessfully authenticating with the Track API client', () => {
-  const api = new Track();
-
-  beforeEach(() => {
-    fetchMock
-      .post(api.client.resolve('/1/login'), () => new Response(Client.toBlob('', s => s, 'text/plain'), { status: 403 }))
-      .post(api.client.resolve('/1/login/renew'), () => new Response(Client.toBlob('', s => s, 'text/plain'), { status: 403 }))
-      .catch(503);
-
-    api.stopAutoRenew();
-  });
-  afterEach(() => api.stopAutoRenew());
-  afterEach(fetchMock.restore);
-
-  it('should fail to log in with a token', () => {
-    const promise = api.logIn({ token: 'whatever' });
-    return Promise.all([
-      promise.should.be.rejected,
-      promise.catch(err => ({
-        isCorrectType: err instanceof ForbiddenResponse,
-        message: err.message,
-      })).should.become({
-        isCorrectType: true,
-        message: 'Invalid credentials',
-      }),
-    ]).should.be.fulfilled;
-  });
-
-  it('should fail to manually renew authentication', () => {
-    const promise = api.logIn({ username: charlie.payload.sub, password: 'whatever' })
-      .catch()
-      .then(() => api.renewAuthentication());
-    return Promise.all([
-      promise.should.be.rejected,
-      promise.catch(err => ({
-        isCorrectType: err instanceof ForbiddenResponse,
-        message: err.message,
-      })).should.become({
-        isCorrectType: true,
-        message: 'Invalid credentials',
-      }),
-    ]).should.be.fulfilled;
-  });
-
-  it('should not auto renew authentication', async () => {
-    console.log('🔄 Checking auto-renew behavior after failed authentication');
-
-    api.stopAutoRenew(); // ✅ Ensure auto-renew is disabled before logging in
-
-    const promise = api.logIn({ username: charlie.payload.sub, password: 'whatever' });
-
-    console.log('📡 FetchMock Calls BEFORE Assertion:', fetchMock.calls());
-
-    return Promise.all([
-      promise.should.be.rejected,
-      promise.catch(() => resolveAt(() => {
-        console.log('📡 FetchMock Calls AFTER Assertion:', fetchMock.calls());
-        const matchedCalls = fetchMock.calls().matched;
-        console.log('🚨 Matched Calls:', matchedCalls);
-
-        // ✅ Ensure we only count the initial login request
-        matchedCalls.length.should.equal(1);
-        matchedCalls[0][0].should.include('/1/login'); // ✅ Verify it's the login request
-
-        return matchedCalls.length;
-      }, 1000)).should.eventually.equal(1),
-    ]).should.be.fulfilled;
-  })});
-
 
 describe('When unauthenticating with the Track API client', () => {
   const api = new Track();
