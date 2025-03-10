@@ -85,7 +85,6 @@ describe('When retrieving historical detours by customer', () => {
       .getHistoricalDetours()
       .then(detours => {
         detours.should.be.an('array');
-        // Add more specific assertions if needed
       });
 
     return detoursPromise;
@@ -99,7 +98,6 @@ describe('When retrieving historical detours by customer', () => {
       .getHistoricalDetours(startDate)
       .then(detours => {
         detours.should.be.an('array');
-        // Add more specific assertions if needed
       });
 
     return detoursPromise;
@@ -114,7 +112,6 @@ describe('When retrieving historical detours by customer', () => {
       .getHistoricalDetours(startDate, endDate)
       .then(detours => {
         detours.should.be.an('array');
-        // Add more specific assertions if needed
       });
 
     return detoursPromise;
