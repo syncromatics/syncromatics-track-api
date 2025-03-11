@@ -10,13 +10,39 @@ class Detour extends Resource {
    */
   constructor(client, ...rest) {
     super(client);
-
     const newProperties = Object.assign({}, ...rest);
     const hydrated = !Object.keys(newProperties).every(k => k === 'href' || k === 'code');
 
-    Object.assign(this, newProperties, {
-      hydrated,
-    });
+    Object.assign(this, newProperties, { hydrated });
+  }
+
+
+  /**
+   * Fetches historical detours for a given customer (active during specified timeframe).
+   * @param {Date} [from] - Optional timeframe in which to search for detours
+   * @param {Date} [until] - Optional timeframe in which to search for detours
+   * @param {boolean} [includeDeactivated=false] - Optional flag to include deactivated detours in the response
+   * @param {boolean} [expandDetails=false] - Optional flag to include expanded details in the response
+   * @param {number} [count] - Optional number of detours to return. Null or zero will return all applicable detours
+   * @returns {Promise<Array<Detour>>} A promise that resolves to an array of historical detours.
+   */
+  async getHistoricalDetours(from, until, includeDeactivated, expandDetails, count) {
+    const { code, client } = this;
+
+    const endpoint = `/2/${code}/serviceadjustments/detours/historical`;
+    const params = new URLSearchParams();
+
+    if (from instanceof Date) params.set("from", from.toISOString());
+    if (until instanceof Date) params.set("until", until.toISOString());
+    if (includeDeactivated) params.set("includeDeactivated", "true");
+    if (expandDetails) params.set("expandDetails", "true");
+    if (typeof count === "number" && count > 0) params.set("count", count);
+
+    const url = params.toString() ? `${endpoint}?${params.toString()}` : endpoint;
+    const response = await client.get(url);
+    const detours = await response.json();
+
+    return detours.map(detour => new Detour(client, detour));
   }
 
   /**
@@ -43,7 +69,7 @@ class Detour extends Resource {
 
   /**
    * Create a new detour for a customer via the client.
-   * 
+   *
    * @param {Object} data - The data object for creating a new detour.
    * @param {number} data.patternId - The ID of the pattern associated with this detour.
    * @param {number} data.detourPatternId - The ID of the detour pattern.
@@ -51,7 +77,7 @@ class Detour extends Resource {
    * @param {boolean} data.shouldMatchScheduledStops - Indicates whether the detour should match scheduled stops.
    * @param {Date} data.startDateTime - The start date and time of the detour.
    * @param {Date} data.endDateTime - The end date and time of the detour.
-   * 
+   *
    * @returns {Promise<Detour>} A promise that resolves to a hydrated instance of the Detour class, representing all active detours including the newly created detour.
    */
   async create(data) {
@@ -65,7 +91,7 @@ class Detour extends Resource {
 
   /**
    * Update an existing detour for a customer via the client.
-   *  
+   *
    * @param {number} detourId - The ID of the detour to update.
    * @returns {Promise<Detour>} A promise that resolves to a hydrated instance of the Detour class, representing active detours.
    */

@@ -42,7 +42,20 @@ describe('When fetching vehicle media based on customer, vehicle ID, and media I
   it('should resolve the promise', () => promise.should.be.fulfilled);
   it('should set the name', () => promise.then(v => v.name).should.eventually.equal('1'));
   it('should set the content type', () => promise.then(v => v.contentType).should.eventually.equal('image/jpeg'));
-  it('should set the data', () => promise.then(v => v.data).should.eventually.not.be.empty);
+  it('should set the data', async () => {
+    const v = await promise;
+    let resolvedData;
+    if (v.data instanceof Response) {
+      resolvedData = await v.data.blob();
+    } else if (v.data instanceof Blob) {
+      resolvedData = v.data;
+    } else if (v.data instanceof Promise) {
+      resolvedData = await v.data;
+    } else {
+      resolvedData = v.data;
+    }
+    resolvedData.size.should.be.greaterThan(0);
+  });
   it('should set the href', () => promise.then(v => v.href).should.eventually.equal('/1/SYNC/vehicles/1/media/1'));
   it('should be hydrated', () => promise.then(v => v.hydrated).should.eventually.equal(true));
 });

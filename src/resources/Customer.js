@@ -532,7 +532,8 @@ class Customer extends Resource {
    * @returns {Detour} Detour resource
    */
   detours() {
-    return this.resource(Detour, Detour.makeHref(this.code));
+    const href = Detour.makeHref(this.code);
+    return this.resource(Detour, {code: this.code, ...href});
   }
 
   /**

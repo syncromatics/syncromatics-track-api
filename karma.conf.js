@@ -4,20 +4,26 @@ webpackConfig.entry = {};
 
 module.exports = function (config) {
   config.set({
-    browsers: [ 'PhantomJS' ],
-    frameworks: [ 'mocha' ],
+    browsers: ['ChromeHeadless'],
+    frameworks: ['mocha'],
     files: [
       './node_modules/babel-polyfill/dist/polyfill.js',
       './node_modules/whatwg-fetch/fetch.js',
       './src/tests.js'
     ],
     preprocessors: {
-      './src/tests.js': [ 'sourcemap', 'webpack' ]
+      './src/tests.js': ['sourcemap', 'webpack']
     },
-    reporters: [ 'mocha' ],
+    reporters: ['mocha'],
     webpack: webpackConfig,
     webpackServer: {
       noInfo: true
+    },
+    customLaunchers: {
+      ChromeHeadlessCI: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox', '--disable-gpu']
+      }
     }
   });
 };
