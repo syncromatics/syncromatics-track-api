@@ -29,34 +29,21 @@ class Detour extends Resource {
   async getHistoricalDetours(from, until, includeDeactivated, expandDetails, count) {
     const { code, client } = this;
 
-    let endpoint = `/2/${code}/serviceadjustments/detours/historical`;
-    const params = [];
+    const endpoint = `/2/${code}/serviceadjustments/detours/historical`;
+    const params = new URLSearchParams();
 
-    if (from instanceof Date) {
-      params.push(`from=${encodeURIComponent(from.toISOString())}`);
-    }
-    if (until instanceof Date) {
-      params.push(`until=${encodeURIComponent(until.toISOString())}`);
-    }
-    if (includeDeactivated) {
-      params.push('includeDeactivated=true');
-    }
-    if (expandDetails) {
-      params.push('expandDetails=true');
-    }
-    if (typeof count === 'number' && count > 0) {
-      params.push(`count=${count}`);
-    }
+    if (from instanceof Date) params.set("from", from.toISOString());
+    if (until instanceof Date) params.set("until", until.toISOString());
+    if (includeDeactivated) params.set("includeDeactivated", "true");
+    if (expandDetails) params.set("expandDetails", "true");
+    if (typeof count === "number" && count > 0) params.set("count", count);
 
-    if (params.length > 0) {
-      endpoint += `?${params.join('&')}`;
-    }
-
-    const response = await client.get(endpoint);
+    const url = params.toString() ? `${endpoint}?${params.toString()}` : endpoint;
+    const response = await client.get(url);
     const detours = await response.json();
+
     return detours.map(detour => new Detour(client, detour));
   }
-
 
   /**
    * Makes a href for a given customer code and detour id

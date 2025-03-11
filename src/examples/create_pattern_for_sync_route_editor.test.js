@@ -20,9 +20,9 @@ describe('When getting a pattern for use in the Sync route editor', () => {
     fetchMock.get('/1/SYNC/patterns/editor/1', {
       status: 200,
     });
-
+    const patternId = 1;
     const getPatternForSyncRouteEditorPromise = api.customer('SYNC').patterns()
-        .getPatternForSyncRouteEditor(1)
+        .getPatternForSyncRouteEditor(patternId)
         .then(getPatternResponse => {
           getPatternResponse.should.be.an('object');
         });
