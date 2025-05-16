@@ -26,6 +26,19 @@ describe('When searching for stops by name', () => {
 
     return stopsPromise;
   });
+
+  it('should get a list of stops with patternHrefs', () => {
+    api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
+
+    const stopsPromise = api.customer('SYNC').stops()
+      .withQuery('1st')
+      .include('patternHrefs') // Include patternHrefs associated with each stop
+      .getPage()
+      .then(page => page.list)
+      .then(stops => stops); // Do things with list of stops
+
+    return stopsPromise;
+  });
 });
 
 describe('When retrieving a stop by ID', () => {
@@ -44,6 +57,16 @@ describe('When retrieving a stop by ID', () => {
       .then(stop => stop); // Do things with stop
 
     return stopsPromise;
+  });
+
+  it('should get a stop with patternHrefs', () => {
+    api.logIn({ username: 'charlie@example.com', password: 'securepassword' });
+
+    const stopPromise = api.customer('SYNC').stop(1)
+      .fetch({ include: 'patternHrefs' }) // Include patternHrefs associated with the stop
+      .then(stop => stop); // Do things with stop
+
+    return stopPromise;
   });
 });
 
