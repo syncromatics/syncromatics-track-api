@@ -34,7 +34,7 @@ usages in the [src/examples directory][src-examples].
 ## Development
 
 Versioning:  `npm version [0.0.xx-development]`
-Publishing: `npm publish`
+Publishing: `npm publish --tag development`
 
 ## Contributing
 

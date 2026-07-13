@@ -36,6 +36,18 @@ class StopsContext extends PagedContext {
   }
 
   /**
+   * Include additional information in the response
+   * @param {string} term - The term to include
+   * @returns {StopsContext} Returns itself
+   */
+  include(term) {
+    const include = this.params.include ? this.params.include.split(',') : [];
+    include.push(term);
+    this.params.include = include.join(',');
+    return this;
+  }
+
+  /**
    * Gets the first page of results for this context
    * @returns {Promise} If successful, a page of Stop objects
    * @see Stop

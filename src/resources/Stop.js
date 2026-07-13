@@ -46,10 +46,19 @@ class Stop extends Resource {
 
   /**
    * Fetches the data for this stop via the client
+   * @param {Object} [options] Options for including additional data
+   * @param {string} [options.include] Comma-separated list of fields to include in the response
    * @returns {Promise} If successful, a hydrated instance of this stop
    */
-  fetch() {
-    return this.client.get(this.href)
+  fetch(options = {}) {
+    const { include } = options;
+    let url = this.href;
+    
+    if (include) {
+      url += `?include=${include}`;
+    }
+    
+    return this.client.get(url)
       .then(response => response.json())
       .then(stop => new Stop(this.client, this, stop));
   }
