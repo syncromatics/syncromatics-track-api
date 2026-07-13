@@ -64,12 +64,10 @@ class Stop extends Resource {
   }
 
   /**
-   * Fetches upcoming arrival predictions for this stop via the client.
-   * If the customer is configured to sign in by trip, each arrival will include
-   * trip, schedule, and variance information; otherwise those fields are omitted.
+   * Fetches upcoming arrival predictions for this stop.
+   * For more information, read official Track-API documentation.
    * @param {Object} [options] Options for the request
-   * @param {number} [options.count=3] Maximum number of arrivals to return.
-   * Must be a positive integer of 1 or greater, otherwise the default is used.
+   * @param {number} [options.count] Optional maximum number of arrivals to return.
    * @returns {Promise} If successful, an array of arrival prediction objects for this stop
    */
   arrivals(options = {}) {
