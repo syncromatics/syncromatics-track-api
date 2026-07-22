@@ -3,7 +3,7 @@ import chaiAsPromised from 'chai-as-promised';
 import fetchMock from 'fetch-mock';
 import Client from '../Client';
 import Stop from './Stop';
-import { stops as mockStops } from '../mocks';
+import { stops as mockStops, stopArrivals as mockStopArrivals } from '../mocks';
 
 chai.should();
 chai.use(chaiAsPromised);
@@ -83,4 +83,20 @@ describe('When updating a stop', () => {
   it('should resolve the promise', () => promise.should.be.fulfilled);
   it('should set the href', () => promise.then(v => v.href).should.eventually.equal('/1/SYNC/stops/1'));
   it('should set the name', () => promise.then(v => v.name).should.eventually.equal(updateValue));
+});
+
+describe('When fetching arrivals for a stop', () => {
+  const client = new Client();
+
+  beforeEach(() => mockStopArrivals.setUpSuccessfulMock(client));
+  beforeEach(() => fetchMock.catch(503));
+  afterEach(fetchMock.restore);
+
+  let promise;
+  beforeEach(() => {
+    promise = new Stop(client, Stop.makeHref('SYNC', 1)).arrivals();
+  });
+
+  it('should resolve the promise', () => promise.should.be.fulfilled);
+  it('should return the list of arrivals', () => promise.should.eventually.deep.equal(mockStopArrivals.list));
 });

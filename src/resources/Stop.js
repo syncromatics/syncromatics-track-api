@@ -64,6 +64,25 @@ class Stop extends Resource {
   }
 
   /**
+   * Fetches upcoming arrival predictions for this stop.
+   * For more information, read official Track-API documentation.
+   * @param {Object} [options] Options for the request
+   * @param {number} [options.count] Optional maximum number of arrivals to return.
+   * @returns {Promise} If successful, an array of arrival prediction objects for this stop
+   */
+  arrivals(options = {}) {
+    const { count } = options;
+    let url = `${this.href}/arrivals`;
+
+    if (count) {
+      url += `?count=${count}`;
+    }
+
+    return this.client.get(url)
+      .then(response => response.json());
+  }
+
+  /**
    * Saves data for a stop via the client
    * @returns {Promise} If successful, returns a stop with the id included
    */
