@@ -54,6 +54,35 @@ describe('When creating a real time connection', () => {
       .should.eventually.become(1);
   });
 
+  it('should not create a new connection while the current connection is connecting', () => {
+    const realTimeClient = new RealTimeClient(mock.authenticatedClient, mock.options);
+    let initialized = false;
+    realTimeClient.connection = { readyState: 0 };
+
+    realTimeClient.createConnection(() => {
+      initialized = true;
+    });
+
+    initialized.should.equal(false);
+  });
+
+  it('should ignore open events from superseded connections', () => {
+    const realTimeClient = new RealTimeClient(mock.authenticatedClient, mock.options);
+    const staleConnection = { readyState: 1 };
+    const currentConnection = {
+      readyState: 1,
+      send: () => {
+        throw new Error('Should not send authentication on stale open events.');
+      },
+    };
+    realTimeClient.connection = currentConnection;
+    realTimeClient.initializing = true;
+
+    realTimeClient.onConnectionOpened({ target: staleConnection });
+
+    realTimeClient.initializing.should.equal(true);
+  });
+
   it('should queue messages to send while connecting', () => {
     let resolveAuthentication;
     let resolveGotAllMessages;
@@ -218,5 +247,24 @@ describe('When the real time connection is disconnected', () => {
     const startAndRestart = realTimeClient.sendMessage({ type: 'TEST', id: 1 }).then(reconnect);
 
     return Promise.all([startAndRestart, disconnectEvent, reconnectEvent]);
+  });
+
+  it('should discard partial subscription placeholders when reconnecting', () => {
+    realTimeClient.subscriptions = {
+      1: {
+        queuedMessages: [
+          {
+            type: messages.ENTITY.UPDATE,
+            subscription_id: 1,
+          },
+        ],
+      },
+    };
+
+    (() => {
+      realTimeClient.queueAndRemoveSubscriptions((x) => x.subscriptions);
+    }).should.not.throw();
+
+    realTimeClient.subscriptions.should.deep.equal({});
   });
 });

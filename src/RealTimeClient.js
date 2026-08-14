@@ -67,6 +67,18 @@ class RealTimeClient {
     this.removeEventListener = this.removeEventListener.bind(this);
   }
 
+  getConnectionReadyState(connection = this.connection) {
+    return typeof connection.readyState === 'number'
+      ? connection.readyState
+      : WEBSOCKET_READY_STATES.CLOSED;
+  }
+
+  isCurrentConnectionEvent(event) {
+    if (!event) return true;
+    const eventConnection = event.currentTarget || event.target;
+    return !eventConnection || eventConnection === this.connection;
+  }
+
   /**
    * Adds an event listener to be called whenever the client disconnects unexpectedly
    * or subsequently reconnects.
@@ -142,7 +154,7 @@ class RealTimeClient {
    */
   createConnection(onInitialize) {
     if (this.initializing) return;
-    const readyState = this.connection.readyState || WEBSOCKET_READY_STATES.CLOSED;
+    const readyState = this.getConnectionReadyState();
     switch (readyState) {
       case WEBSOCKET_READY_STATES.OPEN:
       case WEBSOCKET_READY_STATES.CONNECTING:
@@ -166,9 +178,11 @@ class RealTimeClient {
   /**
    * Event handler fired when the WebSocket connection is closed.
    * Re-establishes the connection, if configured to do so.
+   * @param {CloseEvent|Event} [event] The event received from the WebSocket.
    * @returns {void}
    */
-  onConnectionClosed() {
+  onConnectionClosed(event) {
+    if (!this.isCurrentConnectionEvent(event)) return;
     const { reconnectOnClose = false, reconnectTimeout = 0 } = this.options;
     if (reconnectOnClose) {
       if (!this.isInReconnectLoop) {
@@ -192,10 +206,12 @@ class RealTimeClient {
   /**
    * Event handler fired when the WebSocket connection is opened.
    * Sends authentication headers and any messages queued before the connection was established.
+   * @param {Event} [event] The event received from the WebSocket.
    * @returns {void}
    */
-  onConnectionOpened() {
-    if (this.connection.readyState !== WEBSOCKET_READY_STATES.OPEN) {
+  onConnectionOpened(event) {
+    if (!this.isCurrentConnectionEvent(event)) return;
+    if (this.getConnectionReadyState() !== WEBSOCKET_READY_STATES.OPEN) {
       // eslint-disable-next-line no-console
       console.error(
         `onConnectionOpened fired but WS Connection is ${this.connection.readyState}. Restarting connection.`,
@@ -476,15 +492,17 @@ class RealTimeClient {
           subscriptionEndRejecter,
           subscriptionEndResolver,
         }) => {
-          this.sendStartSubscriptionMessage(
-            messageCreator,
-            handler,
-            mutableSubscriptionContainer,
-            subscriptionStartResolver || defaultSubscriptionStartResolver,
-            subscriptionStartRejecter || defaultSubscriptionStartRejector,
-            subscriptionEndResolver,
-            subscriptionEndRejecter,
-          );
+          if (typeof messageCreator === 'function') {
+            this.sendStartSubscriptionMessage(
+              messageCreator,
+              handler,
+              mutableSubscriptionContainer,
+              subscriptionStartResolver || defaultSubscriptionStartResolver,
+              subscriptionStartRejecter || defaultSubscriptionStartRejector,
+              subscriptionEndResolver,
+              subscriptionEndRejecter,
+            );
+          }
           delete mutableBucket[id];
         },
       );
