@@ -22,6 +22,7 @@ export { default as incidents } from './incidents';
 export { default as messages } from './messages';
 export { default as messageChannels } from './messageChannels';
 export { default as patterns } from './patterns';
+export { default as presence } from './presence';
 export { default as reportingTickets } from './reportingTickets';
 export { default as realTime } from './realTime';
 export { default as riderAppConfiguration } from './riderAppConfiguration';

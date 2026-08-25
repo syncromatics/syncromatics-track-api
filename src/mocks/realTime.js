@@ -9,6 +9,7 @@ import dispatchMessageStatus from './dispatchMessageStatus';
 import enplugDetails from './enplugDetails';
 import enplugHealths from './enplugHealths';
 import incidents from './incidents';
+import presence from './presence';
 import signs from './signs';
 import stopArrivals from './stopArrivals';
 import stops from './stops';
@@ -159,6 +160,9 @@ const realTime = {
             break;
           case 'DISPATCH_MESSAGE_STATUSES':
             data = dispatchMessageStatus.list;
+            break;
+          case 'PRESENCE':
+            data = presence.list;
             break;
           case 'SIGNS':
             data = signs.list;

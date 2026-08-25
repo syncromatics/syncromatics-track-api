@@ -28,12 +28,16 @@ export const HEARTBEAT = 'HEARTBEAT';
 /**
  * Creates a Track Real Time API control message for authenticating a connection.
  * @param {string} jwt A pre-authenticated JSON Web Token for authorizing this connection.
+ * @param {string} [applicationName] Optional name of the application this session belongs to
+ * (e.g. "Sync", "Sync Mobile"). Used by the PRESENCE entity to report which applications a user
+ * is online in.
  * @returns {Object} The created authentication request message.
  */
-const createAuthRequest = jwt => ({
+const createAuthRequest = (jwt, applicationName) => ({
   type: AUTHENTICATION.REQUEST,
   request_id: requestId++, // eslint-disable-line no-plusplus
   token: jwt,
+  ...(applicationName ? { application_name: applicationName } : {}),
 });
 
 /**
