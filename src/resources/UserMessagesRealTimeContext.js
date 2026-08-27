@@ -94,6 +94,8 @@ class UserMessagesRealTimeContext {
     this.customerCode = customerCode;
     this.roomId = null;
     this.millisecondsBetweenMessages = DEFAULT_MILLISECONDS_BETWEEN_MESSAGES;
+    this.handler = null;
+    this.lastId = 0;
   }
 
   /**
@@ -121,6 +123,7 @@ class UserMessagesRealTimeContext {
       throw new Error('You must pass a function as handler to on');
     }
 
+    this.handler = handler;
     const messages = this.buildMessages();
     handler({ data: messages.slice(0, 3) });
 
@@ -138,13 +141,53 @@ class UserMessagesRealTimeContext {
   }
 
   /**
+   * Sends a new message to the room and delivers it to the active subscriber, as if it had come
+   * back from the server.
+   * @param {string} message Text of the message to send.
+   * @returns {Promise} If successful, the sent message.
+   */
+  send(message) {
+    if (typeof this.handler !== 'function') {
+      return Promise.reject(new Error('You must call on("update", handler) before sending a message.'));
+    }
+
+    this.lastId += 1;
+    const sentMessage = {
+      id: this.lastId,
+      customerId: 1,
+      authorFirstName: you.authorFirstName,
+      authorLastName: you.authorLastName,
+      authorId: you.authorId,
+      roomId: this.roomId,
+      message,
+      seenTime: null,
+      sentTime: new Date().toISOString(),
+      platformType: you.platformType,
+      authorHref: you.authorHref,
+    };
+
+    this.handler({ data: [sentMessage] });
+    return Promise.resolve(sentMessage);
+  }
+
+  /**
+   * Marks a list of messages as read.
+   * @param {Array.<Resource|string>} messages Messages to mark as read
+   * @returns {Promise} Immediately-resolved promise
+   */
+  // eslint-disable-next-line class-methods-use-this, no-unused-vars
+  markMessagesRead(messages) {
+    return Promise.resolve();
+  }
+
+  /**
    * Builds a fresh, randomly-selected mock conversation for the current room.
    * @returns {Array.<Object>} Ordered list of mock User Messages.
    */
   buildMessages() {
     const script = conversations[Math.floor(Math.random() * conversations.length)];
     const baseTime = Date.now();
-    return script.map(({ author, message }, index) => ({
+    const messages = script.map(({ author, message }, index) => ({
       id: index + 1,
       customerId: 1,
       authorFirstName: author.authorFirstName,
@@ -157,6 +200,8 @@ class UserMessagesRealTimeContext {
       platformType: author.platformType,
       authorHref: author.authorHref,
     }));
+    this.lastId = messages.length;
+    return messages;
   }
 }
 

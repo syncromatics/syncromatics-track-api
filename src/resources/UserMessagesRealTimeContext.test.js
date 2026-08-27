@@ -84,4 +84,34 @@ describe('When subscribing to User Messages', () => {
     const subject = new UserMessagesRealTimeContext(customerCode).forRoom('abc-123');
     (() => subject.on('delete', () => {})).should.throw();
   });
+
+  it('delivers a sent message to the active subscriber', () => {
+    const subject = new UserMessagesRealTimeContext(customerCode);
+    subject.millisecondsBetweenMessages = 100000; // keep the scripted conversation from interfering
+
+    const receivedMessages = [];
+
+    return subject
+      .forRoom('dispatch/messages/abc-123')
+      .on('update', (message) => {
+        receivedMessages.push(...message.data);
+      })
+      .then(() => subject.send('Hello from the demo'))
+      .then((sentMessage) => {
+        sentMessage.message.should.equal('Hello from the demo');
+        sentMessage.roomId.should.equal('dispatch/messages/abc-123');
+        sentMessage.platformType.should.equal(1);
+        receivedMessages[receivedMessages.length - 1].should.deep.equal(sentMessage);
+      });
+  });
+
+  it('rejects sending a message before subscribing', () => {
+    const subject = new UserMessagesRealTimeContext(customerCode).forRoom('abc-123');
+    return subject.send('too soon').should.be.rejected;
+  });
+
+  it('resolves marking messages as read without doing anything', () => {
+    const subject = new UserMessagesRealTimeContext(customerCode).forRoom('abc-123');
+    return subject.markMessagesRead([1, 2, 3]).should.be.fulfilled;
+  });
 });
