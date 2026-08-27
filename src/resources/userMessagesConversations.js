@@ -1,21 +1,15 @@
 const you = {
-  authorId: 448,
-  authorFirstName: 'Key',
-  authorLastName: 'Peele',
-  authorHref: '/1/users/448',
-  platformType: 1,
+  authorId: 448, authorFirstName: 'Keegan', authorLastName: 'Peele', authorHref: '/1/users/448', platformType: 1,
 };
-
 const them = {
-  authorId: 512,
-  authorFirstName: 'Jordan',
-  authorLastName: 'Peele',
-  authorHref: '/1/users/512',
-  platformType: 0,
+  authorId: 512, authorFirstName: 'Jordan', authorLastName: 'Keal', authorHref: '/1/users/512', platformType: 0,
 };
 
-// Three silly conversations between two dispatchers. One is picked at random each time this
-// module is loaded, and plays out one message every intervalMs.
+/**
+ * Three silly conversations between two dispatchers, used to stand in for real Dispatch Chat
+ * messages until that backend exists. One is picked at random per subscription.
+ * @see UserMessagesRealTimeContext
+ */
 const conversations = [
   [
     { author: them, message: 'Radio check — do you copy, or has the coffee machine finally taken you hostage?' },
@@ -82,31 +76,4 @@ const conversations = [
   ],
 ];
 
-const script = conversations[Math.floor(Math.random() * conversations.length)];
-
-const roomId = 116;
-const customerId = 1;
-const baseTime = new Date('2026-08-26T16:18:26.267Z').getTime();
-const millisecondsBetweenMessages = 15000;
-
-const dispatchChatMessages = {
-  // Overridable by tests to avoid waiting real time for the full conversation to play out.
-  intervalMs: millisecondsBetweenMessages,
-  roomId,
-  customerId,
-  list: script.map(({ author, message }, index) => ({
-    id: index + 1,
-    customerId,
-    authorFirstName: author.authorFirstName,
-    authorLastName: author.authorLastName,
-    authorId: author.authorId,
-    roomId,
-    message,
-    seenTime: null,
-    sentTime: new Date(baseTime + (index * millisecondsBetweenMessages)).toISOString(),
-    platformType: author.platformType,
-    authorHref: author.authorHref,
-  })),
-};
-
-export default dispatchChatMessages;
+export default conversations;

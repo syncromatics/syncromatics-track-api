@@ -4,7 +4,6 @@ import * as messages from '../subscriptions/messages';
 import areas from './areas';
 import callStates from './callStates';
 import bikeRackSlots from './bikeRackSlots';
-import dispatchChatMessages from './dispatchChatMessages';
 import dispatchMessages from './dispatchMessages';
 import dispatchMessageStatus from './dispatchMessageStatus';
 import enplugDetails from './enplugDetails';
@@ -43,7 +42,6 @@ const realTime = {
    */
   getServer: () => {
     const server = new Server(realTimeUri);
-    const subscriptionIntervals = {};
     /**
      * A convenience method -- will deserialize JSON received by the web socket and check the 'type'
      * property.  If it matches what you passed in, it will execute `handler` with the deserialized
@@ -148,9 +146,6 @@ const realTime = {
           case 'CALL_STATES':
             data = callStates.list;
             break;
-          case 'DISPATCH_CHAT':
-            data = dispatchChatMessages.list.slice(0, 3);
-            break;
           case 'DISPATCH_MESSAGES':
             data = dispatchMessages.list;
             break;
@@ -208,33 +203,9 @@ const realTime = {
             data,
           }),
         );
-
-        if (request.entity === 'DISPATCH_CHAT') {
-          let nextIndex = 3;
-          subscriptionIntervals[subscriptionId] = setInterval(() => {
-            if (nextIndex >= dispatchChatMessages.list.length) {
-              clearInterval(subscriptionIntervals[subscriptionId]);
-              delete subscriptionIntervals[subscriptionId];
-              return;
-            }
-            server.emit(
-              'message',
-              JSON.stringify({
-                type: messages.ENTITY.UPDATE,
-                subscription_id: subscriptionId,
-                data: [dispatchChatMessages.list[nextIndex]],
-              }),
-            );
-            nextIndex += 1;
-          }, dispatchChatMessages.intervalMs);
-        }
       });
 
       server.onTrackMessage(messages.SUBSCRIPTION_END.REQUEST, (request) => {
-        if (subscriptionIntervals[request.subscription_id]) {
-          clearInterval(subscriptionIntervals[request.subscription_id]);
-          delete subscriptionIntervals[request.subscription_id];
-        }
         server.emit(
           'message',
           JSON.stringify({

@@ -38,9 +38,9 @@ describe('When creating a RealTimeContext', () => {
     result.realTimeClient.should.equal(realTimeClient);
   });
 
-  it('should reuse its RealTimeClient when creating a DispatchChatRealTimeContext', () => {
-    const result = factory.dispatchChat();
-    result.realTimeClient.should.equal(realTimeClient);
+  it('should scope a UserMessagesRealTimeContext to its customer code', () => {
+    const result = factory.userMessages();
+    result.customerCode.should.equal(customerCode);
   });
 
   it('should reuse its RealTimeClient when creating a DispatchMessagesRealTimeContext', () => {
