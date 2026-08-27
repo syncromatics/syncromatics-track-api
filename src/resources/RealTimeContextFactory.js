@@ -2,6 +2,7 @@ import AreasRealTimeContext from './AreasRealTimeContext';
 import AssignmentsRealTimeContext from './AssignmentsRealTimeContext';
 import BikeRackSlotsRealTimeContext from './BikeRackSlotsRealTimeContext';
 import CallStatesRealTimeContext from './CallStatesRealTimeContext';
+import DispatchChatRealTimeContext from './DispatchChatRealTimeContext';
 import DispatchMessagesRealTimeContext from './DispatchMessagesRealTimeContext';
 import DispatchMessageStatusRealTimeContext from './DispatchMessageStatusRealTimeContext';
 import SignsRealTimeContext from './SignsRealTimeContext';
@@ -114,6 +115,14 @@ class RealTimeContextFactory {
    */
   callStates() {
     return new CallStatesRealTimeContext(this.realTimeClient, this.customerCode);
+  }
+
+  /**
+   * Creates a RealTimeContext for querying Dispatch Chat message updates.
+   * @returns {DispatchChatRealTimeContext} The newly created context.
+   */
+  dispatchChat() {
+    return new DispatchChatRealTimeContext(this.realTimeClient, this.customerCode);
   }
 
   /**
