@@ -3,10 +3,10 @@ import RealTimeContext from './RealTimeContext';
 const DEFAULT_MILLISECONDS_BETWEEN_MESSAGES = 10000;
 
 const you = {
-  authorId: 448, authorFirstName: 'Chris', authorLastName: 'Highet', authorHref: '/1/users/448', platformType: 1,
+  authorId: 448, authorFirstName: 'Keegan', authorLastName: 'Peele', authorHref: '/1/users/448', platformType: 1,
 };
 const them = {
-  authorId: 512, authorFirstName: 'Jordan', authorLastName: 'Alvarez', authorHref: '/1/users/512', platformType: 0,
+  authorId: 512, authorFirstName: 'Jordan', authorLastName: 'Keal', authorHref: '/1/users/512', platformType: 0,
 };
 
 // Three silly conversations between two dispatchers, used to stand in for real User Messages
