@@ -23,6 +23,9 @@ class RealTimeClient {
    * a connection
    * @param {string} [options.realTimeUri] The URI for the WebSocket connection to the RealTime API.
    * Defaults to production.
+   * @param {string} [options.applicationName] Optional name of the application this session
+   * belongs to (e.g. "Sync", "Sync Mobile"). Sent as application_name on the authentication
+   * request and used by the PRESENCE entity to report which applications a user is online in.
    */
   constructor(client, options = {}) {
     if (!client) {
@@ -338,7 +341,7 @@ class RealTimeClient {
   sendAuthentication() {
     return this.client.authenticated.then(() => {
       const { token } = this.client.getJwt();
-      const authMessage = messages.creators.createAuthRequest(token);
+      const authMessage = messages.creators.createAuthRequest(token, this.options.applicationName);
       const serialized = JSON.stringify(authMessage);
       this.connection.send(serialized);
       return new Promise((resolve) => {

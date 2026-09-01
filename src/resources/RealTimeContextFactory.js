@@ -12,6 +12,7 @@ import VehicleArrivalsRealTimeContext from './VehicleArrivalsRealTimeContext';
 import EnplugDetailsRealTimeContext from './EnplugDetailsRealTimeContext';
 import EnplugHealthsRealTimeContext from './EnplugHealthsRealTimeContext';
 import IncidentsRealTimeContext from './IncidentsRealTimeContext';
+import PresenceRealTimeContext from './PresenceRealTimeContext';
 import VehiclesRealTimeContext from './VehiclesRealTimeContext';
 import VoipHeartbeatHandler from './VoipHeartbeatHandler';
 import TripCancelationsRealTimeContext from "./TripCancelationsRealtimeContext";
@@ -153,6 +154,14 @@ class RealTimeContextFactory {
    */
   incidents() {
     return new IncidentsRealTimeContext(this.realTimeClient, this.customerCode);
+  }
+
+  /**
+   * Creates a RealTimeContext for querying user Presence updates.
+   * @returns {PresenceRealTimeContext} The newly created context.
+   */
+  presence() {
+    return new PresenceRealTimeContext(this.realTimeClient, this.customerCode);
   }
 
   /**
