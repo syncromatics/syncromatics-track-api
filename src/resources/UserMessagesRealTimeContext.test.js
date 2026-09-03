@@ -8,6 +8,55 @@ chai.use(chaiAsPromised);
 describe('When subscribing to User Messages', () => {
   const customerCode = 'SYNC';
 
+  it('receives an inbox of 6 rooms with 1-2 messages each when no room is named', () => {
+    const subject = new UserMessagesRealTimeContext(customerCode);
+
+    let resolver;
+    const updateReceived = new Promise((resolve) => { resolver = resolve; });
+
+    const subscription = subject.on('update', resolver);
+
+    return Promise.all([
+      subscription,
+      updateReceived.then((message) => {
+        const rooms = message.data.reduce((byRoom, chatMessage) => ({
+          ...byRoom,
+          [chatMessage.roomHref]: (byRoom[chatMessage.roomHref] || 0) + 1,
+        }), {});
+
+        Object.keys(rooms).should.have.lengthOf(6);
+        Object.keys(rooms).forEach((roomHref) => {
+          rooms[roomHref].should.be.within(1, 2);
+        });
+
+        message.data.forEach((chatMessage) => {
+          chatMessage.href.should.equal(`${chatMessage.roomHref.replace(/\/$/, '')}/messages/${chatMessage.id}`);
+        });
+      }),
+    ]);
+  });
+
+  it('does not keep delivering messages when no room is named', () => {
+    const subject = new UserMessagesRealTimeContext(customerCode);
+    subject.millisecondsBetweenMessages = 10;
+
+    const receivedMessages = [];
+
+    return subject
+      .on('update', (message) => {
+        receivedMessages.push(...message.data);
+      })
+      .then(() => {
+        const countAfterInbox = receivedMessages.length;
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            receivedMessages.should.have.lengthOf(countAfterInbox);
+            resolve();
+          }, 50);
+        });
+      });
+  });
+
   it('immediately receives the first 3 messages of a mocked conversation for the room', () => {
     const subject = new UserMessagesRealTimeContext(customerCode);
 
@@ -21,10 +70,11 @@ describe('When subscribing to User Messages', () => {
       updateReceived.then((message) => {
         message.data.should.have.lengthOf(3);
         message.data.forEach((chatMessage) => {
-          chatMessage.roomId.should.equal('dispatch/messages/abc-123');
+          chatMessage.roomHref.should.equal('dispatch/messages/abc-123');
+          chatMessage.href.should.equal(`dispatch/messages/abc-123/messages/${chatMessage.id}`);
           chatMessage.should.have.all.keys([
-            'id', 'customerId', 'authorFirstName', 'authorLastName', 'authorId', 'roomId',
-            'message', 'seenTime', 'sentTime', 'platformType', 'authorHref',
+            'id', 'customerId', 'authorFirstName', 'authorLastName', 'authorHref', 'roomHref',
+            'message', 'seenTime', 'sentTime', 'platformType', 'href',
           ]);
         });
       }),
@@ -99,7 +149,8 @@ describe('When subscribing to User Messages', () => {
       .then(() => subject.send('Hello from the demo'))
       .then((sentMessage) => {
         sentMessage.message.should.equal('Hello from the demo');
-        sentMessage.roomId.should.equal('dispatch/messages/abc-123');
+        sentMessage.roomHref.should.equal('dispatch/messages/abc-123');
+        sentMessage.href.should.equal(`dispatch/messages/abc-123/messages/${sentMessage.id}`);
         sentMessage.platformType.should.equal(1);
         receivedMessages[receivedMessages.length - 1].should.deep.equal(sentMessage);
       });

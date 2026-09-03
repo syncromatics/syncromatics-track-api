@@ -3,6 +3,7 @@ import AssignmentsRealTimeContext from './AssignmentsRealTimeContext';
 import BikeRackSlotsRealTimeContext from './BikeRackSlotsRealTimeContext';
 import CallStatesRealTimeContext from './CallStatesRealTimeContext';
 import UserMessagesRealTimeContext from './UserMessagesRealTimeContext';
+import UserMessagesStatusRealTimeContext from './UserMessagesStatusRealTimeContext';
 import DispatchMessagesRealTimeContext from './DispatchMessagesRealTimeContext';
 import DispatchMessageStatusRealTimeContext from './DispatchMessageStatusRealTimeContext';
 import SignsRealTimeContext from './SignsRealTimeContext';
@@ -123,6 +124,14 @@ class RealTimeContextFactory {
    */
   userMessages() {
     return new UserMessagesRealTimeContext(this.customerCode);
+  }
+
+  /**
+   * Creates a RealTimeContext for querying the authenticated user's unread User Message counts.
+   * @returns {UserMessagesStatusRealTimeContext} The newly created context.
+   */
+  userMessagesStatus() {
+    return new UserMessagesStatusRealTimeContext(this.customerCode);
   }
 
   /**
