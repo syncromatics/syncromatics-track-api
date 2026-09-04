@@ -13,6 +13,8 @@ export { default as voipCallRecords } from './voipCallRecords';
 export { default as callParticipants } from './callParticipants';
 export { default as dispatchMessages } from './dispatchMessages';
 export { default as dispatchMessageBatches } from './dispatchMessageBatches';
+export { default as userMessages } from './userMessages';
+export { default as userMessagesStatus } from './userMessagesStatus';
 export { default as tripCancelationBatches } from './tripCancelationBatches';
 export { default as detours} from './detour';
 export { default as dispatchMessageStatus } from './dispatchMessageStatus';

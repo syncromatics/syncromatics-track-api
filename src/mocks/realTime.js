@@ -6,6 +6,8 @@ import callStates from './callStates';
 import bikeRackSlots from './bikeRackSlots';
 import dispatchMessages from './dispatchMessages';
 import dispatchMessageStatus from './dispatchMessageStatus';
+import userMessages from './userMessages';
+import userMessagesStatus from './userMessagesStatus';
 import enplugDetails from './enplugDetails';
 import enplugHealths from './enplugHealths';
 import incidents from './incidents';
@@ -148,6 +150,12 @@ const realTime = {
             break;
           case 'DISPATCH_MESSAGES':
             data = dispatchMessages.list;
+            break;
+          case 'ROOM_MESSAGES':
+            data = userMessages.list;
+            break;
+          case 'ROOM_MESSAGES_STATUS':
+            data = userMessagesStatus.list;
             break;
           case 'ENPLUG_DETAILS':
             data = enplugDetails.list;

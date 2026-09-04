@@ -120,10 +120,12 @@ class RealTimeContextFactory {
 
   /**
    * Creates a context for subscribing to User Messages updates.
+   * @param {Object} [options={}] Options for creating and sending User Messages.
+   * @param {number} [options.platformType] Platform creating messages: 1 Mobile or 2 Web.
    * @returns {UserMessagesRealTimeContext} The newly created context.
    */
-  userMessages() {
-    return new UserMessagesRealTimeContext(this.customerCode);
+  userMessages(options = {}) {
+    return new UserMessagesRealTimeContext(this.realTimeClient, this.customerCode, options);
   }
 
   /**
@@ -131,7 +133,7 @@ class RealTimeContextFactory {
    * @returns {UserMessagesStatusRealTimeContext} The newly created context.
    */
   userMessagesStatus() {
-    return new UserMessagesStatusRealTimeContext(this.customerCode);
+    return new UserMessagesStatusRealTimeContext(this.realTimeClient, this.customerCode);
   }
 
   /**

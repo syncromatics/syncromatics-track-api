@@ -38,13 +38,16 @@ describe('When creating a RealTimeContext', () => {
     result.realTimeClient.should.equal(realTimeClient);
   });
 
-  it('should scope a UserMessagesRealTimeContext to its customer code', () => {
-    const result = factory.userMessages();
+  it('should reuse its RealTimeClient and options for UserMessagesRealTimeContext', () => {
+    const result = factory.userMessages({ platformType: 2 });
+    result.realTimeClient.should.equal(realTimeClient);
     result.customerCode.should.equal(customerCode);
+    result.platformType.should.equal(2);
   });
 
-  it('should scope a UserMessagesStatusRealTimeContext to its customer code', () => {
+  it('should reuse its RealTimeClient for UserMessagesStatusRealTimeContext', () => {
     const result = factory.userMessagesStatus();
+    result.realTimeClient.should.equal(realTimeClient);
     result.customerCode.should.equal(customerCode);
   });
 

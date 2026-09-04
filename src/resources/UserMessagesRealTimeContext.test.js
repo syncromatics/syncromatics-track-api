@@ -1,168 +1,153 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
+import fetchMock from 'fetch-mock';
 import UserMessagesRealTimeContext from './UserMessagesRealTimeContext';
+import Client from '../Client';
+import RealTimeClient from '../RealTimeClient';
+import { realTime as mock, userMessages } from '../mocks';
 
 chai.should();
 chai.use(chaiAsPromised);
 
+const readBlob = blob => new Promise((resolve, reject) => {
+  const reader = new FileReader();
+  reader.onload = () => resolve(reader.result);
+  reader.onerror = reject;
+  reader.readAsText(blob);
+});
+
 describe('When subscribing to User Messages', () => {
   const customerCode = 'SYNC';
 
-  it('receives an inbox of 6 rooms with 1-2 messages each when no room is named', () => {
-    const subject = new UserMessagesRealTimeContext(customerCode);
+  afterEach(fetchMock.restore);
 
+  const createSubject = (options = {}) => {
+    const realTimeClient = new RealTimeClient(mock.authenticatedClient, mock.options);
+    return {
+      realTimeClient,
+      subject: new UserMessagesRealTimeContext(realTimeClient, customerCode, options),
+    };
+  };
+
+  it('subscribes to all rooms when no room is named', () => {
+    const server = mock.getServer();
+    const { realTimeClient, subject } = createSubject();
+    subject.on('update', () => {});
+
+    return server.verifySubscription('ROOM_MESSAGES', {
+      closeConnection: true,
+      realTimeClient,
+    }).should.eventually.deep.equal({ rooms: [] });
+  });
+
+  it('can filter by one room', () => {
+    const server = mock.getServer();
+    const { realTimeClient, subject } = createSubject();
+    const room = '/1/SYNC/room_messages/397';
+    subject.forRoom(room).on('update', () => {});
+
+    return server.verifySubscription('ROOM_MESSAGES', {
+      closeConnection: true,
+      realTimeClient,
+    }).should.eventually.deep.equal({ rooms: [room] });
+  });
+
+  it('can filter by multiple rooms and Resource-like objects', () => {
+    const server = mock.getServer();
+    const { realTimeClient, subject } = createSubject();
+    const rooms = ['/1/SYNC/room_messages/397', '/1/SYNC/room_messages/403'];
+    subject.forRooms([rooms[0], { href: rooms[1] }]).on('update', () => {});
+
+    return server.verifySubscription('ROOM_MESSAGES', {
+      closeConnection: true,
+      realTimeClient,
+    }).should.eventually.deep.equal({ rooms });
+  });
+
+  it('passes server message fields through unchanged', () => {
+    const server = mock.getServer();
+    const { realTimeClient, subject } = createSubject();
     let resolver;
     const updateReceived = new Promise((resolve) => { resolver = resolve; });
 
-    const subscription = subject.on('update', resolver);
+    subject.on('update', resolver);
 
+    return updateReceived
+      .then((response) => {
+        response.data.should.deep.equal(userMessages.list);
+        response.data[0].should.have.property('room_href');
+        response.data[0].should.not.have.property('seen');
+        response.data[1].should.have.property('seen');
+      })
+      .then(() => server.closeConnection(realTimeClient));
+  });
+
+  it('does not allow filters after subscribing', () => {
+    const server = mock.getServer();
+    const { realTimeClient, subject } = createSubject();
+    subject.on('update', () => {});
+    (() => subject.forRoom('/1/SYNC/room_messages/397')).should.throw();
+    server.closeConnection(realTimeClient);
+  });
+
+  it('creates a message and returns the unchanged server response', () => {
+    const client = new Client();
+    const realTimeClient = new RealTimeClient(client);
+    const message = "Chris to cooper's room";
+    userMessages.setUpSuccessfulMock(client, { message });
+    const subject = new UserMessagesRealTimeContext(
+      realTimeClient,
+      customerCode,
+      { platformType: 2 },
+    ).forRoom('/1/SYNC/room_messages/397');
+
+    return subject.send(message).then((created) => {
+      created.should.have.property('room_href', '/1/SYNC/room_messages/397');
+      created.should.have.property('author_first_name', 'Chris');
+      fetchMock.lastUrl().should.equal(client.resolve('/1/SYNC/room_messages', {
+        roomId: 397,
+        message,
+        platformType: 2,
+      }));
+    });
+  });
+
+  it('requires one room and a configured platform type to send', () => {
+    const { subject } = createSubject();
+    const withoutPlatform = createSubject().subject.forRoom('/1/SYNC/room_messages/397');
     return Promise.all([
-      subscription,
-      updateReceived.then((message) => {
-        const rooms = message.data.reduce((byRoom, chatMessage) => ({
-          ...byRoom,
-          [chatMessage.roomHref]: (byRoom[chatMessage.roomHref] || 0) + 1,
-        }), {});
-
-        Object.keys(rooms).should.have.lengthOf(6);
-        Object.keys(rooms).forEach((roomHref) => {
-          rooms[roomHref].should.be.within(1, 2);
-        });
-
-        message.data.forEach((chatMessage) => {
-          chatMessage.href.should.equal(`${chatMessage.roomHref.replace(/\/$/, '')}/messages/${chatMessage.id}`);
-        });
-      }),
+      subject.send('message').should.be.rejected,
+      withoutPlatform.send('message').should.be.rejected,
     ]);
   });
 
-  it('does not keep delivering messages when no room is named', () => {
-    const subject = new UserMessagesRealTimeContext(customerCode);
-    subject.millisecondsBetweenMessages = 10;
-
-    const receivedMessages = [];
-
-    return subject
-      .on('update', (message) => {
-        receivedMessages.push(...message.data);
-      })
-      .then(() => {
-        const countAfterInbox = receivedMessages.length;
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            receivedMessages.should.have.lengthOf(countAfterInbox);
-            resolve();
-          }, 50);
-        });
-      });
+  it('validates platform type', () => {
+    const realTimeClient = new RealTimeClient(new Client());
+    (() => new UserMessagesRealTimeContext(
+      realTimeClient,
+      customerCode,
+      { platformType: 3 },
+    )).should.throw();
   });
 
-  it('immediately receives the first 3 messages of a mocked conversation for the room', () => {
-    const subject = new UserMessagesRealTimeContext(customerCode);
+  it('marks numeric message IDs read', () => {
+    const client = new Client();
+    userMessages.setUpSuccessfulMock(client);
+    const subject = new UserMessagesRealTimeContext(
+      new RealTimeClient(client),
+      customerCode,
+    );
 
-    let resolver;
-    const updateReceived = new Promise((resolve) => { resolver = resolve; });
-
-    const subscription = subject.forRoom('dispatch/messages/abc-123').on('update', resolver);
-
-    return Promise.all([
-      subscription,
-      updateReceived.then((message) => {
-        message.data.should.have.lengthOf(3);
-        message.data.forEach((chatMessage) => {
-          chatMessage.roomHref.should.equal('dispatch/messages/abc-123');
-          chatMessage.href.should.equal(`dispatch/messages/abc-123/messages/${chatMessage.id}`);
-          chatMessage.should.have.all.keys([
-            'id', 'customerId', 'authorFirstName', 'authorLastName', 'authorHref', 'roomHref',
-            'message', 'seenTime', 'sentTime', 'platformType', 'href',
-          ]);
-        });
-      }),
-    ]);
+    return subject.markMessagesRead([1, 2, 3]).then(() => {
+      fetchMock.lastUrl().should.equal(
+        client.resolve('/1/SYNC/room_messages/read-receipts'),
+      );
+      return readBlob(fetchMock.lastOptions().body);
+    }).then(body => JSON.parse(body).should.deep.equal([1, 2, 3]));
   });
 
-  it('receives one new message at a time as the conversation continues', () => {
-    const subject = new UserMessagesRealTimeContext(customerCode);
-    subject.millisecondsBetweenMessages = 10;
-
-    const receivedMessages = [];
-    let resolveFourth;
-    const fourthMessageReceived = new Promise((resolve) => { resolveFourth = resolve; });
-
-    const subscription = subject
-      .forRoom('dispatch/messages/abc-123')
-      .on('update', (message) => {
-        receivedMessages.push(...message.data);
-        if (receivedMessages.length === 4) {
-          resolveFourth();
-        }
-      });
-
-    return Promise.all([
-      subscription,
-      fourthMessageReceived.then(() => {
-        receivedMessages.should.have.lengthOf(4);
-        receivedMessages[3].id.should.equal(4);
-      }),
-    ]);
-  });
-
-  it('can unsubscribe from the conversation', () => {
-    const subject = new UserMessagesRealTimeContext(customerCode);
-    subject.millisecondsBetweenMessages = 10;
-
-    const receivedMessages = [];
-
-    return subject
-      .forRoom('dispatch/messages/abc-123')
-      .on('update', (message) => {
-        receivedMessages.push(...message.data);
-      })
-      .then((end) => end())
-      .then(() => {
-        const countAfterUnsubscribe = receivedMessages.length;
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            receivedMessages.should.have.lengthOf(countAfterUnsubscribe);
-            resolve();
-          }, 50);
-        });
-      });
-  });
-
-  it('throws if given an unsupported event', () => {
-    const subject = new UserMessagesRealTimeContext(customerCode).forRoom('abc-123');
-    (() => subject.on('delete', () => {})).should.throw();
-  });
-
-  it('delivers a sent message to the active subscriber', () => {
-    const subject = new UserMessagesRealTimeContext(customerCode);
-    subject.millisecondsBetweenMessages = 100000; // keep the scripted conversation from interfering
-
-    const receivedMessages = [];
-
-    return subject
-      .forRoom('dispatch/messages/abc-123')
-      .on('update', (message) => {
-        receivedMessages.push(...message.data);
-      })
-      .then(() => subject.send('Hello from the demo'))
-      .then((sentMessage) => {
-        sentMessage.message.should.equal('Hello from the demo');
-        sentMessage.roomHref.should.equal('dispatch/messages/abc-123');
-        sentMessage.href.should.equal(`dispatch/messages/abc-123/messages/${sentMessage.id}`);
-        sentMessage.platformType.should.equal(1);
-        receivedMessages[receivedMessages.length - 1].should.deep.equal(sentMessage);
-      });
-  });
-
-  it('rejects sending a message before subscribing', () => {
-    const subject = new UserMessagesRealTimeContext(customerCode).forRoom('abc-123');
-    return subject.send('too soon').should.be.rejected;
-  });
-
-  it('resolves marking messages as read without doing anything', () => {
-    const subject = new UserMessagesRealTimeContext(customerCode).forRoom('abc-123');
-    return subject.markMessagesRead([1, 2, 3]).should.be.fulfilled;
+  it('rejects invalid read receipt payloads', () => {
+    const { subject } = createSubject();
+    return subject.markMessagesRead([1, '2']).should.be.rejected;
   });
 });

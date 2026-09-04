@@ -42,11 +42,11 @@ describe('When subscribing to user messages status', () => {
       .on('update', ({ data }) => data.forEach(({ room_href: roomHref, unread_count: count }) => {
         unreadByRoom[roomHref] = count;
       }))
-      // subscribing without a room gives you every room's latest messages, whose roomHref is the
+      // subscribing without a room gives you every room's latest messages, whose room_href is the
       // same href the unread counts are keyed by
-      .then(() => realTime.userMessages().on('update', ({ data }) => data.map(message => ({
+      .then(() => realTime.userMessages({ platformType: 2 }).on('update', ({ data }) => data.map(message => ({
         ...message,
-        unreadCount: unreadByRoom[message.roomHref] || 0,
+        unreadCount: unreadByRoom[message.room_href] || 0,
       }))));
   });
 });
