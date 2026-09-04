@@ -37,7 +37,7 @@ describe('When using user messages', () => {
   });
 
   it('creates a message and marks messages read', () => {
-    const message = "Chris to cooper's room";
+    const message = "John to Jane's room";
     userMessages.setUpSuccessfulMock(api.client, { message });
     const context = api.customer('SYNC')
       .realTime()

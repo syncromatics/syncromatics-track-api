@@ -93,7 +93,7 @@ describe('When subscribing to User Messages', () => {
   it('creates a message and returns the unchanged server response', () => {
     const client = new Client();
     const realTimeClient = new RealTimeClient(client);
-    const message = "Chris to cooper's room";
+    const message = "John to Jane's room";
     userMessages.setUpSuccessfulMock(client, { message });
     const subject = new UserMessagesRealTimeContext(
       realTimeClient,
@@ -103,7 +103,7 @@ describe('When subscribing to User Messages', () => {
 
     return subject.send(message).then((created) => {
       created.should.have.property('room_href', '/1/SYNC/room_messages/397');
-      created.should.have.property('author_first_name', 'Chris');
+      created.should.have.property('author_first_name', 'John');
       fetchMock.lastUrl().should.equal(client.resolve('/1/SYNC/room_messages', {
         roomId: 397,
         message,
