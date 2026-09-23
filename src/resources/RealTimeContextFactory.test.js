@@ -38,6 +38,19 @@ describe('When creating a RealTimeContext', () => {
     result.realTimeClient.should.equal(realTimeClient);
   });
 
+  it('should reuse its RealTimeClient and options for UserMessagesRealTimeContext', () => {
+    const result = factory.userMessages({ platformType: 2 });
+    result.realTimeClient.should.equal(realTimeClient);
+    result.customerCode.should.equal(customerCode);
+    result.platformType.should.equal(2);
+  });
+
+  it('should reuse its RealTimeClient for UserMessagesStatusRealTimeContext', () => {
+    const result = factory.userMessagesStatus();
+    result.realTimeClient.should.equal(realTimeClient);
+    result.customerCode.should.equal(customerCode);
+  });
+
   it('should reuse its RealTimeClient when creating a DispatchMessagesRealTimeContext', () => {
     const result = factory.dispatchMessages();
     result.realTimeClient.should.equal(realTimeClient);

@@ -2,6 +2,8 @@ import AreasRealTimeContext from './AreasRealTimeContext';
 import AssignmentsRealTimeContext from './AssignmentsRealTimeContext';
 import BikeRackSlotsRealTimeContext from './BikeRackSlotsRealTimeContext';
 import CallStatesRealTimeContext from './CallStatesRealTimeContext';
+import UserMessagesRealTimeContext from './UserMessagesRealTimeContext';
+import UserMessagesStatusRealTimeContext from './UserMessagesStatusRealTimeContext';
 import DispatchMessagesRealTimeContext from './DispatchMessagesRealTimeContext';
 import DispatchMessageStatusRealTimeContext from './DispatchMessageStatusRealTimeContext';
 import SignsRealTimeContext from './SignsRealTimeContext';
@@ -114,6 +116,24 @@ class RealTimeContextFactory {
    */
   callStates() {
     return new CallStatesRealTimeContext(this.realTimeClient, this.customerCode);
+  }
+
+  /**
+   * Creates a context for subscribing to User Messages updates.
+   * @param {Object} [options={}] Options for creating and sending User Messages.
+   * @param {number} [options.platformType] Platform creating messages: 1 Mobile or 2 Web.
+   * @returns {UserMessagesRealTimeContext} The newly created context.
+   */
+  userMessages(options = {}) {
+    return new UserMessagesRealTimeContext(this.realTimeClient, this.customerCode, options);
+  }
+
+  /**
+   * Creates a RealTimeContext for querying the authenticated user's unread User Message counts.
+   * @returns {UserMessagesStatusRealTimeContext} The newly created context.
+   */
+  userMessagesStatus() {
+    return new UserMessagesStatusRealTimeContext(this.realTimeClient, this.customerCode);
   }
 
   /**
