@@ -36,6 +36,26 @@ class RoutesContext extends PagedContext {
   }
 
   /**
+   * Filters base routes by pattern types, for example [1, 4] for routes and headways.
+   * @param {number[]} types Pattern types to serialize as a comma-separated filter
+   * @returns {RoutesContext} Returns itself
+   */
+  withPatternTypes(types) {
+    this.params.pattern_types = types.join(',');
+    return this;
+  }
+
+  /**
+   * Includes base routes that have no patterns. Omit this call for existing server defaults.
+   * @param {boolean} [includeEmpty=true] Whether to include empty base routes
+   * @returns {RoutesContext} Returns itself
+   */
+  withEmptyRoutes(includeEmpty = true) {
+    this.params.include_empty = includeEmpty;
+    return this;
+  }
+
+  /**
    * Gets the first page of results for this context
    * @returns {Promise} If successful, a page of Route objects
    * @see Route
