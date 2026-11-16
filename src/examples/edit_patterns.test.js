@@ -38,9 +38,9 @@ describe('When using the Sync route editor v2 endpoints', () => {
       { latitude: 34.053, longitude: -118.244, is_control_point: true,
         stop_id: 102, association_id: 502 },
     ],
-    // Stored stop coordinates can differ from geometry; waypoint_order indexes vertices.
+    // V2 uses ordered record coordinates; waypoint_order indexes the same vertices.
     stops: [
-      { stop_id: 101, association_id: 501, latitude: 34.0521, longitude: -118.2436,
+      { stop_id: 101, association_id: 501, latitude: 34.0522, longitude: -118.2437,
         waypoint_order: 0 },
       { stop_id: 102, association_id: 502, latitude: 34.053, longitude: -118.244,
         waypoint_order: 2 },
@@ -81,6 +81,17 @@ describe('When using the Sync route editor v2 endpoints', () => {
         return page.next();
       })
       .then(page => page.list[0].id.should.equal(43));
+  });
+
+  it('loads full-precision ordered vertices without an encoded polyline', () => {
+    const vertices = editorData.vertices.map(vertex => ({ ...vertex }));
+    vertices[1].latitude = 34.052500123;
+    fetchMock.get(editorUrl, { ...editorData, vertices });
+    return api.customer('SYNC').patterns().getPatternForSyncRouteEditorV2(123)
+      .then((pattern) => {
+        pattern.vertices.should.deep.equal(vertices);
+        Object.prototype.hasOwnProperty.call(pattern, 'encoded_polyline').should.equal(false);
+      });
   });
 
   it('creates, reloads and edits a pattern while retaining stop association IDs', () => {

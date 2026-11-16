@@ -128,8 +128,8 @@ class PatternsContext extends PagedContext {
 
   /**
    * Loads complete v2 editor geometry, stored stops, metadata and eligibility fields.
+   * Vertices use ordered point-record coordinates, without decoding an encoded polyline.
    * Control points are marked on vertices; stops' waypoint_order indexes into vertices.
-   * Stored stop coordinates may differ from the corresponding geometry coordinates.
    * @param {number} patternId Plain pattern ID
    * @returns {Promise<Pattern>} Complete editor pattern, preserving snake_case fields
    */
