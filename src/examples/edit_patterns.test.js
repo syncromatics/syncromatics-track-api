@@ -87,7 +87,7 @@ describe('When using the Sync route editor v2 endpoints', () => {
     const vertices = editorData.vertices.map(vertex => ({ ...vertex }));
     vertices[1].latitude = 34.052500123;
     fetchMock.get(editorUrl, { ...editorData, vertices });
-    return api.customer('SYNC').patterns().getPatternForSyncRouteEditorV2(123)
+    return api.customer('SYNC').patterns().getPatternForEditor(123)
       .then((pattern) => {
         pattern.vertices.should.deep.equal(vertices);
         Object.prototype.hasOwnProperty.call(pattern, 'encoded_polyline').should.equal(false);
@@ -115,7 +115,7 @@ describe('When using the Sync route editor v2 endpoints', () => {
       .then((sent) => {
         sent.should.deep.equal(payload);
         // Explicitly reload after saving to obtain new stop and association IDs.
-        return patterns.getPatternForSyncRouteEditorV2(saved.pattern_id);
+        return patterns.getPatternForEditor(saved.pattern_id);
       })
       .then((pattern) => {
         pattern.vertices.should.deep.equal(editorData.vertices);
@@ -142,7 +142,7 @@ describe('When using the Sync route editor v2 endpoints', () => {
       .then((sent) => {
         sent.should.deep.equal(editedPayload);
         currentEditorData = { ...editorData, ...editedPayload };
-        return patterns.getPatternForSyncRouteEditorV2(saved.pattern_id);
+        return patterns.getPatternForEditor(saved.pattern_id);
       })
       .then((pattern) => {
         pattern.name.should.equal(editedPayload.name);
@@ -241,7 +241,7 @@ describe('When using the Sync route editor v2 endpoints', () => {
     return api
       .customer('SYNC')
       .patterns()
-      .getPatternForSyncRouteEditorV2(123)
+      .getPatternForEditor(123)
       .should.be.rejected
       .then((error) => {
         error.should.be.instanceof(NotFoundResponse);

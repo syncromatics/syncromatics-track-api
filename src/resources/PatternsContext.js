@@ -115,7 +115,9 @@ class PatternsContext extends PagedContext {
   }
 
   /**
-   * Loads legacy v1 editor data. Use getPatternForSyncRouteEditorV2 for the new editor.
+   * Loads encoded-polyline data for the legacy Sync detour editor.
+   * @deprecated Use getPatternForEditor for new integrations. Existing detour callers
+   * require migration to its ordered-vertex contract before switching methods.
    * @param {number} patternId Plain pattern ID
    * @returns {Promise<Pattern>} Legacy editor pattern
    */
@@ -127,13 +129,14 @@ class PatternsContext extends PagedContext {
   }
 
   /**
-   * Loads complete v2 editor geometry, stored stops, metadata and eligibility fields.
+   * Loads complete pattern data for route editing: geometry, stored stops, metadata
+   * and eligibility fields.
    * Vertices use ordered point-record coordinates, without decoding an encoded polyline.
    * Control points are marked on vertices; stops' waypoint_order indexes into vertices.
    * @param {number} patternId Plain pattern ID
    * @returns {Promise<Pattern>} Complete editor pattern, preserving snake_case fields
    */
-  getPatternForSyncRouteEditorV2(patternId) {
+  getPatternForEditor(patternId) {
     return this.client.get(`/2/${this.code}/patterns/editor/${patternId}`)
       .then(response => response.json())
       .then(data => new Pattern(this.client, data))
