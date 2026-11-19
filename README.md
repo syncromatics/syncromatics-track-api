@@ -26,15 +26,6 @@ api.customer('SYNC').vehicles()
 You can also log in with a username and password or a previously-generated JWT token.  See the
 [logIn documentation][login-docs] for details.
 
-## Route editor
-
-Use `api.customer('SYNC').patterns()` with `getPatternForSyncRouteEditorV2(id)`,
-`createPattern(payload)`, or `updatePattern(id, payload)` to load and save complete
-editor geometry. Keep returned `association_id` values when updating existing points.
-For the parent-route picker, `routes().withPatternTypes(types).withEmptyRoutes()`
-filters base routes and includes empty ones. See [the editor examples][editor-examples]
-for request bodies and validation/conflict error handling.
-
 ## Documentation
 
 Generated documentation is available on the [project page][project-page].  You can also find example
@@ -53,4 +44,3 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for our guide to contributing and cod
 [login-docs]: http://syncromatics.github.io/syncromatics-track-api#tracklogin
 [track-api-docs]: http://docs.syncromaticstrackapi.apiary.io
 [src-examples]: https://github.com/syncromatics/syncromatics-track-api/tree/master/src/examples
-[editor-examples]: https://github.com/syncromatics/syncromatics-track-api/blob/master/src/examples/edit_patterns.test.js
