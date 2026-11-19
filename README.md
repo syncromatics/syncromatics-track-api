@@ -33,7 +33,8 @@ usages in the [src/examples directory][src-examples].
 
 ## Development
 
-Versioning:  `npm version [0.0.xx-development]`
+Logging In to NPMJS.org: `npm login --registry=https://registry.npmjs.org/` (requires 2FA on your NPMJS.org account)<br>
+Versioning:  `npm version [0.0.xx-development]`<br>
 Publishing: `npm publish --tag development`
 
 ## Contributing
