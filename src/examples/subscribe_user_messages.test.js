@@ -41,10 +41,10 @@ describe('When using user messages', () => {
     userMessages.setUpSuccessfulMock(api.client, { message });
     const context = api.customer('SYNC')
       .realTime()
-      .userMessages({ platformType: 2 })
+      .userMessages({ platformType: 2, correlationId: 'example-correlation-id' })
       .forRoom('/1/SYNC/room_messages/397');
 
-    return context.send(message)
-      .then(created => context.markMessagesRead([created.id]));
+    return context.sendWithMetadata(message)
+      .then(({ message: created }) => context.markMessagesRead([created.id]));
   });
 });
