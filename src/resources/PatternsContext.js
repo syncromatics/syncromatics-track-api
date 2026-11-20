@@ -1,6 +1,23 @@
 import 'isomorphic-fetch';
 import PagedContext from './PagedContext';
 import Pattern from './Pattern';
+import { EditorErrorResponse } from '../responses';
+
+/**
+ * Maps editor validation/conflict JSON to an error response, following the shared response classes.
+ * @param {ErrorResponse} error Rejected client response
+ * @returns {Promise} Rejection with an EditorErrorResponse, or the original error without JSON
+ */
+const rejectEditorError = (error) => {
+  if (!error || (error.status !== 400 && error.status !== 409) || !error.response) {
+    return Promise.reject(error);
+  }
+
+  return error.response.json()
+    .catch(() => null)
+    .then(data => Promise.reject(data && typeof data === 'object'
+      ? new EditorErrorResponse(error.response, data) : error));
+};
 
 /**
  * Route querying context
@@ -97,11 +114,60 @@ class PatternsContext extends PagedContext {
     return this;
   }
 
+  /**
+   * Loads encoded-polyline data for the legacy Sync detour editor.
+   * @deprecated Use getPatternForEditor for new integrations. Existing detour callers
+   * require migration to its ordered-vertex contract before switching methods.
+   * @param {number} patternId Plain pattern ID
+   * @returns {Promise<Pattern>} Legacy editor pattern
+   */
   getPatternForSyncRouteEditor(patternId) {
     const url = `/1/${this.code}/patterns/editor/${patternId}`;
     return this.client.get(url)
         .then(response => response.json())
         .then(data => new Pattern(this.client, data));
+  }
+
+  /**
+   * Loads complete pattern data for route editing: geometry, stored stops, metadata
+   * and eligibility fields.
+   * Vertices use ordered point-record coordinates, without decoding an encoded polyline.
+   * Control points are marked on vertices; stops' waypoint_order indexes into vertices.
+   * @param {number} patternId Plain pattern ID
+   * @returns {Promise<Pattern>} Complete editor pattern, preserving snake_case fields
+   */
+  getPatternForEditor(patternId) {
+    return this.client.get(`/2/${this.code}/patterns/editor/${patternId}`)
+      .then(response => response.json())
+      .then(data => new Pattern(this.client, data))
+      .catch(rejectEditorError);
+  }
+
+  /**
+   * Creates an ordinary, unscheduled pattern from complete snake_case editor state.
+   * Supply parent_id or create_route: true. Server validates geometry and permissions.
+   * Reload editor data afterward to obtain IDs for new stops and associations.
+   * @param {Object} payload Complete save body: name, parent_id/create_route, direction, vertices
+   * @returns {Promise<Object>} Saved pattern_id and parent_id; does not automatically reload
+   */
+  createPattern(payload) {
+    return this.client.post(`/2/${this.code}/patterns`, { body: payload })
+      .then(response => response.json())
+      .catch(rejectEditorError);
+  }
+
+  /**
+   * Updates an existing pattern, preserving its ID. Send the complete editor state.
+   * Retain association_id on retained vertices; it is distinct from the shared stop_id.
+   * The server rechecks eligibility. Reload editor data after a successful save.
+   * @param {number} patternId Plain pattern ID
+   * @param {Object} payload Complete save body: name, parent_id/create_route, direction, vertices
+   * @returns {Promise<Object>} Saved pattern_id and parent_id; does not automatically reload
+   */
+  updatePattern(patternId, payload) {
+    return this.client.put(`/2/${this.code}/patterns/${patternId}`, { body: payload })
+      .then(response => response.json())
+      .catch(rejectEditorError);
   }
 
   /**

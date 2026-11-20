@@ -27,6 +27,26 @@ export class ErrorResponse {
 }
 
 /**
+ * Validation or save-conflict response from the route editor.
+ */
+export class EditorErrorResponse extends ErrorResponse {
+  /**
+   * Creates an editor error from the server's snake_case JSON body.
+   * @param {Response} response Original Fetch response
+   * @param {Object} json Parsed editor error body
+   * @param {string} [json.error_message] Server-provided error message
+   * @param {*} [json.details] Validation or conflict details
+   */
+  constructor(response, json) {
+    super(response);
+
+    this.error_message = typeof json.error_message === 'string' ? json.error_message : undefined;
+    this.message = this.error_message || this.message;
+    this.details = json.details;
+  }
+}
+
+/**
  * Error response for "404 Not Found"
  */
 export class NotFoundResponse extends ErrorResponse {
