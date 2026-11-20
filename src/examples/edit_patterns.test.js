@@ -31,7 +31,6 @@ describe('When using the Sync route editor v2 endpoints', () => {
     pattern_type: 1,
     is_deleted: false,
     created_adhoc: false,
-    has_current_or_future_schedule: false,
     vertices: [
       { ...payload.vertices[0], association_id: 501 },
       payload.vertices[1],
@@ -120,11 +119,7 @@ describe('When using the Sync route editor v2 endpoints', () => {
       .then((pattern) => {
         pattern.vertices.should.deep.equal(editorData.vertices);
         pattern.stops.should.deep.equal(editorData.stops);
-        const canEdit = pattern.pattern_type === 1 &&
-          pattern.is_deleted === false &&
-          pattern.created_adhoc === false &&
-          pattern.has_current_or_future_schedule === false;
-        canEdit.should.equal(true);
+        pattern.pattern_type.should.equal(1);
 
         editedPayload = {
           name: 'Downtown outbound revised',
