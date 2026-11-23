@@ -122,6 +122,7 @@ class RealTimeContextFactory {
    * Creates a context for subscribing to User Messages updates.
    * @param {Object} [options={}] Options for creating and sending User Messages.
    * @param {number} [options.platformType] Platform creating messages: 1 Mobile or 2 Web.
+   * @param {string} [options.correlationId] Optional correlation ID header for created messages.
    * @returns {UserMessagesRealTimeContext} The newly created context.
    */
   userMessages(options = {}) {

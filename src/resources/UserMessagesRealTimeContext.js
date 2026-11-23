@@ -12,11 +12,13 @@ class UserMessagesRealTimeContext extends RealTimeContext {
    * @param {string} customerCode The customer code to query for updates.
    * @param {Object} [options={}] Options for creating and sending User Messages.
    * @param {number} [options.platformType] Platform creating messages: 1 Mobile or 2 Web.
+   * @param {string} [options.correlationId] Optional correlation ID to include with created messages.
    */
   constructor(realTimeClient, customerCode, options = {}) {
     super(realTimeClient, 'ROOM_MESSAGES', customerCode);
     this.filters = { rooms: [] };
     this.platformType = options.platformType;
+    this.correlationId = options.correlationId;
 
     if (this.platformType !== undefined && ![1, 2].includes(this.platformType)) {
       throw new Error('platformType must be either 1 (Mobile) or 2 (Web).');
@@ -48,10 +50,21 @@ class UserMessagesRealTimeContext extends RealTimeContext {
 
   /**
    * Sends a new message to the single room selected with forRoom().
+   * @deprecated Use sendWithMetadata() to access the echoed X-Correlation-ID header.
    * @param {string} message Text of the message to send.
    * @returns {Promise} If successful, the server's newly-created message.
    */
   send(message) {
+    return this.sendWithMetadata(message).then(({ message: createdMessage }) => createdMessage);
+  }
+
+  /**
+   * Sends a new message and returns the created message with its correlation ID response header.
+   * @param {string} message Text of the message to send.
+   * @returns {Promise<{message: Object, correlationId: (string|null)}>} The created message and
+   * the echoed X-Correlation-ID response header, if provided.
+   */
+  sendWithMetadata(message) {
     if (this.filters.rooms.length !== 1) {
       return Promise.reject(new Error('You must call forRoom before sending a message.'));
     }
@@ -74,8 +87,18 @@ class UserMessagesRealTimeContext extends RealTimeContext {
       },
     );
 
-    return this.realTimeClient.client.post(uri)
-      .then(response => response.json());
+    const headers = this.correlationId === undefined
+      ? {}
+      : { 'X-Correlation-ID': this.correlationId };
+
+    return this.realTimeClient.client.post(uri, { headers })
+      .then((response) => {
+        const correlationId = response.headers.get('X-Correlation-ID');
+        return response.json().then(createdMessage => ({
+          message: createdMessage,
+          correlationId,
+        }));
+      });
   }
 
   /**
